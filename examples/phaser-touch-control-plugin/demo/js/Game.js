@@ -37,7 +37,10 @@
             this.physics.startSystem(Phaser.Physics.ARCADE);
         },
         create: function () {
-
+            this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+            this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+            this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+            this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
             this.game.touchControl = this.game.plugins.add(Phaser.Plugin.TouchControl);
             this.game.touchControl.inputEnable();
 
@@ -51,6 +54,7 @@
             this.character.animations.add('walkLeft', [16,17,18,19,20,21,22,23], 20 /*fps */, true);
             this.character.animations.add('walkRight',[24,25,26,27,28,29,30,31], 20 /*fps */, true);
             
+            // this.arrowKeys = game.input.keyboard.createCursorKeys();
 
             var _button1 = this.add.button(400, 80, 'buttons', function () {
                 if (_button1.frame===1) {
@@ -112,56 +116,131 @@
             // Also you could try linear speed;
             //this.tilesprite.tilePosition.y += this.game.touchControl.speed.y / 20;
             //this.tilesprite.tilePosition.x += this.game.touchControl.speed.x / 20;
-            if (this.game.touchControl.cursors.left) {
-                this.character.body.velocity.x = -200;
-            } else if (this.game.touchControl.cursors.right) {
-                this.character.body.velocity.x = 200;
+
+            if (this.game.touchControl.speed.x > 25 || this.game.touchControl.speed.x < -25) {
+                this.character.body.velocity.x = -this.game.touchControl.speed.x*3;
+
             } else {
                 this.character.body.velocity.x = 0;
-            }   
+            }
 
-            if (this.game.touchControl.cursors.up) {
-                this.character.body.velocity.y = -200;
-            } else if (this.game.touchControl.cursors.down) {
-                this.character.body.velocity.y = 200;
+            if (this.game.touchControl.speed.y > 25 || this.game.touchControl.speed.y < -25) {
+                this.character.body.velocity.y = -this.game.touchControl.speed.y*3;
+ 
             } else {
                 this.character.body.velocity.y = 0;
-            }   
-            console.log(speed);
 
-            if (Math.abs(speed.y) < Math.abs(speed.x)){
-                delay = parseInt(1000 / Math.abs((easeInSpeed(speed.x)) * 10), 10);
-                
+            }
+    if (this.leftKey.isDown)
+    {
+        this.character.body.velocity.x = -300;
+    }
+    else if (this.rightKey.isDown)
+    {
+        this.character.body.velocity.x = 300;
+    }
+
+    if (this.upKey.isDown)
+    {
+        this.character.body.velocity.y = -300;
+    }
+    else if (this.downKey.isDown)
+    {
+        this.character.body.velocity.y = 300;
+    }
+
+
+
+            // if (this.game.touchControl.speed.x == 0 && this.game.touchControl.speed.y == 0) {
+            //     // this.character.animations.stop(0, true);
+
+            // }
+
+            // if (this.game.touchControl.speed.x > 30) {
+            //     // this.character.body.velocity.x = -200;
+            //     this.character.body.velocity.x = this.game.touchControl.speed.x*2;
+            // } else if (this.game.touchControl.speed.x < -30) {
+            //     this.character.body.velocity.x = this.game.touchControl.speed.x*2;
+            //     // this.character.body.velocity.x = 200;
+            // } else {
+            //     this.character.body.velocity.x = 0;
+            // }   
+
+            // if (this.game.touchControl.speed.y > 30) {
+            //     this.character.body.velocity.y = -200;
+            // } else if (this.game.touchControl.speed.y < -30) {
+            //     this.character.body.velocity.y = 200;
+            // } else {
+            //     this.character.body.velocity.y = 0;
+            // } 
+
+
+            // if (this.game.touchControl.cursors.left) {
+            //     this.character.body.velocity.x = -200;
+            // } else if (this.game.touchControl.cursors.right) {
+            //     this.character.body.velocity.x = 200;
+            // } else {
+            //     this.character.body.velocity.x = 0;
+            // }   
+
+            // if (this.game.touchControl.cursors.up) {
+            //     this.character.body.velocity.y = -200;
+            // } else if (this.game.touchControl.cursors.down) {
+            //     this.character.body.velocity.y = 200;
+            // } else {
+            //     this.character.body.velocity.y = 0;
+            // }   
+            // console.log(this.character.body.velocity.x);
+
+
+            if (Math.abs(this.character.body.velocity.y) < Math.abs(this.character.body.velocity.x)){
+                // delay = parseInt(1000 / Math.abs((easeInSpeed(this.character.body.velocity.x)) * 50), 10);
+                // delay = 100/Math.abs(this.character.body.velocity.x);
+                if ( Math.abs(this.character.body.velocity.x) > 150 ) {
+                    delay = 40;
+                } else {
+                    delay = 100;
+                }
+
                 // moving mainly right or left
-                if (this.game.touchControl.cursors.left) {
+                // if (this.game.touchControl.cursors.left) {
+                if (this.character.body.velocity.x < -25) {
                     // this.character.body.velocity.x += -10;
                     this.character.play('walkLeft');
-                } else if (this.game.touchControl.cursors.right) {
+                // } else if (this.game.touchControl.cursors.right) {
+                } else if (this.character.body.velocity.x > 25) {
                     // this.character.body.velocity.x += 10;
                     this.character.play('walkRight');
                 }
-            } else if (Math.abs(speed.y) > Math.abs(speed.x)){
-                delay = parseInt(1000 / Math.abs((easeInSpeed(speed.y)) * 10), 10);
+            } else if (Math.abs(this.character.body.velocity.y) > Math.abs(this.character.body.velocity.x)){
+                // delay = parseInt(1000 / Math.abs((easeInSpeed(this.character.body.velocity.y)) * 50), 10);
                 // moving mainly up or down
-                if (this.game.touchControl.cursors.up) {
+                if ( Math.abs(this.character.body.velocity.y) > 150 ) {
+                    delay = 40;
+                } else {
+                    delay = 100;
+                }
+                // if (this.game.touchControl.cursors.up) {
+                if (this.character.body.velocity.y < -25) {
                     // this.character.body.velocity.y += -10;
                     this.character.play('walkUp');
-                } else if (this.game.touchControl.cursors.down) {
+                // } else if (this.game.touchControl.cursors.down) {
+                } else if (this.character.body.velocity.y > 25) {
                     // this.character.body.velocity.y += 10;
                     this.character.play('walkDown');
                 }
             } else {
                 this.character.animations.stop(0, true);
                 // this.character.body.velocity.y = 0;
-                // this.character.body.velocity.x = 0;
+                this.character.body.velocity.x = 0;
             }
-
+            
             // this is a little hack, if the next frame its really slow and we have speed up things we will
             // have to wait for _timeNextFrame to se the fps updated
-            // this.character.animations.currentAnim.delay = delay;
-            // if(delay && (this.character.animations.currentAnim._timeNextFrame - this.time.now) > delay){
-            //     this.character.animations.currentAnim._timeNextFrame = this.time.now + delay;
-            // }
+            this.character.animations.currentAnim.delay = delay;
+            if(delay && (this.character.animations.currentAnim._timeNextFrame - this.time.now) > delay){
+                this.character.animations.currentAnim._timeNextFrame = this.time.now + delay;
+            }
         }
      };
 
