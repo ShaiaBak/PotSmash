@@ -33,6 +33,9 @@
     }
 
     BasicGame.Game.prototype = {
+        init: function() {
+            this.physics.startSystem(Phaser.Physics.ARCADE);
+        },
         create: function () {
 
             this.game.touchControl = this.game.plugins.add(Phaser.Plugin.TouchControl);
@@ -100,41 +103,65 @@
         update: function() {
             this.updateDebugText();
             var speed = this.game.touchControl.speed;
-            var delay=0;
+            var delay = 0;
 
-            this.tilesprite.tilePosition.y += easeInSpeed(speed.y);
-            this.tilesprite.tilePosition.x += easeInSpeed(speed.x);
+            this.game.physics.enable(this.character, Phaser.Physics.ARCADE);
+
+            // this.character.body.velocity.y -= this.game.touchControl.speed.y / 20;
+            // this.character.body.velocity.x -= this.game.touchControl.speed.x / 20;
             // Also you could try linear speed;
             //this.tilesprite.tilePosition.y += this.game.touchControl.speed.y / 20;
             //this.tilesprite.tilePosition.x += this.game.touchControl.speed.x / 20;
-            
+            if (this.game.touchControl.cursors.left) {
+                this.character.body.velocity.x = -200;
+            } else if (this.game.touchControl.cursors.right) {
+                this.character.body.velocity.x = 200;
+            } else {
+                this.character.body.velocity.x = 0;
+            }   
+
+            if (this.game.touchControl.cursors.up) {
+                this.character.body.velocity.y = -200;
+            } else if (this.game.touchControl.cursors.down) {
+                this.character.body.velocity.y = 200;
+            } else {
+                this.character.body.velocity.y = 0;
+            }   
+            console.log(speed);
+
             if (Math.abs(speed.y) < Math.abs(speed.x)){
                 delay = parseInt(1000 / Math.abs((easeInSpeed(speed.x)) * 10), 10);
                 
                 // moving mainly right or left
                 if (this.game.touchControl.cursors.left) {
+                    // this.character.body.velocity.x += -10;
                     this.character.play('walkLeft');
                 } else if (this.game.touchControl.cursors.right) {
+                    // this.character.body.velocity.x += 10;
                     this.character.play('walkRight');
                 }
             } else if (Math.abs(speed.y) > Math.abs(speed.x)){
                 delay = parseInt(1000 / Math.abs((easeInSpeed(speed.y)) * 10), 10);
                 // moving mainly up or down
                 if (this.game.touchControl.cursors.up) {
+                    // this.character.body.velocity.y += -10;
                     this.character.play('walkUp');
                 } else if (this.game.touchControl.cursors.down) {
+                    // this.character.body.velocity.y += 10;
                     this.character.play('walkDown');
                 }
             } else {
                 this.character.animations.stop(0, true);
+                // this.character.body.velocity.y = 0;
+                // this.character.body.velocity.x = 0;
             }
 
             // this is a little hack, if the next frame its really slow and we have speed up things we will
             // have to wait for _timeNextFrame to se the fps updated
-            this.character.animations.currentAnim.delay = delay;
-            if(delay && (this.character.animations.currentAnim._timeNextFrame - this.time.now) > delay){
-                this.character.animations.currentAnim._timeNextFrame = this.time.now + delay;
-            }
+            // this.character.animations.currentAnim.delay = delay;
+            // if(delay && (this.character.animations.currentAnim._timeNextFrame - this.time.now) > delay){
+            //     this.character.animations.currentAnim._timeNextFrame = this.time.now + delay;
+            // }
         }
      };
 
