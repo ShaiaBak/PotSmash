@@ -3,6 +3,8 @@
 
 (function(BasicGame) {
     'use strict';
+    var dir = "LEFT";
+
 
     BasicGame.Game = function () {
 
@@ -54,7 +56,9 @@
             this.character.animations.add('walkLeft', [16,17,18,19,20,21,22,23], 20 /*fps */, true);
             this.character.animations.add('walkRight',[24,25,26,27,28,29,30,31], 20 /*fps */, true);
             
-            // this.arrowKeys = game.input.keyboard.createCursorKeys();
+
+
+
 
             var _button1 = this.add.button(400, 80, 'buttons', function () {
                 if (_button1.frame===1) {
@@ -108,7 +112,13 @@
             this.updateDebugText();
             var speed = this.game.touchControl.speed;
             var delay = 0;
-
+            var facingDirection = {
+                LEFT : "LEFT",
+                RIGHT : "RIGHT",
+                UP : "UP",
+                DOWN : "DOWN"
+            };
+            
             this.game.physics.enable(this.character, Phaser.Physics.ARCADE);
 
             // this.character.body.velocity.y -= this.game.touchControl.speed.y / 20;
@@ -207,10 +217,13 @@
                 if (this.character.body.velocity.x < -25) {
                     // this.character.body.velocity.x += -10;
                     this.character.play('walkLeft');
+                    dir = "LEFT";
                 // } else if (this.game.touchControl.cursors.right) {
                 } else if (this.character.body.velocity.x > 25) {
                     // this.character.body.velocity.x += 10;
                     this.character.play('walkRight');
+                    dir = "RIGHT";
+                    
                 }
             } else if (Math.abs(this.character.body.velocity.y) > Math.abs(this.character.body.velocity.x)){
                 // delay = parseInt(1000 / Math.abs((easeInSpeed(this.character.body.velocity.y)) * 50), 10);
@@ -223,10 +236,12 @@
                 // if (this.game.touchControl.cursors.up) {
                 if (this.character.body.velocity.y < -25) {
                     // this.character.body.velocity.y += -10;
+                    dir = "UP";
                     this.character.play('walkUp');
                 // } else if (this.game.touchControl.cursors.down) {
                 } else if (this.character.body.velocity.y > 25) {
                     // this.character.body.velocity.y += 10;
+                    dir = "DOWN";
                     this.character.play('walkDown');
                 }
             } else {
