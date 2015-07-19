@@ -42,7 +42,8 @@ var Game = {
     }
   },
 
-  //find objects in a Tiled layer that containt a property called "type" equal to a certain value
+  // custom function to search Tiled JSON for "type"
+  // easy way to make objects distinct from one another
   findObjectsByType: function(type, map, layer) {
     var result = new Array();
     map.objects[layer].forEach(function(element){
