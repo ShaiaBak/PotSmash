@@ -1,8 +1,3 @@
-var shaia = {
-	create: function() {
-		console.log('shaia');
-	},
-	update: function() {
-	
-	}
+var shaia = function() {
+	console.log('yawn');
 }

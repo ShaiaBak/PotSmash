@@ -46,6 +46,8 @@ var Game = {
     else if(this.cursors.right.isDown) {
       this.player.body.velocity.x += 100;
     }
+
+    shaia();
   },
 
   //find objects in a Tiled layer that containt a property called "type" equal to a certain value
