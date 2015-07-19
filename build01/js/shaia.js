@@ -1,8 +1,8 @@
 var shaia = {
-	create: function {
-
-	}
-	update: function {
+	create: function() {
+		console.log('shaia');
+	},
+	update: function() {
 	
 	}
 }

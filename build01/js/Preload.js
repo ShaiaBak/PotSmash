@@ -7,8 +7,8 @@ Preload = {
     this.load.image('player', 'assets/img/player.png');
   },
   create: function() {
-    this.state.start('Game');
-    this.state.start('tyler');
+  	this.state.start('tyler');
     this.state.start('shaia');
+    this.state.start('Game');
   }
 };
