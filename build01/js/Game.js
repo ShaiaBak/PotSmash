@@ -28,6 +28,7 @@ var Game = {
     this.cursors = this.game.input.keyboard.createCursorKeys();
   },
   update: function() {
+    tylertest();
     // collision update
     this.game.physics.arcade.collide(this.player, this.blockedLayer);
 
