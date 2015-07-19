@@ -8,5 +8,7 @@ Preload = {
   },
   create: function() {
     this.state.start('Game');
+    this.state.start('tyler');
+    this.state.start('shaia');
   }
 };

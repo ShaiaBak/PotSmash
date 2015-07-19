@@ -21,10 +21,16 @@ var Game = {
     //the camera will follow the player in the world
     this.game.camera.follow(this.player);
 
+    //collision
+    this.map.setCollisionBetween(1, 100000, true, 'blockedLayer');
+
     //move player with cursor keys
     this.cursors = this.game.input.keyboard.createCursorKeys();
   },
   update: function() {
+    // collision update
+    this.game.physics.arcade.collide(this.player, this.blockedLayer);
+
     this.player.body.velocity.y = 0;
     this.player.body.velocity.x = 0;
 
