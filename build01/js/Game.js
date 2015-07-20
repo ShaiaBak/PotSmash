@@ -14,49 +14,68 @@ var Game = {
 		this.bgLayer = this.map.createLayer('backgroundLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 
+		// resize world so that dimensions match the map
+		// doesnt work.. must figure out
+		// this.bgLayer.resizeWorld();
+
 		//create player
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
 
-		//the camera will follow the player in the world
-		this.game.camera.follow(this.player);
+		// anchor point for player sprite
+		this.player.anchor.setTo(.5,.5);
 
 		//collision
-		this.map.setCollisionBetween(1, 100000, true, 'blockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
 
-		//move player with cursor keys
-		this.cursors = this.game.input.keyboard.createCursorKeys();
+		// enables other physics stuff
+		// game.physics.startSystem(Phaser.Physics.P2JS);
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
 		this.player.animations.add('walkDown', [1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkUp',   [1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('walkUp', [1 ,2 ,3], 8 /*fps */, true);
 		this.player.animations.add('walkLeft', [1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkRight',[1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('walkRight', [1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('idle', [0], 8 /*fps */, true);
 
-		// anchor point for player sprite
-		this.player.anchor.setTo(.5,.5);
+
+
 		var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-	// this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
-	
-	// pot1.forEach(function() {
-	this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-	this.game.physics.arcade.enable(this.testpot);    
-	// this.testpot.body.immovable = true;
-	this.testpot.scale.setTo(0.5,0.5);
+		// this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
 		
-	// });
+		// pot1.forEach(function() {
+		this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+		this.game.physics.arcade.enable(this.testpot);    
+		this.testpot.scale.setTo(0.5,0.5);
+			
+		// });
 
+		// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+		// this.game.physics.arcade.enable(this.testpot);    
+		// this.testpot.body.immovable = true;
+		// this.testpot.scale.setTo(0.5,0.5);
 
-	// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-	// this.game.physics.arcade.enable(this.testpot);    
-	// this.testpot.body.immovable = true;
-	// this.testpot.scale.setTo(0.5,0.5);
+		//High drag will stop the pot when you stop pushing it
+		this.testpot.body.drag.setTo(10000);
 
-	//High drag will stop the pot when you stop pushing it
-	this.testpot.body.drag.setTo(10000);
+		// makes object immovable[t/f]
+		// this.testpot.body.immovable = true;
 
+		// ========= CAMERA STUFF =========
+
+		// set bounds to world for camera and player
+		// @TODO: dynamically get bounds from map size
+		game.world.setBounds(0, 0, 320, 480);
+
+		// camera follows player
+		// follow types: 
+		// FOLLOW_LOCKON, FOLLOW_PLATFORMER, FOLLOW_TOPDOWN, FOLLOW_LOCKON_TIGHT
+		this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT); 
+
+		//move player with cursor keys
+		this.cursors = this.game.input.keyboard.createCursorKeys();
 
 	},
 
@@ -97,10 +116,10 @@ var Game = {
 			dir = "RIGHT";
 			this.spriteDir();
 			this.player.play('walkRight');
-		}
+		} 
 
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
-			this.player.animations.stop(0, true);
+			this.player.play('idle');
 		}
 
 		// shaia();
