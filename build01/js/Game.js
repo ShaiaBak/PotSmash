@@ -37,12 +37,34 @@ var Game = {
 
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
+		var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
+	// this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
+	
+	// pot1.forEach(function() {
+	this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+	this.game.physics.arcade.enable(this.testpot);    
+	// this.testpot.body.immovable = true;
+	this.testpot.scale.setTo(0.5,0.5);
+		
+	// });
+
+
+	// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+	// this.game.physics.arcade.enable(this.testpot);    
+	// this.testpot.body.immovable = true;
+	// this.testpot.scale.setTo(0.5,0.5);
+
+	//High drag will stop the pot when you stop pushing it
+	this.testpot.body.drag.setTo(10000);
+
+
 	},
 
 	update: function() {
-		// tylertest();
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
+		this.game.physics.arcade.collide(this.player, this.testpot);
+		this.game.physics.arcade.collide(this.blockedLayer, this.testpot);
 		this.player.body.velocity.y = 0;
 		this.player.body.velocity.x = 0;
 
