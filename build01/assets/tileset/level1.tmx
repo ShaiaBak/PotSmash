@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="15" tilewidth="32" tileheight="32" nextobjectid="5">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="15" tilewidth="32" tileheight="32" nextobjectid="15">
  <tileset firstgid="1" name="tileset-placeholder2" tilewidth="32" tileheight="32">
   <image source="../img/tileset-placeholder2.png" width="608" height="192"/>
  </tileset>
@@ -17,6 +17,16 @@
   <object id="4" gid="16" x="226" y="321" width="32" height="32">
    <properties>
     <property name="type" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="8" name="pot" gid="15" x="128" y="160" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="14" name="pot" gid="15" x="128" y="128" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
    </properties>
   </object>
  </objectgroup>

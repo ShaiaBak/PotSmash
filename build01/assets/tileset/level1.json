@@ -42,6 +42,38 @@
                  "width":32,
                  "x":226,
                  "y":321
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":8,
+                 "name":"pot",
+                 "properties":
+                    {
+                     "type":"pot1"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128,
+                 "y":160
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":14,
+                 "name":"pot",
+                 "properties":
+                    {
+                     "type":"pot1"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -50,7 +82,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":5,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "properties":
     {
