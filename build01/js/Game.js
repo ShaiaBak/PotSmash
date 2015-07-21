@@ -83,7 +83,6 @@ var Game = {
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.testpot, this.checkTouch, function(){}, this);
 		this.game.physics.arcade.collide(this.blockedLayer, this.testpot);
-
 		// check to see that player is running pot into wall
 		this.game.physics.arcade.overlap(this.player, this.testpot, this.checkOverlap, function(){}, this);
 
@@ -154,7 +153,7 @@ var Game = {
 	},
 
 	spriteDir: function() {
-		// console.log('Direction: ' + dir);
+		console.log('Direction: ' + dir);
 	},
 
 	checkOverlap: function() {
@@ -162,6 +161,6 @@ var Game = {
 	},
 
 	checkTouch: function() {
-		console.log('TOUCh');
+		console.log('TOUCH THAT POT YO');
 	}
 };
