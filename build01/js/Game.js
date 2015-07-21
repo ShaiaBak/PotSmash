@@ -54,7 +54,6 @@ var Game = {
 
 		// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
 		// this.game.physics.arcade.enable(this.testpot);    
-		// this.testpot.body.immovable = true;
 		// this.testpot.scale.setTo(0.5,0.5);
 
 		//High drag will stop the pot when you stop pushing it
@@ -116,13 +115,22 @@ var Game = {
 			dir = "RIGHT";
 			this.spriteDir();
 			this.player.play('walkRight');
-		} 
+		}
+
+		// if player is going diagonally, go 0.75 the speed in both directions
+		// reason is that player goes too fast when moving diagonally
+		// @TODO: change for touch controls
+		if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
+			this.player.body.velocity.y = this.player.body.velocity.y*0.75;
+			this.player.body.velocity.x = this.player.body.velocity.x*0.75;
+		}
 
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
 			this.player.play('idle');
 		}
-
-		// shaia();
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -141,6 +149,6 @@ var Game = {
 	},
 
 	spriteDir: function() {
-		console.log('Direction: ' + dir);
+		// console.log('Direction: ' + dir);
 	}
 };
