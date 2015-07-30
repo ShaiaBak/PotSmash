@@ -4,6 +4,8 @@ var blockedLayer;
 var objectLayer;
 var dir = "LEFT";
 var playerSpeed = 100; //100 is a random default value
+var testpot;
+
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level1');
@@ -50,8 +52,6 @@ var Game = {
 		testpot = game.add.group();
 		testpot.enableBody = true;
 		testpot.physicsBodyType = Phaser.Physics.ARCADE;
-
-
 
 		for (var i = 0; i < 10; i++) {
 			var c = testpot.create(game.world.randomX, Math.random() * 500, 'testpot', game.rnd.integerInRange(0, 3));
@@ -106,6 +106,9 @@ var Game = {
 
 		this.game.physics.arcade.collide(testpot, testpot);
 		this.game.physics.arcade.collide(this.blockedLayer, testpot);
+
+		// this.pot[i].body.immovable = true;
+
 		this.checkMovement();
 		this.checkAnimation();
 
@@ -127,7 +130,7 @@ var Game = {
 	},
 
 	spriteDir: function() {
-		console.log('Direction: ' + dir);
+		// console.log('Direction: ' + dir);
 	},
 
 	checkOverlap: function() {
@@ -135,17 +138,20 @@ var Game = {
 	},
 
 	checkTouch: function(obj1, obj2) {
-		console.log('TOUCH THAT POT YO');
+		// goes through group 'testpot' and then makes the children do something
+		testpot.forEach(function(pots) {
+			pots.body.immovable = true;
+		}, this);
+
+		console.log('touch');
 		obj2.body.immovable = false;
 		obj2.body.drag.setTo(1000);
 	},
+
 	checkMovement: function() {
-
-
 		//Player is not moving when nothing is pressed
 		this.player.body.velocity.y = 0;
 		this.player.body.velocity.x = 0;
-
 
 		//Checks arrow keys	
 		if(this.cursors.up.isDown) {
