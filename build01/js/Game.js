@@ -3,7 +3,7 @@ var bgLayer;
 var blockedLayer;
 var objectLayer;
 var dir = "LEFT";
-
+var playerSpeed = 100; //100 is a random default value
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level1');
@@ -17,6 +17,10 @@ var Game = {
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
 		// this.bgLayer.resizeWorld();
+
+		//Touch control enable
+		this.game.touchControl = this.game.plugins.add(Phaser.Plugin.TouchControl);
+		this.game.touchControl.inputEnable();
 
 		//create player
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
@@ -102,58 +106,9 @@ var Game = {
 		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap, function(){}, this);
 
 
-		this.player.body.velocity.y = 0;
-		this.player.body.velocity.x = 0;
+		this.checkMovement();
+		this.checkAnimation();
 
-		if(keySpace.isDown) {
-			console.log('whatsup');
-		}
-
-		if(this.cursors.up.isDown) {
-			this.player.body.velocity.y -= 100;
-		}
-		else if(this.cursors.down.isDown) {
-			this.player.body.velocity.y += 100;
-		}
-		if(this.cursors.left.isDown) {
-			this.player.body.velocity.x -= 100;
-		}
-		else if(this.cursors.right.isDown) {
-			this.player.body.velocity.x += 100;
-		}
-
-		if (this.player.body.velocity.y == -100) {
-			dir = "UP";
-			this.spriteDir();
-			this.player.play('walkUp');
-		} else if (this.player.body.velocity.y == 100) {
-			dir = "DOWN";
-			this.spriteDir();
-			this.player.play('walkDown');
-		} else if (this.player.body.velocity.x == -100) {
-			dir = "LEFT";
-			this.spriteDir();
-			this.player.play('walkLeft');
-		} else if (this.player.body.velocity.x == 100) {
-			dir = "RIGHT";
-			this.spriteDir();
-			this.player.play('walkRight');
-		}
-
-		// if player is going diagonally, go 0.75 the speed in both directions
-		// reason is that player goes too fast when moving diagonally
-		// @TODO: change for touch controls
-		if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
-			this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
-			this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
-			this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
-			this.player.body.velocity.y = this.player.body.velocity.y*0.75;
-			this.player.body.velocity.x = this.player.body.velocity.x*0.75;
-		}
-
-		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
-			this.player.play('idle');
-		}
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -181,5 +136,78 @@ var Game = {
 
 	checkTouch: function() {
 		console.log('TOUCH THAT POT YO');
+	},
+	checkMovement: function() {
+
+
+		//Player is not moving when nothing is pressed
+		this.player.body.velocity.y = 0;
+		this.player.body.velocity.x = 0;
+
+
+		//Checks arrow keys	
+		if(this.cursors.up.isDown) {
+			this.player.body.velocity.y -= playerSpeed;
+		}
+		else if(this.cursors.down.isDown) {
+			this.player.body.velocity.y += playerSpeed;
+		}
+		if(this.cursors.left.isDown) {
+			this.player.body.velocity.x -= playerSpeed;
+		}
+		else if(this.cursors.right.isDown) {
+			this.player.body.velocity.x += playerSpeed;
+		}
+
+
+		// Check touch controls
+		if (this.game.touchControl.speed.x > 10) {
+			this.player.body.velocity.x = -playerSpeed;
+
+		} else if (this.game.touchControl.speed.x < -10) {
+			this.player.body.velocity.x = playerSpeed;
+		}
+
+		if (this.game.touchControl.speed.y > 10 ) {
+			this.player.body.velocity.y = -playerSpeed;
+
+		} else if (this.game.touchControl.speed.y < -10) {
+			this.player.body.velocity.y = playerSpeed;
+		} 
+	
+		// if player is going diagonally, go 0.75 the speed in both directions
+		// reason is that player goes too fast when moving diagonally
+		// @TODO: change for touch controls
+		if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
+			this.player.body.velocity.y = this.player.body.velocity.y*0.75;
+			this.player.body.velocity.x = this.player.body.velocity.x*0.75;
+		}
+	},
+
+	checkAnimation: function() {
+		if (this.player.body.velocity.y == -playerSpeed) {
+			dir = "UP";
+			this.spriteDir();
+			this.player.play('walkUp');
+		} else if (this.player.body.velocity.y == playerSpeed) {
+			dir = "DOWN";
+			this.spriteDir();
+			this.player.play('walkDown');
+		} else if (this.player.body.velocity.x == -playerSpeed) {
+			dir = "LEFT";
+			this.spriteDir();
+			this.player.play('walkLeft');
+		} else if (this.player.body.velocity.x == playerSpeed) {
+			dir = "RIGHT";
+			this.spriteDir();
+			this.player.play('walkRight');
+		}
+
+		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
+			this.player.play('idle');
+		}
 	}
 };
