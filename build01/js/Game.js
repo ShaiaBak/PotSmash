@@ -56,7 +56,7 @@ var Game = {
 		for (var i = 0; i < 10; i++) {
 			var c = testpot.create(game.world.randomX, Math.random() * 500, 'testpot', game.rnd.integerInRange(0, 3));
 			c.name = 'pot' + i;
-			c.body.drag.setTo(10000);
+			c.body.immovable = true;
 			c.scale.setTo(0.5, 0.5);
 		}
 
@@ -101,11 +101,11 @@ var Game = {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch, function(){}, this);
-		this.game.physics.arcade.collide(this.blockedLayer, testpot);
 		// check to see that player is running pot into wall
 		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap, function(){}, this);
 
-
+		this.game.physics.arcade.collide(testpot, testpot);
+		this.game.physics.arcade.collide(this.blockedLayer, testpot);
 		this.checkMovement();
 		this.checkAnimation();
 
@@ -134,8 +134,10 @@ var Game = {
 		console.log('in the wall yo');
 	},
 
-	checkTouch: function() {
+	checkTouch: function(obj1, obj2) {
 		console.log('TOUCH THAT POT YO');
+		obj2.body.immovable = false;
+		obj2.body.drag.setTo(1000);
 	},
 	checkMovement: function() {
 
