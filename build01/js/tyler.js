@@ -2,101 +2,207 @@ var map;
 var bgLayer;
 var blockedLayer;
 var objectLayer;
+var dir = "LEFT";
+
+var playerSpeed = 100; //100 is a random default value
 
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level1');
 
-	//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-	this.map.addTilesetImage('tileset-placeholder2', 'gameTiles');
+		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+		this.map.addTilesetImage('tileset-placeholder2', 'gameTiles');
 
-	this.bgLayer = this.map.createLayer('backgroundLayer');
-	this.blockedLayer = this.map.createLayer('blockedLayer');
+		this.bgLayer = this.map.createLayer('backgroundLayer');
+		this.blockedLayer = this.map.createLayer('blockedLayer');
 
-	//create player
-	var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
-	this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
-	this.game.physics.arcade.enable(this.player);
+		// resize world so that dimensions match the map
+		// doesnt work.. must figure out
+		// this.bgLayer.resizeWorld();
 
-	//the camera will follow the player in the world
-	this.game.camera.follow(this.player);
+		//Touch control enable
+		this.game.touchControl = this.game.plugins.add(Phaser.Plugin.TouchControl);
+		this.game.touchControl.inputEnable();
 
-	//collision
-	this.map.setCollisionBetween(1, 100000, true, 'blockedLayer');
 
-	//move player with cursor keys
-	this.cursors = this.game.input.keyboard.createCursorKeys();
-	
+		//create player
+		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
+		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
+		this.game.physics.arcade.enable(this.player);
 
-	pot1 = this.game.add.group();
-    pot1.enableBody = true;
-	// var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-	this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
-	
-	// pot1.forEach(function() {
-	// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-	// this.game.physics.arcade.enable(this.testpot);    
-	// this.testpot.body.immovable = true;
-	// this.testpot.scale.setTo(0.5,0.5);
+		// anchor point for player sprite
+		this.player.anchor.setTo(.5,.5);
+
+		//collision
+		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+
+		// enables other physics stuff
+		// game.physics.startSystem(Phaser.Physics.P2JS);
+
+		// animations
+		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
+		this.player.animations.add('walkDown', [1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('walkUp', [1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('walkLeft', [1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('walkRight', [1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('idle', [0], 8 /*fps */, true);
+
+
+
+		var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
+		// this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
 		
-	// });
+		// pot1.forEach(function() {
+			this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+			this.game.physics.arcade.enable(this.testpot);    
+			this.testpot.scale.setTo(0.5,0.5);
+		// });
+
+		// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+		// this.game.physics.arcade.enable(this.testpot);    
+		// this.testpot.scale.setTo(0.5,0.5);
+
+		//High drag will stop the pot when you stop pushing it
+		this.testpot.body.drag.setTo(10000);
+
+		// makes object immovable[t/f]
+		// this.testpot.body.immovable = true;
+
+		// ========= CAMERA STUFF =========
+
+		// set bounds to world for camera and player
+		// @TODO: dynamically get bounds from map size
+		game.world.setBounds(0, 0, 320, 480);
+
+		// camera follows player
+		// follow types: 
+		// FOLLOW_LOCKON, FOLLOW_PLATFORMER, FOLLOW_TOPDOWN, FOLLOW_LOCKON_TIGHT
+		this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT); 
+
+		//move player with cursor keys
+		this.cursors = this.game.input.keyboard.createCursorKeys();
+
+	},
+
+	update: function() {
+		// collision update
+		this.game.physics.arcade.collide(this.player, this.blockedLayer);
+		this.game.physics.arcade.collide(this.player, this.testpot, this.checkTouch, function(){}, this);
+		this.game.physics.arcade.collide(this.blockedLayer, this.testpot);
+		// check to see that player is running pot into wall
+		this.game.physics.arcade.overlap(this.player, this.testpot, this.checkOverlap, function(){}, this);
 
 
-	// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-	// this.game.physics.arcade.enable(this.testpot);    
-	// this.testpot.body.immovable = true;
-	// this.testpot.scale.setTo(0.5,0.5);
 
-	//High drag will stop the pot when you stop pushing it
-	// this.testpot.body.drag.setTo(10000);
 
-},
+		this.checkMovement();
+		this.checkAnimation();
 
-update: function() {
-	// potTouch();
-	// this.game.physics.arcade.overlap(this.player, this.testpot, this.collect, null, this);
-	// collision update
-	this.game.physics.arcade.collide(this.player, this.blockedLayer);
-	this.game.physics.arcade.collide(this.player, this.testpot);
+	},
 
-	console.log(this.player.body.touching.up);
-	this.player.body.velocity.y = 0;
-	this.player.body.velocity.x = 0;
+	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
+	findObjectsByType: function(type, map, layer) {
+		var result = new Array();
+		map.objects[layer].forEach(function(element){
+			if(element.properties.type === type) {
+				//Phaser uses top left, Tiled bottom left so we have to adjust the y position
+				//also keep in mind that the cup images are a bit smaller than the tile which is 16x16
+				//so they might not be placed in the exact pixel position as in Tiled
+				element.y -= map.tileHeight;
+				result.push(element);
+			}      
+		});
+		return result;
+	},
 
-	if(this.cursors.up.isDown) {
-		this.player.body.velocity.y -= 100;
+	spriteDir: function() {
+		console.log('Direction: ' + dir);
+	},
+
+	checkOverlap: function() {
+		console.log('in the wall yo');
+	},
+
+	checkTouch: function() {
+		console.log('TOUCH THAT POT YO');
+	},
+	checkMovement: function() {
+
+
+		//Player is not moving when nothing is pressed
+		this.player.body.velocity.y = 0;
+		this.player.body.velocity.x = 0;
+
+
+		//Checks arrow keys	
+		if(this.cursors.up.isDown) {
+			this.player.body.velocity.y -= playerSpeed;
+		}
+		else if(this.cursors.down.isDown) {
+			this.player.body.velocity.y += playerSpeed;
+		}
+		if(this.cursors.left.isDown) {
+			this.player.body.velocity.x -= playerSpeed;
+		}
+		else if(this.cursors.right.isDown) {
+			this.player.body.velocity.x += playerSpeed;
+		}
+
+
+		// Check touch controls
+		if (this.game.touchControl.speed.x > 10) {
+			this.player.body.velocity.x = -playerSpeed;
+
+		} else if (this.game.touchControl.speed.x < -10) {
+			this.player.body.velocity.x = playerSpeed;
+		}
+
+		if (this.game.touchControl.speed.y > 10 ) {
+			this.player.body.velocity.y = -playerSpeed;
+
+		} else if (this.game.touchControl.speed.y < -10) {
+			this.player.body.velocity.y = playerSpeed;
+		} 
+	
+		// if player is going diagonally, go 0.75 the speed in both directions
+		// reason is that player goes too fast when moving diagonally
+		// @TODO: change for touch controls
+		if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
+			this.player.body.velocity.y = this.player.body.velocity.y*0.75;
+			this.player.body.velocity.x = this.player.body.velocity.x*0.75;
+		}
+
+
+
+	},
+
+	checkAnimation: function() {
+		if (this.player.body.velocity.y == -playerSpeed) {
+			dir = "UP";
+			this.spriteDir();
+			this.player.play('walkUp');
+		} else if (this.player.body.velocity.y == playerSpeed) {
+			dir = "DOWN";
+			this.spriteDir();
+			this.player.play('walkDown');
+		} else if (this.player.body.velocity.x == -playerSpeed) {
+			dir = "LEFT";
+			this.spriteDir();
+			this.player.play('walkLeft');
+		} else if (this.player.body.velocity.x == playerSpeed) {
+			dir = "RIGHT";
+			this.spriteDir();
+			this.player.play('walkRight');
+		}
+
+
+
+
+		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
+			this.player.play('idle');
+		}
 	}
-	else if(this.cursors.down.isDown) {
-		this.player.body.velocity.y += 100;
-	}
-	if(this.cursors.left.isDown) {
-		this.player.body.velocity.x -= 100;
-	}
-	else if(this.cursors.right.isDown) {
-		this.player.body.velocity.x += 100;
-	}
-
-	// shaia();
-},
-
-  //find objects in a Tiled layer that containt a property called "type" equal to a certain value
-  findObjectsByType: function(type, map, layer) {
-	var result = new Array();
-	map.objects[layer].forEach(function(element){
-		if(element.properties.type === type) {
-		//Phaser uses top left, Tiled bottom left so we have to adjust the y position
-		//also keep in mind that the cup images are a bit smaller than the tile which is 16x16
-		//so they might not be placed in the exact pixel position as in Tiled
-		element.y -= map.tileHeight;
-		result.push(element);
-		}      
-	});
-	return result;
-  }
-
-
 };
-
-
-//PUT INTO PRELOAD
-   this.load.image('pot1', 'assets/img/barrel64x64.png');
