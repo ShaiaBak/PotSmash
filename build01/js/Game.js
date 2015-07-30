@@ -41,26 +41,41 @@ var Game = {
 		this.player.animations.add('idle', [0], 8 /*fps */, true);
 
 
+		// ========= POT STUFF =========
 
-		var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-		// this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
+		testpot = game.add.group();
+		testpot.enableBody = true;
+		testpot.physicsBodyType = Phaser.Physics.ARCADE;
+
+
+
+		for (var i = 0; i < 10; i++) {
+			var c = testpot.create(game.world.randomX, Math.random() * 500, 'testpot', game.rnd.integerInRange(0, 3));
+			c.name = 'pot' + i;
+			c.body.drag.setTo(10000);
+			c.scale.setTo(0.5, 0.5);
+		}
+
+
+		// var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
+		// // this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
 		
-		// pot1.forEach(function() {
-		this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-		this.game.physics.arcade.enable(this.testpot);    
-		this.testpot.scale.setTo(0.5,0.5);
+		// // pot1.forEach(function() {
+		// 	this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+		// 	this.game.physics.arcade.enable(this.testpot);    
+		// 	this.testpot.scale.setTo(0.5,0.5);
 			
-		// });
+		// // });
 
-		// this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-		// this.game.physics.arcade.enable(this.testpot);    
-		// this.testpot.scale.setTo(0.5,0.5);
+		// // this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
+		// // this.game.physics.arcade.enable(this.testpot);    
+		// // this.testpot.scale.setTo(0.5,0.5);
 
-		//High drag will stop the pot when you stop pushing it
-		this.testpot.body.drag.setTo(10000);
+		// //High drag will stop the pot when you stop pushing it
+		// this.testpot.body.drag.setTo(10000);
 
-		// makes object immovable[t/f]
-		// this.testpot.body.immovable = true;
+		// // makes object immovable[t/f]
+		// // this.testpot.body.immovable = true;
 
 		// ========= CAMERA STUFF =========
 
@@ -73,7 +88,7 @@ var Game = {
 		// FOLLOW_LOCKON, FOLLOW_PLATFORMER, FOLLOW_TOPDOWN, FOLLOW_LOCKON_TIGHT
 		this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT); 
 
-		//move player with cursor keys
+		//move player with ARROW keys
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
 	},
@@ -81,14 +96,18 @@ var Game = {
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
-		this.game.physics.arcade.collide(this.player, this.testpot, this.checkTouch, function(){}, this);
-		this.game.physics.arcade.collide(this.blockedLayer, this.testpot);
+		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch, function(){}, this);
+		this.game.physics.arcade.collide(this.blockedLayer, testpot);
 		// check to see that player is running pot into wall
-		this.game.physics.arcade.overlap(this.player, this.testpot, this.checkOverlap, function(){}, this);
+		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap, function(){}, this);
 
 
 		this.player.body.velocity.y = 0;
 		this.player.body.velocity.x = 0;
+
+		if(keySpace.isDown) {
+			console.log('whatsup');
+		}
 
 		if(this.cursors.up.isDown) {
 			this.player.body.velocity.y -= 100;

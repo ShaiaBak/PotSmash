@@ -13,6 +13,8 @@ var Boot = {
 
     //physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     
     this.state.start('Preload');
   }
