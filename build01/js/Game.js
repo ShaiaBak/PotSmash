@@ -95,6 +95,9 @@ var Game = {
 		//move player with ARROW keys
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
+		//enable space bar
+		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
 	},
 
 	update: function() {
