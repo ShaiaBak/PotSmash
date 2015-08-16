@@ -53,28 +53,16 @@ var Game = {
 		testpot.enableBody = true;
 		testpot.physicsBodyType = Phaser.Physics.ARCADE;
 
-		for (var i = 0; i < 10; i++) {
-			var c = testpot.create(game.world.randomX, Math.random() * 500, 'testpot', game.rnd.integerInRange(0, 3));
-			c.name = 'pot' + i;
-			c.body.immovable = true;
-			c.scale.setTo(0.5, 0.5);
+		//find pot locations from tiled and create a pot
+		var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
+		console.log(potLocArr);
+		for (i=0; i<potLocArr.length; i++){
+			var pot = testpot.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
+			pot.name = 'pot' + i;
+			pot.body.immovable = true;
+			pot.scale.setTo(.5, .5);
 		}
-
-
-		// var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-		// // this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
 		
-		// // pot1.forEach(function() {
-		// 	this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-		// 	this.game.physics.arcade.enable(this.testpot);    
-		// 	this.testpot.scale.setTo(0.5,0.5);
-			
-		// // });
-
-		// // this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-		// // this.game.physics.arcade.enable(this.testpot);    
-		// // this.testpot.scale.setTo(0.5,0.5);
-
 		// //High drag will stop the pot when you stop pushing it
 		// this.testpot.body.drag.setTo(10000);
 
