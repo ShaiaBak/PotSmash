@@ -8,12 +8,13 @@ var testpot;
 
 var Game = {
 	create: function() {
-		this.map = this.game.add.tilemap('level1');
+		this.map = this.game.add.tilemap('level2');
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-		this.map.addTilesetImage('tileset-placeholder2', 'gameTiles');
+		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles');
 
 		this.bgLayer = this.map.createLayer('backgroundLayer');
+		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 
 		// resize world so that dimensions match the map
@@ -76,7 +77,7 @@ var Game = {
 
 		// set bounds to world for camera and player
 		// @TODO: dynamically get bounds from map size
-		game.world.setBounds(0, 0, 320, 480);
+		game.world.setBounds(0, 0, 500, 480);
 
 		// camera follows player
 		// follow types: 
@@ -105,7 +106,6 @@ var Game = {
 
 		this.checkMovement();
 		this.checkAnimation();
-
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
