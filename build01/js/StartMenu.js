@@ -23,7 +23,7 @@ var StartMenu = {
 		subText.y = Math.floor(game.world.height/2+20);
 
 		if(keySpace.isDown) {
-			this.state.start('Game');
+			this.state.start('shaia');
 		}
 	}
 }
