@@ -31,13 +31,12 @@ var Game = {
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
-
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
-		
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
 		//this.player.addChild(grabPotRect);
+		this.player.scale.setTo(0.5, 0.5);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
@@ -47,11 +46,14 @@ var Game = {
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
-		this.player.animations.add('walkDown', [1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkUp', [1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkLeft', [1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkRight', [1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('idle', [0], 8 /*fps */, true);
+		this.player.animations.add('walkDown', [0, 1 ,2 ,3], 8 /*fps */, true);
+		this.player.animations.add('walkUp', [16, 17, 18, 19], 8 /*fps */, true);
+		this.player.animations.add('walkLeft', [24, 25, 26, 27], 8 /*fps */, true);
+		this.player.animations.add('walkRight', [8 , 9, 10, 11], 8 /*fps */, true);
+		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
+		this.player.animations.add('idleUp', [16], 8 /*fps */, true);
+		this.player.animations.add('idleLeft', [25], 8 /*fps */, true);
+		this.player.animations.add('idleRight', [8], 8 /*fps */, true);
 
 
 		// ========= POT STUFF =========
@@ -239,7 +241,15 @@ var Game = {
 		}
 
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
-			this.player.play('idle');
+			if(dir == "DOWN") {
+				this.player.play('idleDown');
+			} else if(dir == "UP") {
+				this.player.play('idleUp');
+			} else if(dir == "LEFT") {
+				this.player.play('idleLeft');
+			} else if(dir == "RIGHT") {
+				this.player.play('idleRight');
+			}
 		}
 	},
 	
