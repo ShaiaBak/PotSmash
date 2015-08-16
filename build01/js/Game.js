@@ -6,6 +6,9 @@ var dir = "LEFT";
 var playerSpeed = 100; //100 is a random default value
 var testpot;
 
+var grabPotRect; //the rectangle area the player can grab pots
+var potArr = [];
+
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level1');
@@ -31,6 +34,10 @@ var Game = {
 
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
+		
+		//create pot grab area to check the area right in front of the player for pot grabbing
+		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
+		//this.player.addChild(grabPotRect);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
@@ -55,12 +62,13 @@ var Game = {
 
 		//find pot locations from tiled and create a pot
 		var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-		console.log(potLocArr);
+		//console.log(potLocArr);
 		for (i=0; i<potLocArr.length; i++){
 			var pot = testpot.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
 			pot.name = 'pot' + i;
 			pot.body.immovable = true;
 			pot.scale.setTo(.5, .5);
+			potArr.push(pot);
 		}
 		
 		// //High drag will stop the pot when you stop pushing it
@@ -91,9 +99,9 @@ var Game = {
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
-		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch, function(){}, this);
+		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch);
 		// check to see that player is running pot into wall
-		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap, function(){}, this);
+		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap);
 
 		this.game.physics.arcade.collide(testpot, testpot);
 		this.game.physics.arcade.collide(this.blockedLayer, testpot);
@@ -102,7 +110,7 @@ var Game = {
 
 		this.checkMovement();
 		this.checkAnimation();
-
+		this.checkPickUp();
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -122,10 +130,35 @@ var Game = {
 
 	spriteDir: function() {
 		// console.log('Direction: ' + dir);
+		//move the pot detection rect in front of the player's direction
+		switch(dir) {
+			case "UP":
+			grabPotRect.x = this.player.x - this.player.width*.5;
+			grabPotRect.y = this.player.y - this.player.height*.75;
+			break;
+			
+			case "DOWN":
+			grabPotRect.x = this.player.x - this.player.width*.5;
+			grabPotRect.y = this.player.y;
+			break;
+			
+			case "LEFT":
+			grabPotRect.x = this.player.x - this.player.width*.75;
+			grabPotRect.y = this.player.y - this.player.height*.5;
+			break;
+			
+			case "RIGHT":
+			grabPotRect.x = this.player.x;
+			grabPotRect.y = this.player.y - this.player.height*.5;
+			break;
+		}
+		//console.log(grabPotRect.x + ":" + grabPotRect.y);
+		//console.log(potArr[0].x + ":" + potArr[0].y);
+		//console.log(this.player.x + ":" + this.player.y);
 	},
 
 	checkOverlap: function() {
-		console.log('in the wall yo');
+		//console.log('in the wall yo');
 	},
 
 	checkTouch: function(obj1, obj2) {
@@ -134,7 +167,7 @@ var Game = {
 			pots.body.immovable = true;
 		}, this);
 
-		console.log('touch');
+		//console.log('touch');
 		obj2.body.immovable = false;
 		obj2.body.drag.setTo(1000);
 	},
@@ -208,5 +241,20 @@ var Game = {
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
 			this.player.play('idle');
 		}
+	},
+	
+	//checks whether the player is facing a pot to pick up
+	checkPickUp: function() {
+		var isCloseToPot = null;
+		i=0;
+		while(i<potArr.length) {
+			if(Phaser.Rectangle.intersects(grabPotRect, potArr[i])) {
+				isCloseToPot = potArr[i];
+				break;
+			}
+			i++;
+		}
+		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potArr[0]);
+		console.log(isCloseToPot);
 	}
 };
