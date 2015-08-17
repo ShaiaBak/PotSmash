@@ -37,10 +37,9 @@ var Game = {
 		this.game.physics.arcade.enable(this.player);
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
+		this.player.scale.setTo(0.5, 0.5);
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
-		//this.player.addChild(grabPotRect);
-		this.player.scale.setTo(0.5, 0.5);
 
 		console.log(this.player.scale.x);
 		console.log(this.player.scale.x);
@@ -105,7 +104,9 @@ var Game = {
 		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 	},
-
+	// render: function() {
+		// this.game.debug.geom(grabPotRect,'#0fffff');
+	// },
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
@@ -122,7 +123,9 @@ var Game = {
 
 		this.checkMovement();
 		this.checkAnimation();
-		this.checkPickUp();
+		if(keySpace.isDown){
+			this.checkPickUp();
+		}
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -146,7 +149,7 @@ var Game = {
 		switch(dir) {
 			case "UP":
 			grabPotRect.x = this.player.x - this.player.width*.5;
-			grabPotRect.y = this.player.y - this.player.height*.75;
+			grabPotRect.y = this.player.y - this.player.height;
 			break;
 			
 			case "DOWN":
@@ -155,7 +158,7 @@ var Game = {
 			break;
 			
 			case "LEFT":
-			grabPotRect.x = this.player.x - this.player.width*.75;
+			grabPotRect.x = this.player.x - this.player.width;
 			grabPotRect.y = this.player.y - this.player.height*.5;
 			break;
 			
@@ -232,19 +235,19 @@ var Game = {
 	},
 
 	checkAnimation: function() {
-		if (this.player.body.velocity.y == -playerSpeed) {
+		if (this.player.body.velocity.y < 0) {
 			dir = "UP";
 			this.spriteDir();
 			this.player.play('walkUp');
-		} else if (this.player.body.velocity.y == playerSpeed) {
+		} else if (this.player.body.velocity.y > 0) {
 			dir = "DOWN";
 			this.spriteDir();
 			this.player.play('walkDown');
-		} else if (this.player.body.velocity.x == -playerSpeed) {
+		} else if (this.player.body.velocity.x < 0) {
 			dir = "LEFT";
 			this.spriteDir();
 			this.player.play('walkLeft');
-		} else if (this.player.body.velocity.x == playerSpeed) {
+		} else if (this.player.body.velocity.x > 0) {
 			dir = "RIGHT";
 			this.spriteDir();
 			this.player.play('walkRight');
@@ -276,5 +279,9 @@ var Game = {
 		}
 		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potArr[0]);
 		// console.log(isCloseToPot);
+	}
+		if(isCloseToPot != null){
+			console.log(isCloseToPot.name);
+		}
 	}
 };
