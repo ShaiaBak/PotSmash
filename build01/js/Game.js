@@ -19,6 +19,9 @@ var Game = {
 		this.bgLayer = this.map.createLayer('backgroundLayer');
 		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
+		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
+
+		this.transBlockedLayer.alpha = 0;
 
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
@@ -39,8 +42,12 @@ var Game = {
 		//this.player.addChild(grabPotRect);
 		this.player.scale.setTo(0.5, 0.5);
 
+		console.log(this.player.scale.x);
+		console.log(this.player.scale.x);
+
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
 
 		// enables other physics stuff
 		// game.physics.startSystem(Phaser.Physics.P2JS);
@@ -102,12 +109,14 @@ var Game = {
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
+		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
 		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch);
 		// check to see that player is running pot into wall
 		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap);
 
 		this.game.physics.arcade.collide(testpot, testpot);
 		this.game.physics.arcade.collide(this.blockedLayer, testpot);
+		this.game.physics.arcade.collide(this.transBlockedLayer, testpot);
 
 		// this.pot[i].body.immovable = true;
 
@@ -266,6 +275,6 @@ var Game = {
 			i++;
 		}
 		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potArr[0]);
-		console.log(isCloseToPot);
+		// console.log(isCloseToPot);
 	}
 };

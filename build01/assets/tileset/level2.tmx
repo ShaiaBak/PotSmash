@@ -13,7 +13,12 @@
  </layer>
  <layer name="blockedLayer" width="14" height="14">
   <data encoding="base64" compression="zlib">
-   eJxbzMDAsJgCTCwYifoW0Nm+4awPnxnkpFdc8gC0RDOR
+   eJxbzMDAsJgCTCwY1TeqjxJ9+MwgJ73ikgcAo7Uy8Q==
+  </data>
+ </layer>
+ <layer name="transBlockedLayer" width="14" height="14" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAMrCESU1MfNja6mfjcOgoGDgz2OAAAypITfQ==
   </data>
  </layer>
  <layer name="detailLayer" width="14" height="14">
