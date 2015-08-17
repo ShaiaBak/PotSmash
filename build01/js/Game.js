@@ -278,8 +278,6 @@ var Game = {
 			i++;
 		}
 		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potArr[0]);
-		// console.log(isCloseToPot);
-	}
 		if(isCloseToPot != null){
 			console.log(isCloseToPot.name);
 		}
