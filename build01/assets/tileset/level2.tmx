@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="14" tilewidth="32" tileheight="32" nextobjectid="28">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="28">
  <tileset firstgid="1" name="tileset-placeholder2" tilewidth="32" tileheight="32">
   <image source="../img/tileset-placeholder2.png" width="608" height="192"/>
  </tileset>
  <tileset firstgid="115" name="tiles-lvl1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl1-32x32.png" width="256" height="256"/>
  </tileset>
- <layer name="backgroundLayer" width="14" height="14">
+ <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgKEbCDGh8mBgDGhvGLyESU0sfsZhSfaToGUn6yA1Peuolx38wDACCnkcP
+   eJxjYGBgKEbCDGh8mBgDGhvGLyESU0sfsZhSfaToGUn6yA1Peuolx3+47CQWAAAO1kcP
   </data>
  </layer>
- <layer name="blockedLayer" width="14" height="14">
+ <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxbzMDAsJgCTCwY1TeqjxJ9+MwgJ73ikgcAo7Uy8Q==
+   eJxbzMDAsJgCTCwY1TeqjxJ9+MwgJ71SkuaxYQDUjTvb
   </data>
  </layer>
- <layer name="transBlockedLayer" width="14" height="14" visible="0">
+ <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAMrCESU1MfNja6mfjcOgoGDgz2OAAAypITfQ==
+   eJxjYKAMrCESU1MfNja6mfjcOgoGDgzXOAAADjUTfQ==
   </data>
  </layer>
- <layer name="detailLayer" width="14" height="14">
+ <layer name="detailLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJy1zskOgkAQRdH+aWfFeUJwwnmMJoK4Qr/Qm1iLXjR2WPCSk1SleB2U+qWGuswllFFR9nTRk7mJFtra/Ya7oVfFBJ7Mep6I8TL0OgiwkllPgjc+Kf96xCnllmf6GGCYsedjilnG3hobbGUfYQzX0jvjgqvscyywtPQeCBHJvsMeB8O3DTiW9/JMAcU/9y/0vR9u
+   eJy1zskKwjAUheG8tHMd6lDHWus8i4LjyvqE/cG7yCIldJEDH9xLckKU+qcGT+YSyqgoezroytxEC752fsXN0KtijInMel5442PotbHAUmY9XyT4Zfz1gGPGmcv0EKCfsxdiiihnb4U1NrIPMMTI0jvhjIvsM8SYW3p3PPCUfYsd9oa7dTQs77lMAUUH76bVNh9u
   </data>
  </layer>
  <objectgroup name="objectsLayer">
