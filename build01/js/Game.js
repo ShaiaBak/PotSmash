@@ -41,8 +41,7 @@ var Game = {
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
 
-		console.log(this.player.scale.x);
-		console.log(this.player.scale.x);
+		this.player.body.setSize(40, 75, 0, -10);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
@@ -78,6 +77,8 @@ var Game = {
 			pot.body.immovable = true;
 			pot.scale.setTo(.5, .5);
 			potArr.push(pot);
+			// pot.anchor.setTo(.5, .5);
+			pot.body.setSize(50, 25, 2, 0);
 		}
 		
 		// //High drag will stop the pot when you stop pushing it

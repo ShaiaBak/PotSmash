@@ -84,38 +84,6 @@
                 {
                  "gid":171,
                  "height":32,
-                 "id":20,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":128,
-                 "y":320
-                }, 
-                {
-                 "gid":171,
-                 "height":32,
-                 "id":21,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":128,
-                 "y":320
-                }, 
-                {
-                 "gid":171,
-                 "height":32,
                  "id":22,
                  "name":"pot",
                  "properties":
@@ -126,8 +94,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":128,
-                 "y":320
+                 "x":96,
+                 "y":224
                 }, 
                 {
                  "gid":171,
@@ -144,6 +112,22 @@
                  "width":32,
                  "x":256,
                  "y":320
+                }, 
+                {
+                 "gid":171,
+                 "height":32,
+                 "id":32,
+                 "name":"pot",
+                 "properties":
+                    {
+                     "type":"pot1"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128,
+                 "y":320
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -152,7 +136,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":28,
+ "nextobjectid":33,
  "orientation":"orthogonal",
  "properties":
     {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="28">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="33">
  <tileset firstgid="1" name="tileset-placeholder2" tilewidth="32" tileheight="32">
   <image source="../img/tileset-placeholder2.png" width="608" height="192"/>
  </tileset>
@@ -18,7 +18,7 @@
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAMrCESU1MfNja6mfjcOgoGDgzXOAAADjUTfQ==
+   eJxjYKAMrCES00ofLjl8bh0FAweGaxwAAIKSFNU=
   </data>
  </layer>
  <layer name="detailLayer" width="14" height="15">
@@ -37,14 +37,17 @@
     <property name="type" value="pot1"/>
    </properties>
   </object>
-  <object id="20" gid="171" x="128" y="320" width="32" height="32"/>
-  <object id="21" gid="171" x="128" y="320" width="32" height="32"/>
-  <object id="22" name="pot" gid="171" x="128" y="320" width="32" height="32">
+  <object id="22" name="pot" gid="171" x="96" y="224" width="32" height="32">
    <properties>
     <property name="type" value="pot1"/>
    </properties>
   </object>
   <object id="27" name="pot" gid="171" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="32" name="pot" gid="171" x="128" y="320" width="32" height="32">
    <properties>
     <property name="type" value="pot1"/>
    </properties>
