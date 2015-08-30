@@ -8,22 +8,22 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgKEbCDGh8mBgDGhvGLyESU0sfsZhSfaToGUn6yA1Peuolx3+47CQWAAAO1kcP
+   eJxjYGBgKEbCDGh8mBgDGhvGLyECowNK9BGDqaGPWD0jTR8perEBYvVRai8p/iPkZmIAACezQhw=
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxbzMDAsJgCTCwY1TeqjxJ9+MwgJ71SkuaxYQDUjTvb
+   eJxbzMDAsJgCTAwY1Teqj1J9+MwgJ71SkuaxYQBrHELc
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAMrCES00ofLjl8bh0FAweGaxwAAIKSFNU=
+   eJxjYKAMrCEC01IfNnFCbh0FAweGaxwAAM2mE30=
   </data>
  </layer>
  <layer name="detailLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJy1zskKwjAUheG8tHMd6lDHWus8i4LjyvqE/cG7yCIldJEDH9xLckKU+qcGT+YSyqgoezroytxEC752fsXN0KtijInMel5442PotbHAUmY9XyT4Zfz1gGPGmcv0EKCfsxdiiihnb4U1NrIPMMTI0jvhjIvsM8SYW3p3PPCUfYsd9oa7dTQs77lMAUUH76bVNh9u
+   eJy1ztcKAjEQheG8tGvvvZddexesV+oT+kOW4E3WCbgHPjKQOSFK6WSRC+ckUkir36miFs5FlFDGAUecLL0Mq13Onp5NbrjjYelV6PmcgZ5NnnjhHfHXNTYR9y5poY2OYLeOBpoYYYyJoNfHAEMssMRK0Jtihrlg9ztb7LB37J1xwVWwm0fB8f1/JgEvhnc/3r4hDg==
   </data>
  </layer>
  <objectgroup name="objectsLayer">
