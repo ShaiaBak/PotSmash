@@ -10,6 +10,7 @@ var testpot;
 var grabPotRect; //the rectangle area the player can grab pots
 var potArr = [];
 
+var pushTimer = 0;
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level2');
@@ -84,7 +85,7 @@ var Game = {
 			pot.anchor.setTo(.5, .5);
 			pot.body.setSize(44, 50, 0, 0);
 		}
-		
+
 		// //High drag will stop the pot when you stop pushing it
 		// this.testpot.body.drag.setTo(10000);
 
@@ -132,6 +133,9 @@ var Game = {
 		this.checkAnimation();
 		if(keySpace.isDown){
 			this.checkPickUp();
+		}
+		if ( !this.player.body.touching.up & !this.player.body.touching.down & !this.player.body.touching.left & !this.player.body.touching.right) {
+			pushTimer = 0;
 		}
 	},
 
@@ -184,16 +188,48 @@ var Game = {
 	},
 
 	checkTouch: function(obj1, obj2) {
+		
 		// goes through group 'testpot' and then makes the children do something
 		testpot.forEach(function(pots) {
 			pots.body.immovable = true;
 		}, this);
 
-		//console.log('touch');
-		obj2.body.immovable = false;
-		obj2.body.drag.setTo(1000);
-	},
+		pushTimer++;
+		if(pushTimer >= 50) {
+			console.log('push');
+			
+			obj2.body.immovable = false;
+			obj2.body.drag.setTo(1000);
+			
+			switch(dir) {
 
+				case "UP":
+		
+				obj2.body.velocity.y = -240;
+				break;
+
+				case "DOWN":
+				obj2.body.velocity.y = +240;
+
+				break;
+
+				case "LEFT":
+				obj2.body.velocity.x = -240;
+
+				break;
+
+				case "RIGHT":
+				obj2.body.velocity.x = +240;
+
+				break;
+
+			}
+			pushTimer = 0;
+
+		}
+
+	},
+	
 	checkMovement: function() {
 		//Player is not moving when nothing is pressed
 		this.player.body.velocity.y = 0;
