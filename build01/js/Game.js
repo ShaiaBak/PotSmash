@@ -1,6 +1,7 @@
 var map;
 var bgLayer;
 var blockedLayer;
+var triggerLayer;
 var objectLayer;
 var dir = "LEFT";
 var playerSpeed = 100; //100 is a random default value
@@ -20,6 +21,7 @@ var Game = {
 		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
+		this.triggerLayer = this.map.createLayer('triggerLayer');
 
 		this.transBlockedLayer.alpha = 0;
 
@@ -41,11 +43,13 @@ var Game = {
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
 
-		this.player.body.setSize(40, 75, 0, -10);
+		this.player.body.setSize(40, 50, 0, 0);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
 		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+
+		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
 
 		// enables other physics stuff
 		// game.physics.startSystem(Phaser.Physics.P2JS);
@@ -77,8 +81,8 @@ var Game = {
 			pot.body.immovable = true;
 			pot.scale.setTo(.5, .5);
 			potArr.push(pot);
-			// pot.anchor.setTo(.5, .5);
-			pot.body.setSize(50, 25, 2, 0);
+			pot.anchor.setTo(.5, .5);
+			pot.body.setSize(44, 50, 0, 0);
 		}
 		
 		// //High drag will stop the pot when you stop pushing it
@@ -119,6 +123,8 @@ var Game = {
 		this.game.physics.arcade.collide(testpot, testpot);
 		this.game.physics.arcade.collide(this.blockedLayer, testpot);
 		this.game.physics.arcade.collide(this.transBlockedLayer, testpot);
+
+		this.game.physics.arcade.overlap(testpot, this.triggerLayer, this.levelTrigger);
 
 		// this.pot[i].body.immovable = true;
 
@@ -282,5 +288,11 @@ var Game = {
 		if(isCloseToPot != null){
 			console.log(isCloseToPot.name);
 		}
+	},
+
+	levelTrigger: function(obj1, obj2) {
+		console.log('TRIGGERED SO HARD RIGHT NOW');
+		console.log(obj2);
+		obj2.destroy();
 	}
 };
