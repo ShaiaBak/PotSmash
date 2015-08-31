@@ -1,6 +1,7 @@
 var map;
 var bgLayer;
 var blockedLayer;
+var triggerLayer;
 var objectLayer;
 var dir = "LEFT";
 var playerSpeed = 100; //100 is a random default value
@@ -9,6 +10,7 @@ var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 
+var pushTimer = 0;
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level2');
@@ -20,6 +22,7 @@ var Game = {
 		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
+		this.triggerLayer = this.map.createLayer('triggerLayer');
 
 		this.transBlockedLayer.alpha = 0;
 
@@ -41,12 +44,13 @@ var Game = {
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
 
-		console.log(this.player.scale.x);
-		console.log(this.player.scale.x);
+		this.player.body.setSize(40, 50, 0, 0);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
 		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+
+		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
 
 		// enables other physics stuff
 		// game.physics.startSystem(Phaser.Physics.P2JS);
@@ -80,8 +84,10 @@ var Game = {
 			pot.name = 'pot' + i;
 			pot.body.immovable = true;
 			pot.scale.setTo(.5, .5);
+			pot.anchor.setTo(.5, .5);
+			pot.body.setSize(44, 50, 0, 0);
 		}
-		
+
 		// //High drag will stop the pot when you stop pushing it
 		// this.potGroup.body.drag.setTo(10000);
 
@@ -131,10 +137,16 @@ var Game = {
 		this.game.physics.arcade.collide(this.blockedLayer, potGroup);
 		this.game.physics.arcade.collide(this.transBlockedLayer, potGroup);
 
+		this.game.physics.arcade.overlap(testpot, this.triggerLayer, this.levelTrigger);
+
 		// this.pot[i].body.immovable = true;
 
 		this.checkMovement();
 		this.handleDirection();
+		this.checkAnimation();
+		if ( !this.player.body.touching.up & !this.player.body.touching.down & !this.player.body.touching.left & !this.player.body.touching.right) {
+			pushTimer = 0;
+		}
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -162,11 +174,42 @@ var Game = {
 			pots.body.immovable = true;
 		}, this);
 
-		//console.log('touch');
-		obj2.body.immovable = false;
-		obj2.body.drag.setTo(1000);
-	},
+		pushTimer++;
+		if(pushTimer >= 50) {
+			console.log('push');
+			
+			obj2.body.immovable = false;
+			obj2.body.drag.setTo(1000);
+			
+			switch(dir) {
 
+				case "UP":
+		
+				obj2.body.velocity.y = -240;
+				break;
+
+				case "DOWN":
+				obj2.body.velocity.y = +240;
+
+				break;
+
+				case "LEFT":
+				obj2.body.velocity.x = -240;
+
+				break;
+
+				case "RIGHT":
+				obj2.body.velocity.x = +240;
+
+				break;
+
+			}
+			pushTimer = 0;
+
+		}
+
+	},
+	
 	checkMovement: function() {
 		//Player is not moving when nothing is pressed
 		this.player.body.velocity.y = 0;
@@ -307,5 +350,11 @@ var Game = {
 	
 	handlePotBreak: function() {
 		console.log("break");
+	},
+
+	levelTrigger: function(obj1, obj2) {
+		console.log('TRIGGERED SO HARD RIGHT NOW');
+		console.log(obj2);
+		obj2.destroy();
 	}
 };

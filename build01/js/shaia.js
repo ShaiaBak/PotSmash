@@ -1,20 +1,29 @@
 var map;
 var bgLayer;
 var blockedLayer;
+var triggerLayer;
 var objectLayer;
 var dir = "LEFT";
 var playerSpeed = 100; //100 is a random default value
 var testpot;
 
-var shaia = {
+var grabPotRect; //the rectangle area the player can grab pots
+var potArr = [];
+
+var Game = {
 	create: function() {
-		this.map = this.game.add.tilemap('level1');
+		this.map = this.game.add.tilemap('level2');
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-		this.map.addTilesetImage('tileset-placeholder2', 'gameTiles');
+		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles');
 
 		this.bgLayer = this.map.createLayer('backgroundLayer');
+		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
+		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
+		this.triggerLayer = this.map.createLayer('triggerLayer');
+
+		this.transBlockedLayer.alpha = 0;
 
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
@@ -25,15 +34,22 @@ var shaia = {
 		this.game.touchControl.inputEnable();
 
 		//create player
-		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
+		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
 		this.player.scale.setTo(0.5, 0.5);
+		//create pot grab area to check the area right in front of the player for pot grabbing
+		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
+
+		this.player.body.setSize(40, 50, 0, 0);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+
+		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
 
 		// enables other physics stuff
 		// game.physics.startSystem(Phaser.Physics.P2JS);
@@ -49,34 +65,26 @@ var shaia = {
 		this.player.animations.add('idleLeft', [25], 8 /*fps */, true);
 		this.player.animations.add('idleRight', [8], 8 /*fps */, true);
 
+
 		// ========= POT STUFF =========
 
 		testpot = game.add.group();
 		testpot.enableBody = true;
 		testpot.physicsBodyType = Phaser.Physics.ARCADE;
 
-		for (var i = 0; i < 10; i++) {
-			var c = testpot.create(game.world.randomX, Math.random() * 500, 'testpot', game.rnd.integerInRange(0, 3));
-			c.name = 'pot' + i;
-			c.body.immovable = true;
-			c.scale.setTo(0.5, 0.5);
+		//find pot locations from tiled and create a pot
+		var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
+		//console.log(potLocArr);
+		for (i=0; i<potLocArr.length; i++){
+			var pot = testpot.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
+			pot.name = 'pot' + i;
+			pot.body.immovable = true;
+			pot.scale.setTo(.5, .5);
+			potArr.push(pot);
+			pot.anchor.setTo(.5, .5);
+			pot.body.setSize(44, 50, 0, 0);
 		}
-
-
-		// var pot1 = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-		// // this.map.createFromObjects('objectsLayer', 8 ,'pot1', 0, true, false, pot1);
 		
-		// // pot1.forEach(function() {
-		// 	this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-		// 	this.game.physics.arcade.enable(this.testpot);    
-		// 	this.testpot.scale.setTo(0.5,0.5);
-			
-		// // });
-
-		// // this.testpot = this.game.add.sprite(pot1[0].x, pot1[0].y, 'pot1');
-		// // this.game.physics.arcade.enable(this.testpot);    
-		// // this.testpot.scale.setTo(0.5,0.5);
-
 		// //High drag will stop the pot when you stop pushing it
 		// this.testpot.body.drag.setTo(10000);
 
@@ -87,7 +95,7 @@ var shaia = {
 
 		// set bounds to world for camera and player
 		// @TODO: dynamically get bounds from map size
-		game.world.setBounds(0, 0, 320, 480);
+		game.world.setBounds(0, 0, 500, 480);
 
 		// camera follows player
 		// follow types: 
@@ -101,22 +109,30 @@ var shaia = {
 		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 	},
-
+	// render: function() {
+		// this.game.debug.geom(grabPotRect,'#0fffff');
+	// },
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
-		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch, function(){}, this);
+		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
+		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch);
 		// check to see that player is running pot into wall
-		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap, function(){}, this);
+		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap);
 
 		this.game.physics.arcade.collide(testpot, testpot);
 		this.game.physics.arcade.collide(this.blockedLayer, testpot);
+		this.game.physics.arcade.collide(this.transBlockedLayer, testpot);
+
+		this.game.physics.arcade.overlap(testpot, this.triggerLayer, this.levelTrigger);
 
 		// this.pot[i].body.immovable = true;
 
 		this.checkMovement();
 		this.checkAnimation();
-
+		if(keySpace.isDown){
+			this.checkPickUp();
+		}
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -136,10 +152,35 @@ var shaia = {
 
 	spriteDir: function() {
 		// console.log('Direction: ' + dir);
+		//move the pot detection rect in front of the player's direction
+		switch(dir) {
+			case "UP":
+			grabPotRect.x = this.player.x - this.player.width*.5;
+			grabPotRect.y = this.player.y - this.player.height;
+			break;
+			
+			case "DOWN":
+			grabPotRect.x = this.player.x - this.player.width*.5;
+			grabPotRect.y = this.player.y;
+			break;
+			
+			case "LEFT":
+			grabPotRect.x = this.player.x - this.player.width;
+			grabPotRect.y = this.player.y - this.player.height*.5;
+			break;
+			
+			case "RIGHT":
+			grabPotRect.x = this.player.x;
+			grabPotRect.y = this.player.y - this.player.height*.5;
+			break;
+		}
+		//console.log(grabPotRect.x + ":" + grabPotRect.y);
+		//console.log(potArr[0].x + ":" + potArr[0].y);
+		//console.log(this.player.x + ":" + this.player.y);
 	},
 
 	checkOverlap: function() {
-		console.log('in the wall yo');
+		//console.log('in the wall yo');
 	},
 
 	checkTouch: function(obj1, obj2) {
@@ -148,7 +189,7 @@ var shaia = {
 			pots.body.immovable = true;
 		}, this);
 
-		console.log('touch');
+		//console.log('touch');
 		obj2.body.immovable = false;
 		obj2.body.drag.setTo(1000);
 	},
@@ -201,19 +242,19 @@ var shaia = {
 	},
 
 	checkAnimation: function() {
-		if (this.player.body.velocity.y == -playerSpeed) {
+		if (this.player.body.velocity.y < 0) {
 			dir = "UP";
 			this.spriteDir();
 			this.player.play('walkUp');
-		} else if (this.player.body.velocity.y == playerSpeed) {
+		} else if (this.player.body.velocity.y > 0) {
 			dir = "DOWN";
 			this.spriteDir();
 			this.player.play('walkDown');
-		} else if (this.player.body.velocity.x == -playerSpeed) {
+		} else if (this.player.body.velocity.x < 0) {
 			dir = "LEFT";
 			this.spriteDir();
 			this.player.play('walkLeft');
-		} else if (this.player.body.velocity.x == playerSpeed) {
+		} else if (this.player.body.velocity.x > 0) {
 			dir = "RIGHT";
 			this.spriteDir();
 			this.player.play('walkRight');
@@ -230,5 +271,28 @@ var shaia = {
 				this.player.play('idleRight');
 			}
 		}
+	},
+	
+	//checks whether the player is facing a pot to pick up
+	checkPickUp: function() {
+		var isCloseToPot = null;
+		i=0;
+		while(i<potArr.length) {
+			if(Phaser.Rectangle.intersects(grabPotRect, potArr[i])) {
+				isCloseToPot = potArr[i];
+				break;
+			}
+			i++;
+		}
+		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potArr[0]);
+		if(isCloseToPot != null){
+			console.log(isCloseToPot.name);
+		}
+	},
+
+	levelTrigger: function(obj1, obj2) {
+		console.log('TRIGGERED SO HARD RIGHT NOW');
+		console.log(obj2);
+		obj2.destroy();
 	}
 };
