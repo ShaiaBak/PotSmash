@@ -1,5 +1,7 @@
 // full size is 480
-var game = new Phaser.Game(320, 320, Phaser.AUTO);
+
+// var game = new Phaser.Game(320, 320, Phaser.AUTO);
+var game = new Phaser.Game(320, 320, Phaser.CANVAS , '', null);
 
 game.state.add('Boot', Boot);
 game.state.add('Preload', Preload);

@@ -5,10 +5,15 @@ var triggerLayer;
 var objectLayer;
 var dir = "LEFT";
 var playerSpeed = 100; //100 is a random default value
-var testpot;
-
+var potGroup; //group with all the pots
+var throwGroup; //group with all the thrown pots
+var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
-var potArr = [];
+var checkPotSurr = false;
+
+var _TILESIZE = 32;
+
+var pushTimer = 0;
 
 var Game = {
 	create: function() {
@@ -68,28 +73,48 @@ var Game = {
 
 		// ========= POT STUFF =========
 
-		testpot = game.add.group();
-		testpot.enableBody = true;
-		testpot.physicsBodyType = Phaser.Physics.ARCADE;
+		potGroup = game.add.group();
+		potGroup.enableBody = true;
+		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
+		throwGroup = game.add.group();
+		throwGroup.enableBody = true;
+		throwGroup.physicsBodyType = Phaser.Physics.ARCADE;
+		var drawnObject;
 
 		//find pot locations from tiled and create a pot
 		var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
 		//console.log(potLocArr);
 		for (i=0; i<potLocArr.length; i++){
-			var pot = testpot.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
+			var pot = potGroup.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
 			pot.name = 'pot' + i;
 			pot.body.immovable = true;
 			pot.scale.setTo(.5, .5);
-			potArr.push(pot);
-			pot.anchor.setTo(.5, .5);
-			pot.body.setSize(44, 50, 0, 0);
+			console.log("x.pot" + i + ": " + pot.x);
+
+			// squares around pots
+			var bmd = game.add.bitmapData(32, 32);
+			
+			bmd.ctx.beginPath();
+			bmd.ctx.rect(0, 0, 32, 32);
+			bmd.ctx.fillStyle = "blue"; 
+			bmd.ctx.fill();
+
+			drawnObject = game.add.sprite(pot.x-32, pot.y, bmd);
+			drawnObject = game.add.sprite(pot.x, pot.y-32, bmd);
+			drawnObject = game.add.sprite(pot.x+32, pot.y, bmd);
+			drawnObject = game.add.sprite(pot.x, pot.y+32, bmd);
+
+			// this.game.debug.body(pot);
+			
+			// pot.anchor.setTo(.5, .5);
+			// pot.body.setSize(44, 50, 0, 0);
 		}
-		
+
 		// //High drag will stop the pot when you stop pushing it
-		// this.testpot.body.drag.setTo(10000);
+		// this.potGroup.body.drag.setTo(10000);
 
 		// // makes object immovable[t/f]
-		// // this.testpot.body.immovable = true;
+		// // this.potGroup.body.immovable = true;
 
 		// ========= CAMERA STUFF =========
 
@@ -107,32 +132,48 @@ var Game = {
 
 		//enable space bar
 		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
+		//spacebar picks / throws the pot
+		keySpace.onDown.add(function () {
+			if(grabbedPot == null){
+				this.checkPickUp();
+			} else {
+				this.handleThrow();
+			}
+		}, this);
 	},
-	// render: function() {
-		// this.game.debug.geom(grabPotRect,'#0fffff');
-	// },
+
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
-		this.game.physics.arcade.collide(this.player, testpot, this.checkTouch);
+		this.game.physics.arcade.collide(this.player, potGroup, this.checkTouch);
+		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak);
+		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak);
 		// check to see that player is running pot into wall
-		this.game.physics.arcade.overlap(this.player, testpot, this.checkOverlap);
+		this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
 
-		this.game.physics.arcade.collide(testpot, testpot);
-		this.game.physics.arcade.collide(this.blockedLayer, testpot);
-		this.game.physics.arcade.collide(this.transBlockedLayer, testpot);
+		this.game.physics.arcade.collide(potGroup, potGroup);
+		this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
+		this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
-		this.game.physics.arcade.overlap(testpot, this.triggerLayer, this.levelTrigger);
+		this.game.physics.arcade.collide(potGroup, this.triggerLayer, this.levelTrigger);
+
+		this.game.physics.arcade.collide(this.player, this.drawnObject, this.checkOverlap);
 
 		// this.pot[i].body.immovable = true;
 
 		this.checkMovement();
-		this.checkAnimation();
-		if(keySpace.isDown){
-			this.checkPickUp();
+		this.handleDirection();
+		// this.checkAnimation();
+		if (!this.player.body.touching.up 
+			& !this.player.body.touching.down 
+			& !this.player.body.touching.left 
+			& !this.player.body.touching.right) {
+			pushTimer = 0;
 		}
+
+		console.log(game.world.x);
+
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -150,50 +191,60 @@ var Game = {
 		return result;
 	},
 
-	spriteDir: function() {
-		// console.log('Direction: ' + dir);
-		//move the pot detection rect in front of the player's direction
-		switch(dir) {
-			case "UP":
-			grabPotRect.x = this.player.x - this.player.width*.5;
-			grabPotRect.y = this.player.y - this.player.height;
-			break;
-			
-			case "DOWN":
-			grabPotRect.x = this.player.x - this.player.width*.5;
-			grabPotRect.y = this.player.y;
-			break;
-			
-			case "LEFT":
-			grabPotRect.x = this.player.x - this.player.width;
-			grabPotRect.y = this.player.y - this.player.height*.5;
-			break;
-			
-			case "RIGHT":
-			grabPotRect.x = this.player.x;
-			grabPotRect.y = this.player.y - this.player.height*.5;
-			break;
-		}
-		//console.log(grabPotRect.x + ":" + grabPotRect.y);
-		//console.log(potArr[0].x + ":" + potArr[0].y);
-		//console.log(this.player.x + ":" + this.player.y);
-	},
+	checkOverlap: function(obj1, obj2) {
+		// // first get all of the active tweens
+		// var tweens = game.tweens.getAll();
 
-	checkOverlap: function() {
-		//console.log('in the wall yo');
+		// // filter that down to an array of all tweens of the specified object
+		// var currentTweens = tweens.filter(function(tween) {
+		// 	return tween._object === obj2;
+		// });
+
+		console.log('worked');
 	},
 
 	checkTouch: function(obj1, obj2) {
-		// goes through group 'testpot' and then makes the children do something
-		testpot.forEach(function(pots) {
+
+		// goes through group 'potGroup' and then makes the children do something
+		potGroup.forEach(function(pots) {
 			pots.body.immovable = true;
+
+			// temp
+			pots.body.moves = false;
 		}, this);
 
-		//console.log('touch');
-		obj2.body.immovable = false;
-		obj2.body.drag.setTo(1000);
-	},
+		pushTimer++;
+		if(pushTimer >= 50) {
+			console.log('push');
+			console.log("x.pot" + i + ": " + obj2.x);
+			
+			switch(dir) {
 
+				case "UP":
+				game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				break;
+
+				case "DOWN":
+				game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				break;
+
+				case "LEFT":
+				game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+
+				break;
+
+				case "RIGHT":
+				game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				break;
+
+			}
+			// reset push timer
+			pushTimer = 0;
+
+		}
+
+	},
+	
 	checkMovement: function() {
 		//Player is not moving when nothing is pressed
 		this.player.body.velocity.y = 0;
@@ -241,25 +292,31 @@ var Game = {
 		}
 	},
 
-	checkAnimation: function() {
+	handleDirection: function() {
+		//cardinal directions handling
 		if (this.player.body.velocity.y < 0) {
 			dir = "UP";
-			this.spriteDir();
+			grabPotRect.x = this.player.x - this.player.width*.5;
+			grabPotRect.y = this.player.y - this.player.height;
 			this.player.play('walkUp');
 		} else if (this.player.body.velocity.y > 0) {
 			dir = "DOWN";
-			this.spriteDir();
+			grabPotRect.x = this.player.x - this.player.width*.5;
+			grabPotRect.y = this.player.y;
 			this.player.play('walkDown');
 		} else if (this.player.body.velocity.x < 0) {
 			dir = "LEFT";
-			this.spriteDir();
+			grabPotRect.x = this.player.x - this.player.width;
+			grabPotRect.y = this.player.y - this.player.height*.5;
 			this.player.play('walkLeft');
 		} else if (this.player.body.velocity.x > 0) {
 			dir = "RIGHT";
-			this.spriteDir();
+			grabPotRect.x = this.player.x;
+			grabPotRect.y = this.player.y - this.player.height*.5;
 			this.player.play('walkRight');
 		}
-
+		
+		//idle animation
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
 			if(dir == "DOWN") {
 				this.player.play('idleDown');
@@ -273,26 +330,84 @@ var Game = {
 		}
 	},
 	
-	//checks whether the player is facing a pot to pick up
+	//try to pick up a facing nearby pot
 	checkPickUp: function() {
 		var isCloseToPot = null;
 		i=0;
-		while(i<potArr.length) {
-			if(Phaser.Rectangle.intersects(grabPotRect, potArr[i])) {
-				isCloseToPot = potArr[i];
+		//go through all the pots to see if the player is facing + close to the pot
+		while(i<potGroup.children.length) {
+			if(Phaser.Rectangle.intersects(grabPotRect, potGroup.children[i])) {
+				isCloseToPot = potGroup.children[i];
 				break;
 			}
 			i++;
 		}
-		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potArr[0]);
-		if(isCloseToPot != null){
+		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potGroup.children[0]);
+		if(isCloseToPot != null && grabbedPot == null){
 			console.log(isCloseToPot.name);
+			this.pickUpPot(isCloseToPot);
 		}
+	},
+	
+	//pick up pot
+	pickUpPot: function(pot) {
+		grabbedPot = pot;
+		pot.body.moves = true;
+		this.player.addChild(pot);
+		pot.scale.setTo(1,1);
+		pot.x = this.player.width * -1;
+		pot.y = this.player.height * -2;
+	},
+	
+	handleThrow: function() {
+		//remove grabbedPot
+		this.player.children[0].destroy();
+		grabbedPot = null;
+		//create and move thrown pot
+		pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'testpot');
+		pot.scale.setTo(.5,.5);
+		pot.body.drag.setTo(1000);
+		switch(dir) {
+			case "UP":
+			pot.body.velocity.y = -400;
+			break;
+			case "DOWN":
+			pot.body.velocity.y = 400;
+			break;
+			case "LEFT":
+			pot.body.velocity.x = -400;
+			break;
+			case "RIGHT":
+			pot.body.velocity.x = 400;
+			break;
+		}
+		
+	},
+	
+	handlePotBreak: function(pot, wall) {
+		pot = throwGroup;
+		console.log("break");
+		console.log(pot);
+		// pot.body = null;
+		// pot.destroy();
+		// removeAll(true, true);
+
 	},
 
 	levelTrigger: function(obj1, obj2) {
 		console.log('TRIGGERED SO HARD RIGHT NOW');
-		console.log(obj2);
-		obj2.destroy();
+		console.log(obj1);
+		obj1.body = null;
+		obj1.destroy();
+		restart();
+	},
+
+	render: function() {
+		game.debug.body(this.player);
+		game.debug.body(potGroup);
 	}
+};
+
+function restart() {
+	game.state.start('Level2');
 };
