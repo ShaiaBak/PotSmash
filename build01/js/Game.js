@@ -11,6 +11,27 @@ var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 
 var pushTimer = 0;
+<<<<<<< HEAD
+=======
+
+var board = new Array();
+board[0]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[1]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[2]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[3]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[4]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[5]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[6]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[7]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[8]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[9]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[10] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[11] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var gridCheck;
+
+>>>>>>> origin/master
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level2');
@@ -23,7 +44,6 @@ var Game = {
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
-
 		this.transBlockedLayer.alpha = 0;
 
 		// resize world so that dimensions match the map
@@ -118,6 +138,26 @@ var Game = {
 				this.handleThrow();
 			}
 		}, this);
+<<<<<<< HEAD
+=======
+
+		constructBoard(board,14,15);
+
+		
+		gridCheck = game.add.sprite(0, 0, 'player');
+		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
+		gridCheck.body.setSize(32, 32, 0, 275);
+		// game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
+		
+		
+		// alert(board[0][0]);
+		// console.log(board[0][1]);
+
+
+
+
+	},
+>>>>>>> origin/master
 
 	},
 	// render: function() {
@@ -140,6 +180,34 @@ var Game = {
 		this.game.physics.arcade.overlap(testpot, this.triggerLayer, this.levelTrigger);
 
 		// this.pot[i].body.immovable = true;
+		// this.game.physics.arcade.overlap(gridCheck, this.player,this.updateBoard);
+		// this.game.physics.arcade.overlap(gridCheck, potGroup,this.updateBoard);
+		// this.game.physics.arcade.collide(gridCheck, this.blockedLayer,this.updateBoard);
+		// console.log(this.game.physics.arcade.overlap(gridCheck, this.blockedLayer));
+		// this.game.physics.arcade.collide(this.gridCheck, this.transBlockedLayer,this.updateBoard);
+		
+		gridCheck.body.x +=1;
+		var i=0;
+		var j=0;
+
+		//MOVE TO A FUNCTION LATER
+
+		// for (j = 0; j < this.world.height/32; j++) {
+		// // console.log(this.world.width/32);
+		// for (j = 0; j < 15; j++) {
+			if (this.game.physics.arcade.overlap(gridCheck, potGroup) ) {
+		// 		if (this.game.physics.arcade.collide(gridCheck, this.blockedLayer)){ 
+		// 			// this.game.physics.arcade.collide(gridCheck, this.transBlockedLayer) ||
+		// 			// this.game.physics.arcade.collide(gridCheck, potGroup) ) {
+					board[i][j] = 1;
+				}
+					// gridCheck.body.x += 32;
+		// }
+		// 	}
+		// 	// gridCheck.body.x = 0;
+		// 	// gridCheck.body.y += 32;
+			
+		// }
 
 		this.checkMovement();
 		this.handleDirection();
@@ -172,8 +240,14 @@ var Game = {
 		// goes through group 'potGroup' and then makes the children do something
 		potGroup.forEach(function(pots) {
 			pots.body.immovable = true;
-		}, this);
+<<<<<<< HEAD
+=======
 
+			// temp
+			pots.body.moves = true;
+>>>>>>> origin/master
+		}, this);
+		
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
@@ -184,8 +258,14 @@ var Game = {
 			switch(dir) {
 
 				case "UP":
+<<<<<<< HEAD
 		
 				obj2.body.velocity.y = -240;
+=======
+				game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				
+				constructBoard(board,14,15);
+>>>>>>> origin/master
 				break;
 
 				case "DOWN":
@@ -354,7 +434,38 @@ var Game = {
 
 	levelTrigger: function(obj1, obj2) {
 		console.log('TRIGGERED SO HARD RIGHT NOW');
+<<<<<<< HEAD
 		console.log(obj2);
 		obj2.destroy();
 	}
+=======
+		console.log(obj1);
+		obj1.body = null;
+		obj1.destroy();
+		restart();
+	},
+
+	render: function() {
+		game.debug.body(gridCheck);
+	},
+	updateBoard: function() {
+		console.log("it worked");
+	}
+
+};
+function constructBoard (array,x,y) {
+
+	for (var j = 0; j < y; j++){
+		// for (var i = 0; i < x; i++){
+			// array[i][j] = 0; 
+			console.log(array[i]);
+		// }
+	}
+	return array;
+};
+
+
+function restart() {
+	game.state.start('Level2');
+>>>>>>> origin/master
 };
