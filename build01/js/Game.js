@@ -11,8 +11,6 @@ var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 
 var pushTimer = 0;
-<<<<<<< HEAD
-=======
 
 var board = new Array();
 board[0]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -31,7 +29,6 @@ board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var gridCheck;
 
->>>>>>> origin/master
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level2');
@@ -138,8 +135,6 @@ var Game = {
 				this.handleThrow();
 			}
 		}, this);
-<<<<<<< HEAD
-=======
 
 		constructBoard(board,14,15);
 
@@ -157,7 +152,6 @@ var Game = {
 
 
 	},
->>>>>>> origin/master
 
 	},
 	// render: function() {
@@ -240,12 +234,9 @@ var Game = {
 		// goes through group 'potGroup' and then makes the children do something
 		potGroup.forEach(function(pots) {
 			pots.body.immovable = true;
-<<<<<<< HEAD
-=======
 
 			// temp
 			pots.body.moves = true;
->>>>>>> origin/master
 		}, this);
 		
 		pushTimer++;
@@ -258,14 +249,10 @@ var Game = {
 			switch(dir) {
 
 				case "UP":
-<<<<<<< HEAD
-		
 				obj2.body.velocity.y = -240;
-=======
 				game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				
 				constructBoard(board,14,15);
->>>>>>> origin/master
 				break;
 
 				case "DOWN":
@@ -434,11 +421,9 @@ var Game = {
 
 	levelTrigger: function(obj1, obj2) {
 		console.log('TRIGGERED SO HARD RIGHT NOW');
-<<<<<<< HEAD
 		console.log(obj2);
 		obj2.destroy();
 	}
-=======
 		console.log(obj1);
 		obj1.body = null;
 		obj1.destroy();
@@ -467,5 +452,4 @@ function constructBoard (array,x,y) {
 
 function restart() {
 	game.state.start('Level2');
->>>>>>> origin/master
 };
