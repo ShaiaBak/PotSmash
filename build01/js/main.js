@@ -7,6 +7,5 @@ game.state.add('Boot', Boot);
 game.state.add('Preload', Preload);
 game.state.add('StartMenu', StartMenu);
 game.state.add('Game', Game);
-game.state.add('Level2', Level2);
 
 game.state.start('Boot');
