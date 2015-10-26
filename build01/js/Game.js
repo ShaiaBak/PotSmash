@@ -30,6 +30,9 @@ board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var gridCheck;
 
+var i=0;
+var j=0;
+
 var Game = {
 	create: function() {
 		this.map = this.game.add.tilemap('level2');
@@ -120,7 +123,7 @@ var Game = {
 
 		// set bounds to world for camera and player
 		// @TODO: dynamically get bounds from map size
-		game.world.setBounds(0, 0, 500, 480);
+		game.world.setBounds(0, 0, 448, 480);
 
 		// camera follows player
 		// follow types: 
@@ -147,15 +150,10 @@ var Game = {
 		gridCheck = game.add.sprite(0, 0, 'player');
 		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
 		gridCheck.body.setSize(32, 32, 0, 275);
-		// game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
 		
 		
 		// alert(board[0][0]);
 		// console.log(board[0][1]);
-
-
-
-
 	},
 
 	update: function() {
@@ -174,35 +172,7 @@ var Game = {
 
 		this.game.physics.arcade.collide(potGroup, this.triggerLayer, this.levelTrigger);
 
-		// this.pot[i].body.immovable = true;
-		// this.game.physics.arcade.overlap(gridCheck, this.player,this.updateBoard);
-		// this.game.physics.arcade.overlap(gridCheck, potGroup,this.updateBoard);
-		// this.game.physics.arcade.collide(gridCheck, this.blockedLayer,this.updateBoard);
-		// console.log(this.game.physics.arcade.overlap(gridCheck, this.blockedLayer));
-		// this.game.physics.arcade.collide(this.gridCheck, this.transBlockedLayer,this.updateBoard);
-		
-		gridCheck.body.x +=1;
-		var i=0;
-		var j=0;
-
-		//MOVE TO A FUNCTION LATER
-
-		// for (j = 0; j < this.world.height/32; j++) {
-		// // console.log(this.world.width/32);
-		// for (j = 0; j < 15; j++) {
-			if (this.game.physics.arcade.overlap(gridCheck, potGroup) ) {
-		// 		if (this.game.physics.arcade.collide(gridCheck, this.blockedLayer)){ 
-		// 			// this.game.physics.arcade.collide(gridCheck, this.transBlockedLayer) ||
-		// 			// this.game.physics.arcade.collide(gridCheck, potGroup) ) {
-					board[i][j] = 1;
-				}
-					// gridCheck.body.x += 32;
-		// }
-		// 	}
-		// 	// gridCheck.body.x = 0;
-		// 	// gridCheck.body.y += 32;
-			
-		// }
+		this.gridCheckFunc();
 
 		this.checkMovement();
 		this.handleDirection();
@@ -212,6 +182,31 @@ var Game = {
 			& !this.player.body.touching.left 
 			& !this.player.body.touching.right) {
 			pushTimer = 0;
+		}
+
+	},
+
+	gridCheckFunc: function() {
+		for (j = 0; j < this.world.height/32; j++) {
+			gridCheck.body.x +=32;
+			if (this.game.physics.arcade.overlap(gridCheck, this.blockedLayer) ||
+				this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
+				board[i][j] = 1;
+
+				console.log('overlapWall');
+			} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
+				board[i][j] = 1;
+				console.log('overlapBarrel');
+				console.log(board[i][j]);
+				// console.log(board[i]);
+			}
+		}
+
+		if(gridCheck.body.x >= 448) {
+			for(var r = 0; r < 14; r++){
+				console.log(board[r]);
+			}
+			return true;
 		}
 	},
 
@@ -255,7 +250,6 @@ var Game = {
 			console.log("x.pot" + i + ": " + obj2.x);
 			
 			switch(dir) {
-
 				case "UP":
 				game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				
@@ -268,7 +262,6 @@ var Game = {
 
 				case "LEFT":
 				game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-
 				break;
 
 				case "RIGHT":
