@@ -39,6 +39,9 @@ var r=0;
 var playerGridVal = 9;
 var potGridVal = 1;
 var wallGridVal = 2;
+var transWallGridVal = 3;
+
+var triggerGridVal = 7;
 //******GRID SETUP END******//
 
 var Game = {
@@ -78,8 +81,8 @@ var Game = {
 		this.player.body.setSize(40, 50, 0, 0);
 
 		//collision
-		// this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
-		// this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
 
 		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
 
@@ -155,19 +158,18 @@ var Game = {
 		}, this);
 
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-	    key3.onDown.add(function () {
-	    	// r++;
-	  		for(var r = 0; r < 15; r++){
+		key3.onDown.add(function () {
+			// r++;
+			for(var r = 0; r < 15; r++){
 				console.log(r + " " + board[r]);
 			// return true;
 			}
-	    	// this.gridCheckFunc();
-	    	console.log("key press");
-	    },this);
+			// this.gridCheckFunc();
+		}, this);
 	
 
-
-		constructBoard(board,14,15);
+		// print blank board
+		// printBoard(board,14,15);
 
 		
 		gridCheck = game.add.sprite(0, 0, 'mega_grid');
@@ -196,7 +198,7 @@ var Game = {
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
-		this.game.physics.arcade.collide(this.player, potGroup, this.checkTouch);
+		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak);
 		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak);
 		// check to see that player is running pot into wall
@@ -206,7 +208,7 @@ var Game = {
 		this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
 		this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
-		this.game.physics.arcade.collide(potGroup, this.triggerLayer, this.levelTrigger);
+		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.levelTrigger);
 
 		this.gridCheckFunc();
 
@@ -223,51 +225,47 @@ var Game = {
 	},
 
 	gridCheckFunc: function() {
-	gridCheck.body.y = 0;
-	// console.log("testing");
-	// while( c < this.world.width/32) {
-	for (c = 0; c < this.world.height/32; c++) {
-		gridCheck.body.x = 0;
-		// while (r < this.world.height/32) {
-		for (r = 0; r < this.world.width/32; r++) {
-			// var testTile = ;
+		gridCheck.body.y = 0;
+		// console.log("testing");
+		for (c = 0; c < this.world.height/32; c++) {
+			gridCheck.body.x = 0;
+			for (r = 0; r < this.world.width/32; r++) {
 
-			if (this.game.physics.arcade.overlap(gridCheck, this.blockedLayer) ||
-				this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
-				board[c][r] = wallGridVal;
+				// gridcheck goes through the map and checks for all objects that are walls or objects
+				// if a wall or object is in the way of a pot being moved, the pot does not move.
+				if (this.game.physics.arcade.overlap(gridCheck, this.blockedLayer) ||
+					this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
+					board[c][r] = wallGridVal;
 
-				// console.log('overlapWall');
-			} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
-				board[c][r] = potGridVal;
-				// console.log('overlapBarrel');
-				// console.log(board[c][r]);
-				// console.log(board[i]);
-			} else if (this.game.physics.arcade.overlap(gridCheck, this.player)) {
-				board[c][r] = playerGridVal;
-			} else if (this.map.getTile(r,c,this.blockedLayer) != null) {
-				// console.log("wallfound");
-				// console.log(this.map.getTile(c,r,this.blockedLayer,true));
-				board[c][r] = wallGridVal;
-			} else {
-				board[c][r] = 0;
+					// console.log('overlapWall');
+				} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
+					board[c][r] = potGridVal;
+				} else if (this.game.physics.arcade.overlap(gridCheck, this.player)) {
+					board[c][r] = playerGridVal;
+				} else if (this.map.getTile(r,c,this.blockedLayer) != null) {
+					// console.log("wallfound");
+					// console.log(this.map.getTile(c,r,this.blockedLayer,true));
+					board[c][r] = wallGridVal;
+				} else if (this.map.getTile(r,c,this.transBlockedLayer) != null) {
+					board[c][r] = transWallGridVal;
+				} else if(this.map.getTile(r,c,this.triggerLayer)) {
+					board[c][r] = triggerGridVal;
+				}	else {
+					board[c][r] = 0;
+				}
+				
+				gridCheck.body.x +=32;
+			
 			}
-			gridCheck.body.x +=32;
+
+			gridCheck.body.y += 32;
 		}
-
-		gridCheck.body.y += 32;
-	}
-
-		// console.log(c);
-		// if(gridCheck.body.x >= 448) {
-		// 	for(var r = 0; r < 14; r++){
-		// 		console.log(r + " " + board[r]);
-		// 	}
-		// 	return true;
-		// }
 	},
+
 	testCallback: function(){
 		console.log("Testing callback");
 	},
+
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
 	findObjectsByType: function(type, map, layer) {
 		var result = new Array();
@@ -278,7 +276,7 @@ var Game = {
 				//so they might not be placed in the exact pixel position as in Tiled
 				element.y -= map.tileHeight;
 				result.push(element);
-			}      
+			}
 		});
 		return result;
 	},
@@ -293,7 +291,7 @@ var Game = {
 		});
 	},
 
-	checkTouch: function(obj1, obj2) {
+	pushPot: function(obj1, obj2) {
 		// goes through group 'potGroup' and then makes the children do something
 		potGroup.forEach(function(pots) {
 			pots.body.immovable = true;
@@ -311,56 +309,41 @@ var Game = {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// constructBoard(board,14,15);
+					// printBoard(board,14,15);
+				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
+					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					restart();
 				}
 				break;
 
 				case "DOWN":
 				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
+					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					restart();
 				}
 				break;
 
 				case "LEFT":
 				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
+					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					restart();
 				}
 				break;
 
 				case "RIGHT":
 				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
+					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					levelTrigger();
 				}
 				break;
 
 			}
-
-			// obj2.body.immovable = false;
-			// obj2.body.drag.setTo(1000);
-			
-			// switch(dir) {
-
-			// 	case "UP":
-		
-			// 	obj2.body.velocity.y = -240;
-			// 	break;
-
-			// 	case "DOWN":
-			// 	obj2.body.velocity.y = +240;
-
-			// 	break;
-
-			// 	case "LEFT":
-			// 	obj2.body.velocity.x = -240;
-
-			// 	break;
-
-			// 	case "RIGHT":
-			// 	obj2.body.velocity.x = +240;
-
-			// 	break;
-
-			// }
 			pushTimer = 0;
 
 		}
@@ -510,17 +493,10 @@ var Game = {
 		pot = throwGroup;
 		console.log("break");
 		console.log(pot);
-		// pot.body = null;
-		// pot.destroy();
-		// removeAll(true, true);
-
 	},
 
-	levelTrigger: function(obj1, obj2) {
+	levelTrigger: function() {
 		console.log('TRIGGERED SO HARD RIGHT NOW');
-		console.log(obj1);
-		obj1.body = null;
-		obj1.destroy();
 		restart();
 	},
 
@@ -532,7 +508,7 @@ var Game = {
 	}
 
 };
-function constructBoard (array,x,y) {
+function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){
 		// for (var i = 0; i < x; i++){
