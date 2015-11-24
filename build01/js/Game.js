@@ -12,6 +12,7 @@ var grabPotRect; //the rectangle area the player can grab pots
 var _TILESIZE = 32;
 
 var pushTimer = 0;
+var triggerTimer = 0;
 
 //******GRID SETUP******//
 var board = new Array();
@@ -68,10 +69,23 @@ var Game = {
 		this.game.touchControl = this.game.plugins.add(Phaser.Plugin.TouchControl);
 		this.game.touchControl.inputEnable();
 
+
+		key2 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+		key2.onDown.add(function () {
+			// r++;
+			for(var r = 0; r < 15; r++){
+				console.log(r + " " + board[r]);
+			// return true;
+			}
+			// this.gridCheckFunc();
+		}, this);
+
+
 		//create player
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
+		
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
 		this.player.scale.setTo(0.5, 0.5);
@@ -139,7 +153,7 @@ var Game = {
 		game.world.setBounds(0, 0, 448, 480);
 
 		// camera follows player
-		// follow types: 
+		// follow types:
 		// FOLLOW_LOCKON, FOLLOW_PLATFORMER, FOLLOW_TOPDOWN, FOLLOW_LOCKON_TIGHT
 		this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT); 
 
@@ -166,11 +180,9 @@ var Game = {
 			}
 			// this.gridCheckFunc();
 		}, this);
-	
 
 		// print blank board
 		// printBoard(board,14,15);
-
 		
 		gridCheck = game.add.sprite(0, 0, 'mega_grid');
 		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
@@ -312,7 +324,8 @@ var Game = {
 					// printBoard(board,14,15);
 				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					restart();
+					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
+					// restart();
 				}
 				break;
 
@@ -321,7 +334,8 @@ var Game = {
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					restart();
+					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
+					// restart();
 				}
 				break;
 
@@ -330,7 +344,8 @@ var Game = {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					restart();
+					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
+					// restart();
 				}
 				break;
 
@@ -339,13 +354,13 @@ var Game = {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					levelTrigger();
+					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
+					// restart();
 				}
 				break;
 
 			}
 			pushTimer = 0;
-
 		}
 
 	},
