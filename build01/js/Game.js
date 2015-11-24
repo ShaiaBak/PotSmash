@@ -30,8 +30,8 @@ board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var gridCheck;
 
-var i=0;
-var j=0;
+var c=0;
+var r=0;
 
 var Game = {
 	create: function() {
@@ -144,14 +144,27 @@ var Game = {
 			}
 		}, this);
 
+		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+	    key3.onDown.add(function () {
+	    	// r++;
+	    	this.gridCheckFunc();
+	    	console.log("key press");
+	    },this);
+	
+
+
 		constructBoard(board,14,15);
 
 		
-		gridCheck = game.add.sprite(0, 0, 'player');
+		gridCheck = game.add.sprite(0, 0, 'mega_grid');
 		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
-		gridCheck.body.setSize(32, 32, 0, 275);
+		gridCheck.body.setSize(32, 32, 0, 0);
+		gridCheck.tint = 0xff0000;
+		// gridCheck.body.x =400;
+		// gridCheck.body.y =200;
 		
-		
+		// game.time.advancedTiming = true;
+		// game.time.desiredFps = 1;
 		// alert(board[0][0]);
 		// console.log(board[0][1]);
 	},
@@ -172,7 +185,7 @@ var Game = {
 
 		this.game.physics.arcade.collide(potGroup, this.triggerLayer, this.levelTrigger);
 
-		this.gridCheckFunc();
+		// this.gridCheckFunc();
 
 		this.checkMovement();
 		this.handleDirection();
@@ -187,24 +200,34 @@ var Game = {
 	},
 
 	gridCheckFunc: function() {
-		for (j = 0; j < this.world.height/32; j++) {
+	gridCheck.body.y = 0;
+	// console.log("testing");
+	// while( c < this.world.width/32) {
+	for (c = 0; c < this.world.width/32; c++) {
+		gridCheck.body.x = 0;
+		// while (r < this.world.height/32) {
+		for (r = 0; r < this.world.height/32; r++) {
 			gridCheck.body.x +=32;
 			if (this.game.physics.arcade.overlap(gridCheck, this.blockedLayer) ||
 				this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
-				board[i][j] = 1;
+				board[c][r] = 1;
 
 				console.log('overlapWall');
 			} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
-				board[i][j] = 1;
+				board[c][r] = 1;
 				console.log('overlapBarrel');
-				console.log(board[i][j]);
+				// console.log(board[c][r]);
 				// console.log(board[i]);
 			}
 		}
 
+		gridCheck.body.y += 32;
+	}
+
+		console.log(c);
 		if(gridCheck.body.x >= 448) {
 			for(var r = 0; r < 14; r++){
-				// console.log(board[r]);
+				console.log(board[r]);
 			}
 			return true;
 		}
@@ -469,10 +492,10 @@ var Game = {
 };
 function constructBoard (array,x,y) {
 
-	for (var j = 0; j < y; j++){
+	for (var r = 0; r < y; r++){
 		// for (var i = 0; i < x; i++){
 			// array[i][j] = 0; 
-			// console.log(array[i]);
+			console.log(array[c]);
 		// }
 	}
 	return array;
