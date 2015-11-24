@@ -9,7 +9,7 @@ Preload = {
 		this.load.image('compass', 'assets/img/compass_rose.png');
 		this.load.image('touch_segment', 'assets/img/touch_segment.png');
 		this.load.image('touch', 'assets/img/touch.png');
-
+		this.load.image('mega_grid', 'assets/img/player.png', 32, 32);
 	},
 	create: function() {
 		this.state.start('StartMenu');
