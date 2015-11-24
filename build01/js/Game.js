@@ -204,7 +204,7 @@ var Game = {
 
 		if(gridCheck.body.x >= 448) {
 			for(var r = 0; r < 14; r++){
-				console.log(board[r]);
+				// console.log(board[r]);
 			}
 			return true;
 		}
@@ -472,7 +472,7 @@ function constructBoard (array,x,y) {
 	for (var j = 0; j < y; j++){
 		// for (var i = 0; i < x; i++){
 			// array[i][j] = 0; 
-			console.log(array[i]);
+			// console.log(array[i]);
 		// }
 	}
 	return array;
