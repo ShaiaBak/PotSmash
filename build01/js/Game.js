@@ -13,25 +13,33 @@ var _TILESIZE = 32;
 
 var pushTimer = 0;
 
+//******GRID SETUP******//
 var board = new Array();
-board[0]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[1]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[2]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[3]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[4]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[5]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[6]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[7]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[8]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[9]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[10] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[11] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[0]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[1]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[2]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[3]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[4]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[5]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[6]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[7]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[8]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[9]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[10] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[11] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+board[14] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var gridCheck;
 
+//Rows and columns of the grid
 var c=0;
 var r=0;
+
+var playerGridVal = 9;
+var potGridVal = 1;
+var wallGridVal = 2;
+//******GRID SETUP END******//
 
 var Game = {
 	create: function() {
@@ -40,12 +48,14 @@ var Game = {
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
 		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles');
 
+
 		this.bgLayer = this.map.createLayer('backgroundLayer');
 		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.transBlockedLayer.alpha = 0;
+
 
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
@@ -68,8 +78,8 @@ var Game = {
 		this.player.body.setSize(40, 50, 0, 0);
 
 		//collision
-		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
-		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+		// this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+		// this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
 
 		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
 
@@ -147,7 +157,11 @@ var Game = {
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 	    key3.onDown.add(function () {
 	    	// r++;
-	    	this.gridCheckFunc();
+	  		for(var r = 0; r < 15; r++){
+				console.log(r + " " + board[r]);
+			// return true;
+			}
+	    	// this.gridCheckFunc();
 	    	console.log("key press");
 	    },this);
 	
@@ -160,18 +174,27 @@ var Game = {
 		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
 		gridCheck.body.setSize(32, 32, 0, 0);
 		gridCheck.tint = 0xff0000;
-		// gridCheck.body.x =400;
-		// gridCheck.body.y =200;
+		// gridCheck.body.x = 400;
+		// gridCheck.body.y = 200;
 		
 		// game.time.advancedTiming = true;
 		// game.time.desiredFps = 1;
 		// alert(board[0][0]);
 		// console.log(board[0][1]);
+
+		// console.log(this.map.getLayerIndex(this.blockedLayer));
+		// console.log(this.map.getTile(13,1,this.blockedLayer,true));
+		// this.map.getTile(13,1,this.blockedLayer,true).alpha = 0.5;
+		// this.map.getTile(13,1,this.blockedLayer,true).alpha = 0.5;
+		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
+
+
 	},
 
 	update: function() {
 		// collision update
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
+
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
 		this.game.physics.arcade.collide(this.player, potGroup, this.checkTouch);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak);
@@ -185,7 +208,7 @@ var Game = {
 
 		this.game.physics.arcade.collide(potGroup, this.triggerLayer, this.levelTrigger);
 
-		// this.gridCheckFunc();
+		this.gridCheckFunc();
 
 		this.checkMovement();
 		this.handleDirection();
@@ -203,36 +226,48 @@ var Game = {
 	gridCheck.body.y = 0;
 	// console.log("testing");
 	// while( c < this.world.width/32) {
-	for (c = 0; c < this.world.width/32; c++) {
+	for (c = 0; c < this.world.height/32; c++) {
 		gridCheck.body.x = 0;
 		// while (r < this.world.height/32) {
-		for (r = 0; r < this.world.height/32; r++) {
-			gridCheck.body.x +=32;
+		for (r = 0; r < this.world.width/32; r++) {
+			// var testTile = ;
+
 			if (this.game.physics.arcade.overlap(gridCheck, this.blockedLayer) ||
 				this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
-				board[c][r] = 1;
+				board[c][r] = wallGridVal;
 
-				console.log('overlapWall');
+				// console.log('overlapWall');
 			} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
-				board[c][r] = 1;
-				console.log('overlapBarrel');
+				board[c][r] = potGridVal;
+				// console.log('overlapBarrel');
 				// console.log(board[c][r]);
 				// console.log(board[i]);
+			} else if (this.game.physics.arcade.overlap(gridCheck, this.player)) {
+				board[c][r] = playerGridVal;
+			} else if (this.map.getTile(r,c,this.blockedLayer) != null) {
+				// console.log("wallfound");
+				// console.log(this.map.getTile(c,r,this.blockedLayer,true));
+				board[c][r] = wallGridVal;
+			} else {
+				board[c][r] = 0;
 			}
+			gridCheck.body.x +=32;
 		}
 
 		gridCheck.body.y += 32;
 	}
 
-		console.log(c);
-		if(gridCheck.body.x >= 448) {
-			for(var r = 0; r < 14; r++){
-				console.log(board[r]);
-			}
-			return true;
-		}
+		// console.log(c);
+		// if(gridCheck.body.x >= 448) {
+		// 	for(var r = 0; r < 14; r++){
+		// 		console.log(r + " " + board[r]);
+		// 	}
+		// 	return true;
+		// }
 	},
-
+	testCallback: function(){
+		console.log("Testing callback");
+	},
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
 	findObjectsByType: function(type, map, layer) {
 		var result = new Array();
@@ -274,21 +309,28 @@ var Game = {
 			
 			switch(dir) {
 				case "UP":
-				game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-				
-				constructBoard(board,14,15);
+				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
+					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					// constructBoard(board,14,15);
+				}
 				break;
 
 				case "DOWN":
-				game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
+					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				}
 				break;
 
 				case "LEFT":
-				game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
+					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				}
 				break;
 
 				case "RIGHT":
-				game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
+					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				}
 				break;
 
 			}
