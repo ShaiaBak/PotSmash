@@ -1,33 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="15" tilewidth="32" tileheight="32" nextobjectid="15">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="44">
  <tileset firstgid="1" name="tileset-placeholder2" tilewidth="32" tileheight="32">
   <image source="../img/tileset-placeholder2.png" width="608" height="192"/>
  </tileset>
- <layer name="backgroundLayer" width="10" height="15">
+ <tileset firstgid="115" name="tiles-lvl1-32x32" tilewidth="32" tileheight="32">
+  <image source="../img/tiles-lvl1-32x32.png" width="256" height="256"/>
+ </tileset>
+ <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYGMgDrARwNRWx0ZldcIkqjMGYiMi1JkAsSkQ6xNwnyEQ60JpfOocgNgRiJ0IqHMGYhcgdiWgLpMBPxAmIE8OAADVFwW3
+   eJxjYBg5oIQApra+YgJ4VB9p+nDpJwWQo4cYAAC09x+D
   </data>
  </layer>
- <layer name="blockedLayer" width="10" height="15">
+ <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJyTZWBgUAZiBSBWgtLIWBGIZYFYjoEwkBtVRzN1XESqY0VTJ8+AGafoGKRGAohF0bAYEEuiyYkh0eJIfFGoWnEoDQAc1Qbg
+   eJxbzMDAsHiEYEJgVN/g1odLPzlpgNy0g0seAMGBV98=
+  </data>
+ </layer>
+ <layer name="transBlockedLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg5YA0BTGt96GLEuHU4guHoNwDERRIl
+  </data>
+ </layer>
+ <layer name="detailLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJy1ztkKgkAYhmFvWjPbN9tX08r2oPWousLeUYSOnL/ADx4cYV7RMLLZIaPvJiugiBxs5IVdA01UUEUNR5xSGoerfZ6D+BzthjseKV2dzuM5j8/RnnjhrfnPNTZf7x100dN0ai24aGOCKWaCbogRxlhihVDQ+QiwENxVK6GMLXbYC7tkZ1xw/bFTM2H90en2AaWfIQ4=
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <object id="4" gid="16" x="226" y="321" width="32" height="32">
+  <object id="22" name="pot" gid="171" x="96" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="27" name="pot" gid="171" x="160" y="416" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="32" name="pot" gid="171" x="96" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="33" name="pot" gid="171" x="160" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="34" name="pot" gid="171" x="128" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="35" name="pot" gid="171" x="160" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="36" name="pot" gid="171" x="320" y="256" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="37" name="pot" gid="171" x="320" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="38" name="pot" gid="171" x="320" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="40" gid="164" x="224" y="448" width="32" height="32"/>
+  <object id="43" gid="164" x="224" y="448" width="32" height="32">
    <properties>
     <property name="type" value="playerStart"/>
    </properties>
   </object>
-  <object id="8" name="pot" gid="15" x="128" y="160" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="14" name="pot" gid="15" x="128" y="128" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
  </objectgroup>
+ <layer name="triggerLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DwgJKBdgCZAABWqAB1
+  </data>
+ </layer>
+ <layer name="levelExitLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUEAIlUIwLAAAeeADp
+  </data>
+ </layer>
 </map>
