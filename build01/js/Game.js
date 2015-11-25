@@ -83,7 +83,6 @@ var Game = {
 				console.log(r + " " + board[r]);
 			// return true;
 			}
-			// this.gridCheckFunc();
 		}, this);
 
 
@@ -91,8 +90,6 @@ var Game = {
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
-
-		this.player.body
 		
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
@@ -210,14 +207,6 @@ var Game = {
 		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
 		gridCheck.body.setSize(32, 32, 0, 0);
 		gridCheck.tint = 0xff0000;
-		// gridCheck.body.x = 400;
-		// gridCheck.body.y = 200;
-		
-		// game.time.advancedTiming = true;
-		// game.time.desiredFps = 1;
-		// alert(board[0][0]);
-		// console.log(board[0][1]);
-
 		// console.log(this.map.getLayerIndex(this.blockedLayer));
 		// console.log(this.map.getTile(13,1,this.blockedLayer,true));
 		// this.map.getTile(13,1,this.blockedLayer,true).alpha = 0.5;
@@ -522,7 +511,6 @@ var Game = {
 			}
 			i++;
 		}
-		//isCloseToPot = Phaser.Rectangle.intersects(grabPotRect, potGroup.children[0]);
 		if(isCloseToPot != null && grabbedPot == null){
 			console.log(isCloseToPot.name);
 			this.pickUpPot(isCloseToPot);
@@ -585,11 +573,8 @@ var Game = {
 };
 function printBoard (array,x,y) {
 
-	for (var r = 0; r < y; r++){
-		// for (var i = 0; i < x; i++){
-			// array[i][j] = 0; 
-			console.log(array[c]);
-		// }
+	for (var r = 0; r < y; r++){ 
+		console.log(array[c]);
 	}
 	return array;
 };
