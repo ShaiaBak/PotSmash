@@ -1,15 +1,18 @@
+var _TILESIZE = 32;
+
 var map;
 var bgLayer;
 var blockedLayer;
 var triggerLayer;
+var levelExitLayer;
 var objectLayer;
-var dir = "LEFT";
-var playerSpeed = 100; //100 is a random default value
+var dir = "UP";
+var playerSpeed = 100; //100 is a arbitrary default value
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
-var _TILESIZE = 32;
+var exitBool = 0; // if 0, exit doesn't work
 
 var pushTimer = 0;
 var triggerTimer = 0;
@@ -43,14 +46,16 @@ var wallGridVal = 2;
 var transWallGridVal = 3;
 
 var triggerGridVal = 7;
+var exitGridVal = 8;
 //******GRID SETUP END******//
 
 var Game = {
 	create: function() {
-		this.map = this.game.add.tilemap('level2');
+		this.map = this.game.add.tilemap('level1');
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
 		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles');
+		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
 
 
 		this.bgLayer = this.map.createLayer('backgroundLayer');
@@ -58,6 +63,7 @@ var Game = {
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
+		this.levelExitLayer = this.map.createLayer('levelExitLayer');
 		this.transBlockedLayer.alpha = 0;
 
 
@@ -85,6 +91,8 @@ var Game = {
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
+
+		this.player.body
 		
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
@@ -92,13 +100,14 @@ var Game = {
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
 
-		this.player.body.setSize(40, 50, 0, 0);
+ 		this.player.body.setSize(40, 50, 0, 0);
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
 		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
 
 		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'levelExitLayer');
 
 		// enables other physics stuff
 		// game.physics.startSystem(Phaser.Physics.P2JS);
@@ -109,11 +118,24 @@ var Game = {
 		this.player.animations.add('walkUp', [16, 17, 18, 19], 8 /*fps */, true);
 		this.player.animations.add('walkLeft', [24, 25, 26, 27], 8 /*fps */, true);
 		this.player.animations.add('walkRight', [8 , 9, 10, 11], 8 /*fps */, true);
+
+		//diagonal animation
+		this.player.animations.add('walkUpRight', [12 , 13, 14, 15], 8 /*fps */, true);
+		this.player.animations.add('walkDownRight', [4 , 5, 6, 7], 8 /*fps */, true);
+		this.player.animations.add('walkUpLeft', [20, 21, 22, 23], 8 /*fps */, true);
+		this.player.animations.add('walkDownLeft', [28, 29, 30, 31], 8 /*fps */, true);
+
+		//idle animation
 		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
 		this.player.animations.add('idleUp', [16], 8 /*fps */, true);
 		this.player.animations.add('idleLeft', [25], 8 /*fps */, true);
 		this.player.animations.add('idleRight', [8], 8 /*fps */, true);
 
+		// diagonal animation
+		this.player.animations.add('idleUpRight', [14], 8 /*fps */, true);
+		this.player.animations.add('idleDownRight', [6], 8 /*fps */, true);
+		this.player.animations.add('idleUpLeft', [21], 8 /*fps */, true);
+		this.player.animations.add('idleDownLeft', [29], 8 /*fps */, true);
 
 		// ========= POT STUFF =========
 
@@ -220,7 +242,13 @@ var Game = {
 		this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
 		this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
-		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.levelTrigger);
+		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.exitTrigger);
+
+		if (exitBool == 1) {
+			this.game.physics.arcade.overlap(this.player, this.levelExitLayer, this.levelTrigger);
+		} else {
+			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
+		}
 
 		this.gridCheckFunc();
 
@@ -262,7 +290,9 @@ var Game = {
 					board[c][r] = transWallGridVal;
 				} else if(this.map.getTile(r,c,this.triggerLayer)) {
 					board[c][r] = triggerGridVal;
-				}	else {
+				} else if(this.map.getTile(r,c,this.levelExitLayer)) {
+					board[c][r] = exitGridVal;
+				} else {
 					board[c][r] = 0;
 				}
 				
@@ -276,6 +306,10 @@ var Game = {
 
 	testCallback: function(){
 		console.log("Testing callback");
+	},
+
+	exitTrigger: function() {
+		console.log('trigger');
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -324,8 +358,8 @@ var Game = {
 					// printBoard(board,14,15);
 				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
-					// restart();
+					// make exits work
+					exitBool = 1;
 				}
 				break;
 
@@ -334,8 +368,8 @@ var Game = {
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
-					// restart();
+					// make exits work
+					exitBool = 1;
 				}
 				break;
 
@@ -344,8 +378,8 @@ var Game = {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
-					// restart();
+					// make exits work
+					exitBool = 1;
 				}
 				break;
 
@@ -354,8 +388,8 @@ var Game = {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
-					// restart();
+					// make exits work
+					exitBool = 1;
 				}
 				break;
 
@@ -414,26 +448,40 @@ var Game = {
 
 	handleDirection: function() {
 		//cardinal directions handling
-		if (this.player.body.velocity.y < 0) {
+		if (this.player.body.velocity.y < 0 && this.player.body.velocity.x == 0) {
 			dir = "UP";
 			grabPotRect.x = this.player.x - this.player.width*.5;
 			grabPotRect.y = this.player.y - this.player.height;
 			this.player.play('walkUp');
-		} else if (this.player.body.velocity.y > 0) {
+		} else if (this.player.body.velocity.y > 0 && this.player.body.velocity.x == 0) {
 			dir = "DOWN";
 			grabPotRect.x = this.player.x - this.player.width*.5;
 			grabPotRect.y = this.player.y;
 			this.player.play('walkDown');
-		} else if (this.player.body.velocity.x < 0) {
+		} else if (this.player.body.velocity.x < 0 && this.player.body.velocity.y == 0) {
 			dir = "LEFT";
 			grabPotRect.x = this.player.x - this.player.width;
 			grabPotRect.y = this.player.y - this.player.height*.5;
 			this.player.play('walkLeft');
-		} else if (this.player.body.velocity.x > 0) {
+		} else if (this.player.body.velocity.x > 0 && this.player.body.velocity.y == 0) {
 			dir = "RIGHT";
 			grabPotRect.x = this.player.x;
 			grabPotRect.y = this.player.y - this.player.height*.5;
 			this.player.play('walkRight');
+		} 
+		// diagonal movements
+		else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x < 0) {
+			this.player.play('walkUpLeft');
+			dir = "UPLEFT";
+		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x < 0) {
+			this.player.play('walkDownLeft');
+			dir = "DOWNLEFT";
+		} else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x > 0) {
+			this.player.play('walkUpRight');
+			dir = "UPRIGHT";
+		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x > 0) {
+			this.player.play('walkDownRight');
+			dir = "DOWNRIGHT";
 		}
 		
 		//idle animation
@@ -446,6 +494,18 @@ var Game = {
 				this.player.play('idleLeft');
 			} else if(dir == "RIGHT") {
 				this.player.play('idleRight');
+			}
+			// diagonal idle
+			else if(dir == "UPLEFT") {
+				this.player.play('idleUpLeft');
+			} else if(dir == "DOWNLEFT") {
+				this.player.play('idleDownLeft');
+			} else if(dir == "UPRIGHT") {
+				this.player.play('idleUpRight');
+			} else if(dir == "DOWNRIGHT") {
+				this.player.play('idleDownRight');
+			} else {
+				this.player.play('idleUp');
 			}
 		}
 	},
@@ -512,7 +572,7 @@ var Game = {
 
 	levelTrigger: function() {
 		console.log('TRIGGERED SO HARD RIGHT NOW');
-		restart();
+		game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
 	},
 
 	render: function() {
