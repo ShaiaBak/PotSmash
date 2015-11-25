@@ -548,6 +548,25 @@ var Game = {
 			case "RIGHT":
 			pot.body.velocity.x = 400;
 			break;
+
+			// diagonal throw
+			// @todo- fix - reels back and then goes forward for some reason... 
+			case "UPRIGHT":
+			pot.body.velocity.y = -400;
+			pot.body.velocity.x = 400;
+			break;
+			case "DOWNLEFT":
+			pot.body.velocity.y = 400;
+			pot.body.velocity.x = -400;
+			break;
+			case "UPLEFT":
+			pot.body.velocity.x = -400;
+			pot.body.velocity.y = -400;
+			break;
+			case "DOWNRIGHT":
+			pot.body.velocity.x = 400;
+			pot.body.velocity.y = 400;
+			break;
 		}
 		
 	},
@@ -556,6 +575,12 @@ var Game = {
 		pot = throwGroup;
 		console.log("break");
 		console.log(pot);
+
+		// DOESNT WORK
+		// @ TODO - FIX
+		// POSSIBLE SOLUTION - MAKE ANIMATED SPRITE END ON FRAME WITH NOTHING IN IT. PHYSICS ALREADY KILLED
+		// pot.body = null;
+		// pot.destroy();
 	},
 
 	levelTrigger: function() {
