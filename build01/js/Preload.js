@@ -5,6 +5,7 @@ Preload = {
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('gameTiles', 'assets/img/tiles-lvl1-32x32.png');
 		// this.load.image('gameTilesTemp', 'assets/img/tileset-placeholder2.png');
+		this.load.spritesheet('item', 'assets/img/player.png',  64, 64);
 		this.load.spritesheet('player', 'assets/img/char_spritesheet_walk-v01.png',  64, 64);
 		this.load.image('testpot', 'assets/img/barrel64x64.png');
 		this.load.image('compass', 'assets/img/compass_rose.png');

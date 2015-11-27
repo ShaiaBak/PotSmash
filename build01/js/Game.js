@@ -14,6 +14,9 @@ var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 
+// item picked up bool; may have to change if multiple items
+var itemPickedUp = 0;
+
 var pushTimer = 0;
 var triggerTimer = 0;
 
@@ -84,6 +87,13 @@ var Game = {
 			// return true;
 			}
 		}, this);
+
+		// create item
+		var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
+		this.item = this.game.add.sprite(itemResult[0].x, itemResult[0].y, 'item');
+		this.game.physics.arcade.enable(this.item);
+
+		this.item.body.immovable = true;
 
 
 		//create player
@@ -159,11 +169,11 @@ var Game = {
 			// pot.body.setSize(44, 50, 0, 0);
 		}
 
-		// //High drag will stop the pot when you stop pushing it
+		//High drag will stop the pot when you stop pushing it
 		// this.potGroup.body.drag.setTo(10000);
 
-		// // makes object immovable[t/f]
-		// // this.potGroup.body.immovable = true;
+		// makes object immovable[t/f]
+		// this.potGroup.body.immovable = true;
 
 		// ========= CAMERA STUFF =========
 
@@ -233,10 +243,17 @@ var Game = {
 
 		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.exitTrigger);
 
+		this.game.physics.arcade.collide(this.player, this.item, this.itemPickup);
+
 		if (exitBool == 1) {
 			this.game.physics.arcade.overlap(this.player, this.levelExitLayer, this.levelTrigger);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
+		}
+
+		// temp level ending condition
+		if (itemPickedUp == 1) {
+			exitBool = 1;
 		}
 
 		this.gridCheckFunc();
@@ -244,6 +261,7 @@ var Game = {
 		this.checkMovement();
 		this.handleDirection();
 		// this.checkAnimation();
+
 		if (!this.player.body.touching.up 
 			& !this.player.body.touching.down 
 			& !this.player.body.touching.left 
@@ -251,6 +269,7 @@ var Game = {
 			pushTimer = 0;
 		}
 
+		// console.log(this.item);
 	},
 
 	gridCheckFunc: function() {
@@ -291,6 +310,14 @@ var Game = {
 
 			gridCheck.body.y += 32;
 		}
+	},
+
+	itemPickup: function(player, item) {
+		console.log('item picked up');
+		item.body = null;
+		item.destroy();
+
+		itemPickedUp = 1;
 	},
 
 	testCallback: function(){
