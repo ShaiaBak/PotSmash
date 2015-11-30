@@ -13,6 +13,7 @@ var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
+var potBreakBool = 0;
 
 // item picked up bool; may have to change if multiple items
 var itemCollected = 0;
@@ -160,23 +161,23 @@ var Game = {
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
+		this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
 		// this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
-		this.map.createFromObjects('objectsLayer', 171, 'testpot', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
-		// set all children within potGroup to immovable
+		// set all children within potGroup to...
 		potGroup.forEach(function(pot) {
 			pot.body.immovable = true;
 			// pot.scale.setTo(.5, .5);
 			pot.body.setSize(32, 32, 0, 0);
 			game.physics.arcade.enable(pot);
-			pot.animations.add('potBreakAnim', [0, 1, 2, 3, 4], 8, true);
-			pot.animations.add('potIdle', [0], 8, true);
-			pot.animations.play('potIdle');
 		}, this);
+		potGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);
+		potGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, false);
 
-		// potGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, true);
+
+		potGroup.callAll('animations.play', 'animations', 'potIdle');
 		// potGroup.callAll('animations.play', 'animations', 'potBreakAnim');
 
 		// ============ OLD WAY =================
@@ -184,7 +185,7 @@ var Game = {
 		// var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
 		// //console.log(potLocArr);
 		// for (i=0; i<potLocArr.length; i++){
-		// 	var pot = potGroup.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
+		// 	var pot = potGroup.create(potLocArr[i].x, potLocArr[i].y, 'potSprite_1');
 		// 	pot.name = 'pot' + i;
 		// 	pot.body.immovable = true;
 		// 	pot.scale.setTo(.5, .5);
@@ -251,6 +252,7 @@ var Game = {
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
 		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak);
+		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak);
 		// check to see that player is running pot into wall
 		this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
 
@@ -277,7 +279,8 @@ var Game = {
 
 		this.checkMovement();
 		this.handleDirection();
-		// this.checkAnimation();
+
+
 
 		if (!this.player.body.touching.up 
 			& !this.player.body.touching.down 
@@ -285,8 +288,6 @@ var Game = {
 			& !this.player.body.touching.right) {
 			pushTimer = 0;
 		}
-
-		// console.log(this.item);
 	},
 
 	gridCheckFunc: function() {
@@ -542,6 +543,10 @@ var Game = {
 			}
 		}
 	},
+
+	checkPotAnim: function() {
+		potBreakBool = 1;
+	},
 	
 	//try to pick up a facing nearby pot
 	checkPickUp: function() {
@@ -566,7 +571,9 @@ var Game = {
 		grabbedPot = pot;
 		pot.body.moves = true;
 		this.player.addChild(pot);
-		// pot.scale.setTo(1,1);
+
+		//have to double size of pot when it overhead for some reason... not sure why
+		pot.scale.setTo(2, 2);
 		pot.x = this.player.width * -1;
 		pot.y = this.player.height * -2;
 	},
@@ -576,7 +583,10 @@ var Game = {
 		this.player.children[0].destroy();
 		grabbedPot = null;
 		//create and move thrown pot
-		pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'testpot');
+		pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'potSprite_1');
+		pot.animations.add('potBreakAnim', [1, 2, 3, 4], 8 /*fps */, false);
+		pot.animations.add('potIdle', [0], 8 /*fps */, true);
+		pot.animations.play('potIdle');
 		// pot.scale.setTo(.5,.5);
 		pot.body.drag.setTo(1000);
 		switch(dir) {
@@ -612,13 +622,21 @@ var Game = {
 			pot.body.velocity.y = 400;
 			break;
 		}
-		
+		console.log('vel x: ' + pot.body.velocity.x + ' vel y: ' + pot.body.velocity.y);
+		var potAlive = true;
+
+		// this.game.time.events.add(Phaser.Timer.SECOND * 4, this.checkPotAnim, this);
+		// if(pot.body.velocity.y == 0 && pot.body.velocity.x == 0) {
+		// 	console.log('stopped');
+		// 	this.handlePotBreak();
+		// }
 	},
 	
 	handlePotBreak: function(pot, wall) {
-		// pot = throwGroup;
+		pot.animations.play('potBreakAnim', 8, false, true);
 		console.log("break");
-		pot.kill();
+		// pot.kill();
+		// potBreakBool = 0;
 	},
 
 	levelTrigger: function() {
