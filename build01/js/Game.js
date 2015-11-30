@@ -14,6 +14,7 @@ var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 var potBreakBool = 0;
+var keysDisabled = 0;
 
 // item picked up bool; may have to change if multiple items
 var itemCollected = 0;
@@ -105,7 +106,6 @@ var Game = {
 		// this.game.physics.arcade.enable(this.item);
 
 		// this.item.body.immovable = true;
-
 
 		//create player
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
@@ -253,14 +253,12 @@ var Game = {
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
 		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak);
 		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak);
-		// check to see that player is running pot into wall
-		this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
 
-		this.game.physics.arcade.collide(potGroup, potGroup);
-		this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
-		this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
-
-		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.exitTrigger);
+		// check to see if pot is running into stuff when it shouldnt
+		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
+		// this.game.physics.arcade.collide(potGroup, potGroup);
+		// this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
+		// this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
 		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
@@ -276,7 +274,6 @@ var Game = {
 		}
 
 		this.gridCheckFunc();
-
 		this.checkMovement();
 		this.handleDirection();
 
@@ -288,6 +285,12 @@ var Game = {
 			& !this.player.body.touching.right) {
 			pushTimer = 0;
 		}
+	},
+
+	enableKeys: function() {
+		this.player.body.immovable = false;
+		this.player.body.moves = true;
+		keysDisabled = false;
 	},
 
 	gridCheckFunc: function() {
@@ -330,22 +333,6 @@ var Game = {
 		}
 	},
 
-	itemCollect: function(player, item) {
-		console.log('item picked up');
-		item.body = null;
-		item.destroy();
-
-		itemCollected = 1;
-	},
-
-	testCallback: function(){
-		console.log("Testing callback");
-	},
-
-	exitTrigger: function() {
-		console.log('trigger');
-	},
-
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
 	findObjectsByType: function(type, map, layer) {
 		var result = new Array();
@@ -371,66 +358,12 @@ var Game = {
 		});
 	},
 
-	pushPot: function(obj1, obj2) {
-		// goes through group 'potGroup' and then makes the children do something
-		potGroup.forEach(function(pots) {
-			pots.body.immovable = true;
+	itemCollect: function(player, item) {
+		console.log('item picked up');
+		item.body = null;
+		item.destroy();
 
-			// temp
-			pots.body.moves = true;
-		}, this);
-		
-		pushTimer++;
-		if(pushTimer >= 50) {
-			console.log('push');
-			// console.log("x.pot" + i + ": " + obj2.x);
-			
-			switch(dir) {
-				case "UP":
-				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
-					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// printBoard(board,14,15);
-				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
-					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-				case "DOWN":
-				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
-					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
-					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-				case "LEFT":
-				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
-					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
-					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-				case "RIGHT":
-				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
-					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
-					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-			}
-			pushTimer = 0;
-		}
-
+		itemCollected = 1;
 	},
 	
 	checkMovement: function() {
@@ -438,45 +371,48 @@ var Game = {
 		this.player.body.velocity.y = 0;
 		this.player.body.velocity.x = 0;
 
-		//Checks arrow keys	
-		if(this.cursors.up.isDown) {
-			this.player.body.velocity.y -= playerSpeed;
-		}
-		else if(this.cursors.down.isDown) {
-			this.player.body.velocity.y += playerSpeed;
-		}
-		if(this.cursors.left.isDown) {
-			this.player.body.velocity.x -= playerSpeed;
-		}
-		else if(this.cursors.right.isDown) {
-			this.player.body.velocity.x += playerSpeed;
-		}
+		// check to see if keys are disabled
+		if(keysDisabled == false) {
+			//Checks arrow keys
+			if(this.cursors.up.isDown) {
+				this.player.body.velocity.y -= playerSpeed;
+			}
+			else if(this.cursors.down.isDown) {
+				this.player.body.velocity.y += playerSpeed;
+			}
+			if(this.cursors.left.isDown) {
+				this.player.body.velocity.x -= playerSpeed;
+			}
+			else if(this.cursors.right.isDown) {
+				this.player.body.velocity.x += playerSpeed;
+			}
 
 
-		// Check touch controls
-		if (this.game.touchControl.speed.x > 10) {
-			this.player.body.velocity.x = -playerSpeed;
+			// Check touch controls
+			if (this.game.touchControl.speed.x > 10) {
+				this.player.body.velocity.x = -playerSpeed;
 
-		} else if (this.game.touchControl.speed.x < -10) {
-			this.player.body.velocity.x = playerSpeed;
-		}
+			} else if (this.game.touchControl.speed.x < -10) {
+				this.player.body.velocity.x = playerSpeed;
+			}
 
-		if (this.game.touchControl.speed.y > 10 ) {
-			this.player.body.velocity.y = -playerSpeed;
+			if (this.game.touchControl.speed.y > 10 ) {
+				this.player.body.velocity.y = -playerSpeed;
 
-		} else if (this.game.touchControl.speed.y < -10) {
-			this.player.body.velocity.y = playerSpeed;
-		} 
-	
-		// if player is going diagonally, go 0.75 the speed in both directions
-		// reason is that player goes too fast when moving diagonally
-		// @TODO: change for touch controls
-		if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
-			this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
-			this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
-			this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
-			this.player.body.velocity.y = this.player.body.velocity.y*0.75;
-			this.player.body.velocity.x = this.player.body.velocity.x*0.75;
+			} else if (this.game.touchControl.speed.y < -10) {
+				this.player.body.velocity.y = playerSpeed;
+			} 
+		
+			// if player is going diagonally, go 0.75 the speed in both directions
+			// reason is that player goes too fast when moving diagonally
+			// @TODO: change for touch controls
+			if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
+				this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
+				this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
+				this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
+				this.player.body.velocity.y = this.player.body.velocity.y*0.75;
+				this.player.body.velocity.x = this.player.body.velocity.x*0.75;
+			}
 		}
 	},
 
@@ -544,8 +480,65 @@ var Game = {
 		}
 	},
 
-	checkPotAnim: function() {
-		potBreakBool = 1;
+	pushPot: function(obj1, obj2) {
+		// goes through group 'potGroup' and then makes the children do something
+		potGroup.forEach(function(pots) {
+			pots.body.immovable = true;
+
+			// temp
+			pots.body.moves = true;
+		}, this);
+		
+		pushTimer++;
+		if(pushTimer >= 50) {
+			console.log('push');
+			// console.log("x.pot" + i + ": " + obj2.x);
+			
+			switch(dir) {
+				case "UP":
+				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
+					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					// printBoard(board,14,15);
+				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
+					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					// make exits work
+					exitBool = 1;
+				}
+				break;
+
+				case "DOWN":
+				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
+					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
+					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					// make exits work
+					exitBool = 1;
+				}
+				break;
+
+				case "LEFT":
+				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
+					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
+					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					// make exits work
+					exitBool = 1;
+				}
+				break;
+
+				case "RIGHT":
+				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
+					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
+					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					// make exits work
+					exitBool = 1;
+				}
+				break;
+
+			}
+			pushTimer = 0;
+		}
 	},
 	
 	//try to pick up a facing nearby pot
@@ -571,6 +564,13 @@ var Game = {
 		grabbedPot = pot;
 		pot.body.moves = true;
 		this.player.addChild(pot);
+
+		// disable move keys when picking up pot to allow for animation to finish
+		this.player.body.immovable = true;
+		this.player.body.moves = false;
+		keysDisabled = true;
+		// after set ammount of time, enable keys
+		game.time.events.add(Phaser.Timer.SECOND * 0.2, this.enableKeys, this);
 
 		//have to double size of pot when it overhead for some reason... not sure why
 		pot.scale.setTo(2, 2);
@@ -624,16 +624,10 @@ var Game = {
 		}
 		console.log('vel x: ' + pot.body.velocity.x + ' vel y: ' + pot.body.velocity.y);
 		var potAlive = true;
-
-		// this.game.time.events.add(Phaser.Timer.SECOND * 4, this.checkPotAnim, this);
-		// if(pot.body.velocity.y == 0 && pot.body.velocity.x == 0) {
-		// 	console.log('stopped');
-		// 	this.handlePotBreak();
-		// }
 	},
 	
 	handlePotBreak: function(pot, wall) {
-		pot.animations.play('potBreakAnim', 8, false, true);
+		pot.animations.play('potBreakAnim', 14, false, true);
 		console.log("break");
 		// pot.kill();
 		// potBreakBool = 0;
@@ -646,12 +640,11 @@ var Game = {
 
 	render: function() {
 		game.debug.body(gridCheck);
-	},
-	updateBoard: function() {
-		console.log("it worked");
 	}
 
 };
+
+
 function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){ 
