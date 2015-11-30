@@ -15,7 +15,7 @@ var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 
 // item picked up bool; may have to change if multiple items
-var itemPickedUp = 0;
+var itemCollected = 0;
 
 var pushTimer = 0;
 var triggerTimer = 0;
@@ -62,8 +62,9 @@ var Game = {
 
 
 		this.bgLayer = this.map.createLayer('backgroundLayer');
-		this.detailLayer = this.map.createLayer('detailLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
+		this.detailLayer1 = this.map.createLayer('detailLayer1');
+		this.detailLayer2 = this.map.createLayer('detailLayer2');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
@@ -89,11 +90,20 @@ var Game = {
 		}, this);
 
 		// create item
-		var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
-		this.item = this.game.add.sprite(itemResult[0].x, itemResult[0].y, 'item');
-		this.game.physics.arcade.enable(this.item);
+		// for multiple items
+		itemGroup = game.add.group();
+	   	itemGroup.enableBody = true;
 
-		this.item.body.immovable = true;
+		this.map.createFromObjects('objectsLayer', 147, 'mega_grid', 0, true, false, itemGroup);
+
+		this.game.physics.arcade.enable(itemGroup);
+
+		// only works for single item
+		// var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
+		// this.item = this.game.add.sprite(itemResult[i].x, itemResult[i].y, 'item');
+		// this.game.physics.arcade.enable(this.item);
+
+		// this.item.body.immovable = true;
 
 
 		//create player
@@ -149,31 +159,42 @@ var Game = {
 		potGroup = game.add.group();
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
+		// ============ NEW WAY ================
+		// this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 171, 'testpot', 0, true, false, potGroup);
+
+		this.game.physics.arcade.enable(potGroup);
+
+		// set all children within potGroup to immovable
+		potGroup.forEach(function(pot) {
+			pot.body.immovable = true;
+			// pot.scale.setTo(.5, .5);
+			pot.body.setSize(32, 32, 0, 0);
+			game.physics.arcade.enable(pot);
+			pot.animations.add('potBreakAnim', [0, 1, 2, 3, 4], 8, true);
+			pot.animations.add('potIdle', [0], 8, true);
+			pot.animations.play('potIdle');
+		}, this);
+
+		// potGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, true);
+		// potGroup.callAll('animations.play', 'animations', 'potBreakAnim');
+
+		// ============ OLD WAY =================
+		// //find pot locations from tiled and create a pot
+		// var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
+		// //console.log(potLocArr);
+		// for (i=0; i<potLocArr.length; i++){
+		// 	var pot = potGroup.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
+		// 	pot.name = 'pot' + i;
+		// 	pot.body.immovable = true;
+		// 	pot.scale.setTo(.5, .5);
+		// 	console.log("x.pot" + i + ": " + pot.x);
+		// }
+
+		// =============== THROW POT ============
 		throwGroup = game.add.group();
 		throwGroup.enableBody = true;
 		throwGroup.physicsBodyType = Phaser.Physics.ARCADE;
-
-		//find pot locations from tiled and create a pot
-		var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-		//console.log(potLocArr);
-		for (i=0; i<potLocArr.length; i++){
-			var pot = potGroup.create(potLocArr[i].x, potLocArr[i].y, 'testpot');
-			pot.name = 'pot' + i;
-			pot.body.immovable = true;
-			pot.scale.setTo(.5, .5);
-			console.log("x.pot" + i + ": " + pot.x);
-
-			// this.game.debug.body(pot);
-			
-			// pot.anchor.setTo(.5, .5);
-			// pot.body.setSize(44, 50, 0, 0);
-		}
-
-		//High drag will stop the pot when you stop pushing it
-		// this.potGroup.body.drag.setTo(10000);
-
-		// makes object immovable[t/f]
-		// this.potGroup.body.immovable = true;
 
 		// ========= CAMERA STUFF =========
 
@@ -217,10 +238,6 @@ var Game = {
 		game.physics.enable(gridCheck, Phaser.Physics.ARCADE);
 		gridCheck.body.setSize(32, 32, 0, 0);
 		gridCheck.tint = 0xff0000;
-		// console.log(this.map.getLayerIndex(this.blockedLayer));
-		// console.log(this.map.getTile(13,1,this.blockedLayer,true));
-		// this.map.getTile(13,1,this.blockedLayer,true).alpha = 0.5;
-		// this.map.getTile(13,1,this.blockedLayer,true).alpha = 0.5;
 		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
 
 
@@ -232,7 +249,7 @@ var Game = {
 
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
-		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak);
+		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
 		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak);
 		// check to see that player is running pot into wall
 		this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
@@ -243,7 +260,7 @@ var Game = {
 
 		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.exitTrigger);
 
-		this.game.physics.arcade.collide(this.player, this.item, this.itemPickup);
+		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		if (exitBool == 1) {
 			this.game.physics.arcade.overlap(this.player, this.levelExitLayer, this.levelTrigger);
@@ -252,7 +269,7 @@ var Game = {
 		}
 
 		// temp level ending condition
-		if (itemPickedUp == 1) {
+		if (itemCollected == 1) {
 			exitBool = 1;
 		}
 
@@ -312,12 +329,12 @@ var Game = {
 		}
 	},
 
-	itemPickup: function(player, item) {
+	itemCollect: function(player, item) {
 		console.log('item picked up');
 		item.body = null;
 		item.destroy();
 
-		itemPickedUp = 1;
+		itemCollected = 1;
 	},
 
 	testCallback: function(){
@@ -365,7 +382,7 @@ var Game = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
-			console.log("x.pot" + i + ": " + obj2.x);
+			// console.log("x.pot" + i + ": " + obj2.x);
 			
 			switch(dir) {
 				case "UP":
@@ -549,7 +566,7 @@ var Game = {
 		grabbedPot = pot;
 		pot.body.moves = true;
 		this.player.addChild(pot);
-		pot.scale.setTo(1,1);
+		// pot.scale.setTo(1,1);
 		pot.x = this.player.width * -1;
 		pot.y = this.player.height * -2;
 	},
@@ -560,7 +577,7 @@ var Game = {
 		grabbedPot = null;
 		//create and move thrown pot
 		pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'testpot');
-		pot.scale.setTo(.5,.5);
+		// pot.scale.setTo(.5,.5);
 		pot.body.drag.setTo(1000);
 		switch(dir) {
 			case "UP":
@@ -599,15 +616,9 @@ var Game = {
 	},
 	
 	handlePotBreak: function(pot, wall) {
-		pot = throwGroup;
+		// pot = throwGroup;
 		console.log("break");
-		console.log(pot);
-
-		// DOESNT WORK
-		// @ TODO - FIX
-		// POSSIBLE SOLUTION - MAKE ANIMATED SPRITE END ON FRAME WITH NOTHING IN IT. PHYSICS ALREADY KILLED
-		// pot.body = null;
-		// pot.destroy();
+		pot.kill();
 	},
 
 	levelTrigger: function() {
