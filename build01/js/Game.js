@@ -15,6 +15,7 @@ var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 var potBreakBool = 0;
 var keysDisabled = 0;
+var itemVal = 0;
 
 // item picked up bool; may have to change if multiple items
 var itemCollected = 0;
@@ -362,8 +363,11 @@ var Game = {
 		console.log('item picked up');
 		item.body = null;
 		item.destroy();
-
-		itemCollected = 1;
+		itemVal++;
+		// console,
+		if(itemVal == 3) {
+			itemCollected = 1;
+		}
 	},
 	
 	checkMovement: function() {
