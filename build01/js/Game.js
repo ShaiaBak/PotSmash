@@ -615,56 +615,72 @@ var Game = {
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
 
-		console.log(pot.x);
+		pot.body.setSize(16, 16, 0, 0);
 
 		// pot.scale.setTo(.5,.5);
-		pot.body.drag.setTo(1000);
 		switch(dir) {
 			// enable collision on all directions except up and down
+			// without arc
+
+			// WITH ARC - working on...
 			case "UP":
 			pot.y += 2;
 			pot.body.velocity.y = -400;
 			break;
+
 			case "DOWN":
 			pot.y -= 2;
 			pot.body.velocity.y = 400;
 			break;
+
 			case "LEFT":
 			pot.x += 1;
 			enableCollision = false;
-			pot.body.velocity.x = -400;
+			pot.body.velocity.x = -300;
+			// slight upward motion when throwing
+			pot.body.velocity.y = -45;
+			// arc on left and right throw
+			pot.body.gravity.y = 1200;
 			break;
+
 			case "RIGHT":
 			pot.x -= 1;
 			enableCollision = false;
-			pot.body.velocity.x = 400;
+			pot.body.velocity.x = 300;
+			// slight upward motion when throwing
+			pot.body.velocity.y = -45;
+			// arc on left and right throw
+			pot.body.gravity.y = 1200;
 			break;
 
-			// diagonal throw
-			// @todo- fix - reels back and then goes forward for some reason... 
+
+			// diagonal throw - WORKS!
 			case "UPRIGHT":
 			pot.x -= 1;
 			pot.y += 2;
-			pot.body.velocity.y = -400;
-			pot.body.velocity.x = 400;
+			pot.body.velocity.y = -300*0.75;
+			pot.body.velocity.x = 300*0.75;
 			break;
+
 			case "DOWNLEFT":
 			pot.x += 1;
 			pot.y -= 2;
-			pot.body.velocity.y = 400;
-			pot.body.velocity.x = -400;
+			pot.body.velocity.y = 300*0.75;
+			pot.body.velocity.x = -300*0.75;
 			break;
+
 			case "UPLEFT":
 			pot.x += 1;
 			pot.y += 2;
-			pot.body.velocity.x = -400;
-			pot.body.velocity.y = -400;
+			pot.body.velocity.x = -300*0.75;
+			pot.body.velocity.y = -300*0.75;
 			break;
+
 			case "DOWNRIGHT":
 			pot.x -= 1;
 			pot.y -= 2;
-			pot.body.velocity.x = 400;
-			pot.body.velocity.y = 400;
+			pot.body.velocity.x = 300*0.75;
+			pot.body.velocity.y = 300*0.75;
 			break;
 		}
 
@@ -684,6 +700,7 @@ var Game = {
 				// stop pot and then play animation
 				pot.body.velocity.x = 0;
 				pot.body.velocity.y = 0;
+				pot.body.gravity.y = 0;
 				pot.animations.play('potBreakAnim', 14, false, true);
 			});
 		}, this);
@@ -698,7 +715,7 @@ var Game = {
 
 	levelTrigger: function() {
 		console.log('TRIGGERED SO HARD RIGHT NOW');
-		game.time.events.add(Phaser.Timer.SECOND * 0.75, restart, this);
+		game.time.events.add(Phaser.Timer.SECOND * 0.75, restart /*func */, this);
 	},
 
 	render: function() {
