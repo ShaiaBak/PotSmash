@@ -596,34 +596,46 @@ var Game = {
 
 		//have to double size of pot when it overhead for some reason... not sure why
 		pot.scale.setTo(2, 2);
-		pot.x = this.player.width/6;
+		pot.x = this.player.width/16;
 		pot.y = this.player.height* -1.5;
 	},
 	
 	handleThrow: function() {
+		var potThrowOriginPosX = this.player.x - (this.player.width/2 - 1);
+		var potThrowOriginPosY = this.player.y - (this.player.height + 8);
+
 		//remove grabbedPot
 		this.player.children[0].destroy();
 		grabbedPot = null;
 		//create and move thrown pot
-		pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'potSprite_1');
+		// pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'potSprite_1');
+
+		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_1');
 		pot.animations.add('potBreakAnim', [1, 2, 3, 4], 8 /*fps */, false);
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
+
+		console.log(pot.x);
+
 		// pot.scale.setTo(.5,.5);
 		pot.body.drag.setTo(1000);
 		switch(dir) {
 			// enable collision on all directions except up and down
 			case "UP":
+			pot.y += 2;
 			pot.body.velocity.y = -400;
 			break;
 			case "DOWN":
+			pot.y -= 2;
 			pot.body.velocity.y = 400;
 			break;
 			case "LEFT":
+			pot.x += 1;
 			enableCollision = false;
 			pot.body.velocity.x = -400;
 			break;
 			case "RIGHT":
+			pot.x -= 1;
 			enableCollision = false;
 			pot.body.velocity.x = 400;
 			break;
@@ -631,18 +643,26 @@ var Game = {
 			// diagonal throw
 			// @todo- fix - reels back and then goes forward for some reason... 
 			case "UPRIGHT":
+			pot.x -= 1;
+			pot.y += 2;
 			pot.body.velocity.y = -400;
 			pot.body.velocity.x = 400;
 			break;
 			case "DOWNLEFT":
+			pot.x += 1;
+			pot.y -= 2;
 			pot.body.velocity.y = 400;
 			pot.body.velocity.x = -400;
 			break;
 			case "UPLEFT":
+			pot.x += 1;
+			pot.y += 2;
 			pot.body.velocity.x = -400;
 			pot.body.velocity.y = -400;
 			break;
 			case "DOWNRIGHT":
+			pot.x -= 1;
+			pot.y -= 2;
 			pot.body.velocity.x = 400;
 			pot.body.velocity.y = 400;
 			break;
