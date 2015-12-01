@@ -455,12 +455,12 @@ var Game = {
 		} else if (this.player.body.velocity.x < 0 && this.player.body.velocity.y == 0) {
 			dir = "LEFT";
 			grabPotRect.x = this.player.x - this.player.width;
-			grabPotRect.y = this.player.y - this.player.height*.5 + 22;
+			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
 			this.player.play('walkLeft');
 		} else if (this.player.body.velocity.x > 0 && this.player.body.velocity.y == 0) {
 			dir = "RIGHT";
 			grabPotRect.x = this.player.x + 20;
-			grabPotRect.y = this.player.y - this.player.height*.5 + 22;
+			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
 			this.player.play('walkRight');
 		} 
 		// diagonal movements
