@@ -320,7 +320,6 @@ var Game = {
 
 	gridCheckFunc: function() {
 		gridCheck.body.y = 0;
-		// console.log("testing");
 		for (c = 0; c < this.world.height/32; c++) {
 			gridCheck.body.x = 0;
 			for (r = 0; r < this.world.width/32; r++) {
@@ -331,14 +330,11 @@ var Game = {
 					this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
 					board[c][r] = wallGridVal;
 
-					// console.log('overlapWall');
 				} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
 					board[c][r] = potGridVal;
 				} else if (this.game.physics.arcade.overlap(gridCheck, this.player)) {
 					board[c][r] = playerGridVal;
 				} else if (this.map.getTile(r,c,this.blockedLayer) != null) {
-					// console.log("wallfound");
-					// console.log(this.map.getTile(c,r,this.blockedLayer,true));
 					board[c][r] = wallGridVal;
 				} else if (this.map.getTile(r,c,this.transBlockedLayer) != null) {
 					board[c][r] = transWallGridVal;
@@ -388,7 +384,6 @@ var Game = {
 		item.body = null;
 		item.destroy();
 		itemVal++;
-		// console,
 		if(itemVal == 3) {
 			itemCollected = 1;
 		}
@@ -520,7 +515,6 @@ var Game = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
-			// console.log("x.pot" + i + ": " + obj2.x);
 			
 			switch(dir) {
 				case "UP":
@@ -582,7 +576,7 @@ var Game = {
 			i++;
 		}
 		if(isCloseToPot != null && grabbedPot == null){
-			console.log(isCloseToPot.name);
+			console.log('Is close to ' + isCloseToPot.name);
 			this.pickUpPot(isCloseToPot);
 		}
 	},
