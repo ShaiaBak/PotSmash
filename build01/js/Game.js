@@ -616,7 +616,7 @@ var Game = {
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
 
-		// pot.body.setSize(16, 16, 0, 0);
+		pot.body.setSize(16, 16, 0, 0);
 
 		// pot.scale.setTo(.5,.5);
 		switch(dir) {
