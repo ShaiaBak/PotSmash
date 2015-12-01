@@ -628,8 +628,23 @@ var Game = {
 		}
 		console.log('vel x: ' + pot.body.velocity.x + ' vel y: ' + pot.body.velocity.y);
 		var potAlive = true;
+
+		// after some time after throwing a pot, destroy pot if it doent hit anything.
+		game.time.events.add(250, function(pot){
+			// define pots as the thrown pot
+			pots = throwGroup;
+			// cycle through the sprite group
+			// there should only be the pot you threw because the only one part of throwgroup is the one that was thrown
+			// all other pots that have been thrown are killed
+			pots.forEach(function(pot) {
+				// stop pot and then play animation
+				pot.body.velocity.x = 0;
+				pot.body.velocity.y = 0;
+				pot.animations.play('potBreakAnim', 14, false, true);
+			});
+		}, this);
 	},
-	
+
 	handlePotBreak: function(pot, wall) {
 		pot.animations.play('potBreakAnim', 14, false, true);
 		console.log("break");
