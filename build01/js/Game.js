@@ -156,7 +156,7 @@ var Game = {
 		this.player.animations.add('idleUpLeft', [21], 8 /*fps */, true);
 		this.player.animations.add('idleDownLeft', [29], 8 /*fps */, true);
 
-		// ========= POT STUFF =========
+		// ========= CREATE POT STUFF =========
 
 		potGroup = game.add.group();
 		potGroup.enableBody = true;
@@ -171,8 +171,13 @@ var Game = {
 		potGroup.forEach(function(pot) {
 			pot.body.immovable = true;
 			// pot.scale.setTo(.5, .5);
-			pot.body.setSize(32, 32, 0, 0);
 			game.physics.arcade.enable(pot);
+			// pot.body.setSize(20, 28, 0, 0);
+			pot.anchor.setTo(.5,.5);
+
+			// recalculate pot position based on the .5 anchor position
+			pot.x = pot.x + pot.width/2;
+			pot.y = pot.y + pot.height/2;
 		}, this);
 		potGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);
 		potGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, false);
@@ -197,6 +202,11 @@ var Game = {
 		throwGroup = game.add.group();
 		throwGroup.enableBody = true;
 		throwGroup.physicsBodyType = Phaser.Physics.ARCADE;
+
+		throwGroup.forEach(function(pot) {
+			pot.x = pot.x + pot.width/2;
+			pot.y = pot.y + pot.height/2;
+		});
 
 		// ========= CAMERA STUFF =========
 
@@ -578,8 +588,8 @@ var Game = {
 
 		//have to double size of pot when it overhead for some reason... not sure why
 		pot.scale.setTo(2, 2);
-		pot.x = this.player.width * -1;
-		pot.y = this.player.height * -2;
+		pot.x = this.player.width/6;
+		pot.y = this.player.height* -1.5;
 	},
 	
 	handleThrow: function() {
