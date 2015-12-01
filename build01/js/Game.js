@@ -118,8 +118,9 @@ var Game = {
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
 		this.player.scale.setTo(0.5, 0.5);
+
 		//create pot grab area to check the area right in front of the player for pot grabbing
-		grabPotRect = new Phaser.Rectangle(0,0,this.player.width,this.player.height);
+		grabPotRect = new Phaser.Rectangle(0, 0, 10, 10);
 
  		this.player.body.setSize(40, 50, 0, 0);
 
@@ -180,6 +181,7 @@ var Game = {
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
 		}, this);
+
 		potGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);
 		potGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, false);
 
@@ -236,12 +238,9 @@ var Game = {
 
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key3.onDown.add(function () {
-			// r++;
 			for(var r = 0; r < 15; r++){
 				console.log(r + " " + board[r]);
-			// return true;
 			}
-			// this.gridCheckFunc();
 		}, this);
 
 		// print blank board
@@ -303,12 +302,12 @@ var Game = {
 		this.handleDirection();
 
 
-
 		if (!this.player.body.touching.up 
-			& !this.player.body.touching.down 
-			& !this.player.body.touching.left 
-			& !this.player.body.touching.right) {
+			&& !this.player.body.touching.down 
+			&& !this.player.body.touching.left 
+			&& !this.player.body.touching.right) {
 			pushTimer = 0;
+			console.log('push 0');
 		}
 	},
 
@@ -441,25 +440,27 @@ var Game = {
 
 	handleDirection: function() {
 		//cardinal directions handling
+		// all grab pot rect are offset because it registers top left first. needed to offset.
 		if (this.player.body.velocity.y < 0 && this.player.body.velocity.x == 0) {
 			dir = "UP";
-			grabPotRect.x = this.player.x - this.player.width*.5;
-			grabPotRect.y = this.player.y - this.player.height;
+			grabPotRect.x = this.player.x + 7;
+			grabPotRect.y = this.player.y - this.player.height + 5;
 			this.player.play('walkUp');
 		} else if (this.player.body.velocity.y > 0 && this.player.body.velocity.x == 0) {
 			dir = "DOWN";
-			grabPotRect.x = this.player.x - this.player.width*.5;
-			grabPotRect.y = this.player.y;
+			grabPotRect.x = this.player.x + 7;
+			// JANKY
+			grabPotRect.y = this.player.y + this.player.height - 5;
 			this.player.play('walkDown');
 		} else if (this.player.body.velocity.x < 0 && this.player.body.velocity.y == 0) {
 			dir = "LEFT";
 			grabPotRect.x = this.player.x - this.player.width;
-			grabPotRect.y = this.player.y - this.player.height*.5;
+			grabPotRect.y = this.player.y - this.player.height*.5 + 22;
 			this.player.play('walkLeft');
 		} else if (this.player.body.velocity.x > 0 && this.player.body.velocity.y == 0) {
 			dir = "RIGHT";
-			grabPotRect.x = this.player.x;
-			grabPotRect.y = this.player.y - this.player.height*.5;
+			grabPotRect.x = this.player.x + 20;
+			grabPotRect.y = this.player.y - this.player.height*.5 + 22;
 			this.player.play('walkRight');
 		} 
 		// diagonal movements
@@ -615,14 +616,11 @@ var Game = {
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
 
-		pot.body.setSize(16, 16, 0, 0);
+		// pot.body.setSize(16, 16, 0, 0);
 
 		// pot.scale.setTo(.5,.5);
 		switch(dir) {
 			// enable collision on all directions except up and down
-			// without arc
-
-			// WITH ARC - working on...
 			case "UP":
 			pot.y += 2;
 			pot.body.velocity.y = -400;
@@ -719,7 +717,10 @@ var Game = {
 	},
 
 	render: function() {
-		game.debug.body(gridCheck);
+		// game.debug.body(gridCheck);
+
+		// see pickup hitbox for player and pot
+		// game.debug.geom(grabPotRect,'#0fffff');
 	}
 
 };
