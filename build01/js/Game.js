@@ -17,6 +17,8 @@ var potBreakBool = 0;
 var keysDisabled = 0;
 var itemVal = 0;
 
+var enableCollision = true;
+
 // item picked up bool; may have to change if multiple items
 var itemCollected = 0;
 
@@ -172,7 +174,6 @@ var Game = {
 			pot.body.immovable = true;
 			// pot.scale.setTo(.5, .5);
 			game.physics.arcade.enable(pot);
-			// pot.body.setSize(20, 28, 0, 0);
 			pot.anchor.setTo(.5,.5);
 
 			// recalculate pot position based on the .5 anchor position
@@ -257,21 +258,34 @@ var Game = {
 
 	update: function() {
 		// collision update
+		// player collision (no pot)
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
-
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
+		
+		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
-		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak);
-		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak);
+		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak, function() {
+			if (enableCollision) {
+				return true;
+			}
+			return false;
+		});
+		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak, function() {
+			if (enableCollision) {
+				return true;
+			}
+			return false;
+		});
+
+		//item player collision
+		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
 		// this.game.physics.arcade.collide(potGroup, potGroup);
 		// this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
 		// this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
-
-		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		if (exitBool == 1) {
 			this.game.physics.arcade.overlap(this.player, this.levelExitLayer, this.levelTrigger);
@@ -604,6 +618,7 @@ var Game = {
 		// pot.scale.setTo(.5,.5);
 		pot.body.drag.setTo(1000);
 		switch(dir) {
+			// enable collision on all directions except up and down
 			case "UP":
 			pot.body.velocity.y = -400;
 			break;
@@ -611,9 +626,11 @@ var Game = {
 			pot.body.velocity.y = 400;
 			break;
 			case "LEFT":
+			enableCollision = false;
 			pot.body.velocity.x = -400;
 			break;
 			case "RIGHT":
+			enableCollision = false;
 			pot.body.velocity.x = 400;
 			break;
 
@@ -636,8 +653,10 @@ var Game = {
 			pot.body.velocity.y = 400;
 			break;
 		}
-		console.log('vel x: ' + pot.body.velocity.x + ' vel y: ' + pot.body.velocity.y);
-		var potAlive = true;
+
+		game.time.events.add(150, function(pot){
+			enableCollision = true;
+		}, this);
 
 		// after some time after throwing a pot, destroy pot if it doent hit anything.
 		game.time.events.add(250, function(pot){
