@@ -648,6 +648,7 @@ var Game = {
 			break;
 		}
 
+		// after throwing, temporarily have the pot not able to collide with anything
 		game.time.events.add(150, function(pot){
 			enableCollision = true;
 		}, this);
