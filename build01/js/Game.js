@@ -14,7 +14,7 @@ var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 var potBreakBool = 0;
-var keysDisabled = 0;
+var keysDisabled = false;
 var itemVal = 0;
 var showDebug = false;
 var enterNextLevel = false;
@@ -734,9 +734,16 @@ var Game = {
 		// potBreakBool = 0;
 	},
 
-	levelTrigger: function() {
+	levelTrigger: function(player, exit) {
 		enterNextLevel = true;
-		game.time.events.add(Phaser.Timer.SECOND * 0.25, restart /*func */, this);
+		keysDisabled = true;
+		// player.body.velocity.y += playerSpeed;
+		// console.log(player.body.velocity.y);
+		game.time.events.add(Phaser.Timer.SECOND * 0.24, function() {
+			keysDisabled = false;
+		}, this);
+
+		game.time.events.add(Phaser.Timer.SECOND * 0.25, restart, this);
 	},
 
 	render: function() {
