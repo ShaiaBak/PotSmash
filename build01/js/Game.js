@@ -280,12 +280,12 @@ var Game = {
 			}
 			return false;
 		});
-		// this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak, function() {
-		// 	if (enableCollision) {
-		// 		return true;
-		// 	}
-		// 	return false;
-		// });
+		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak, function() {
+			if (enableCollision) {
+				return true;
+			}
+			return false;
+		});
 
 		//item player collision
 		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
@@ -626,7 +626,9 @@ var Game = {
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
 
-		pot.body.setSize(16, 16, 0, 0);
+		// resize thrown pot collider and set it to the center
+		pot.body.setSize(16, 16, 8, 8);
+		pot.body.position.x += 20;
 
 		// pot.scale.setTo(.5,.5);
 		switch(dir) {
