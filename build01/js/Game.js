@@ -408,6 +408,12 @@ var Game = {
 		this.player.body.velocity.y = 0;
 		this.player.body.velocity.x = 0;
 
+		// check to see if all win conditions are true
+		// make player exit level without player control
+		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
+			this.player.body.velocity.y += playerSpeed;
+		}
+
 		// check to see if keys are disabled
 		if(keysDisabled == false) {
 			//Checks arrow keys
@@ -737,13 +743,16 @@ var Game = {
 	levelTrigger: function(player, exit) {
 		enterNextLevel = true;
 		keysDisabled = true;
-		// player.body.velocity.y += playerSpeed;
-		// console.log(player.body.velocity.y);
-		game.time.events.add(Phaser.Timer.SECOND * 0.24, function() {
+		// make player move autpmatically through door
+		this.checkMovement;
+
+		// reenable keys JUST before next level
+		game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {
 			keysDisabled = false;
 		}, this);
 
-		game.time.events.add(Phaser.Timer.SECOND * 0.25, restart, this);
+		// next level after 1 second
+		game.time.events.add(Phaser.Timer.SECOND * 1, restart, this);
 	},
 
 	render: function() {
@@ -766,7 +775,6 @@ var Game = {
 			throwGroup.forEachAlive(function(throwDebug) {
 				game.debug.body(throwDebug);
 			}, this);
-
 		}
 	}
 
