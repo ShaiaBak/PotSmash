@@ -311,13 +311,17 @@ var Game = {
 		this.checkMovement();
 		this.handleDirection();
 
+		potGroup.forEach(function(pot) {
+			if(this.player.body.touching.up) {
+				console.log('not touching');
+			}
+		});
 
 		if (!this.player.body.touching.up 
 			&& !this.player.body.touching.down 
 			&& !this.player.body.touching.left 
 			&& !this.player.body.touching.right) {
 			pushTimer = 0;
-			console.log('push 0');
 		}
 	},
 
