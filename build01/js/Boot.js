@@ -9,10 +9,12 @@ var Boot = {
     this.scale.pageAlignVertically = true;
 
     //screen size will be set automatically
-    this.scale.updateLayout(true);
+    this.scale.setScreenSize(true); // for older phaser
+
+    // this.scale.updateLayout(true); //for new phaser version
 
     //physics system
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
     
     this.state.start('Preload');
   }
