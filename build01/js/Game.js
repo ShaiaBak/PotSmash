@@ -614,8 +614,12 @@ var Game = {
 	//pick up pot
 	pickUpPot: function(pot) {
 		grabbedPot = pot;
-		pot.body.moves = true;
+		grabbedPot.body.moves = true;
 		this.player.addChild(pot);
+
+		// bring grabbedpot to top layer, above sittign pots
+		// move all other pots lower down in layers
+		game.world.moveDown(potGroup);
 
 		// disable move keys when picking up pot to allow for animation to finish
 		this.player.body.immovable = true;
@@ -625,9 +629,9 @@ var Game = {
 		game.time.events.add(Phaser.Timer.SECOND * 0.2, this.enableKeys, this);
 
 		//have to double size of pot when it overhead for some reason... not sure why
-		pot.scale.setTo(2, 2);
-		pot.x = this.player.width/16;
-		pot.y = this.player.height* -1.5;
+		grabbedPot.scale.setTo(2, 2);
+		grabbedPot.x = this.player.width/16;
+		grabbedPot.y = this.player.height* -1.5;
 	},
 	
 	handleThrow: function() {
@@ -646,6 +650,9 @@ var Game = {
 
 		// resize thrown pot collider and set it to the center
 		pot.body.setSize(16, 16, 8, 8);
+
+		// bring pot to top layer
+		game.world.bringToTop(pot);
 
 		// pot.scale.setTo(.5,.5);
 		switch(dir) {
