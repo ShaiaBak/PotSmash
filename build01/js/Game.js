@@ -16,6 +16,7 @@ var exitBool = 0; // if 0, exit doesn't work
 var potBreakBool = 0;
 var keysDisabled = 0;
 var itemVal = 0;
+var showDebug = false;
 
 var enableCollision = true;
 
@@ -243,6 +244,15 @@ var Game = {
 			}
 		}, this);
 
+		key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+		key1.onDown.add(function() {
+			// toggle debug state on key press
+			showDebug = (showDebug) ? false : true;
+			if (!showDebug) {
+				game.debug.reset();
+			}
+		}, this)
+
 		// print blank board
 		// printBoard(board,14,15);
 		
@@ -270,12 +280,12 @@ var Game = {
 			}
 			return false;
 		});
-		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak, function() {
-			if (enableCollision) {
-				return true;
-			}
-			return false;
-		});
+		// this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak, function() {
+		// 	if (enableCollision) {
+		// 		return true;
+		// 	}
+		// 	return false;
+		// });
 
 		//item player collision
 		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
@@ -623,12 +633,12 @@ var Game = {
 			// enable collision on all directions except up and down
 			case "UP":
 			pot.y += 2;
-			pot.body.velocity.y = -400;
+			pot.body.velocity.y = -300;
 			break;
 
 			case "DOWN":
 			pot.y -= 2;
-			pot.body.velocity.y = 400;
+			pot.body.velocity.y = 300;
 			break;
 
 			case "LEFT":
@@ -717,10 +727,27 @@ var Game = {
 	},
 
 	render: function() {
-		// game.debug.body(gridCheck);
 
-		// see pickup hitbox for player and pot
-		// game.debug.geom(grabPotRect,'#0fffff');
+		if(showDebug) {
+			game.debug.body(gridCheck);
+
+			// see pickup hitbox for player and pot
+			game.debug.geom(grabPotRect,'#0fffff');
+		
+			// show collision body for player
+			game.debug.body(this.player);
+
+			// show collision body for 
+			potGroup.forEachAlive(function(potDebug) {
+				game.debug.body(potDebug);
+			}, this);
+
+			// show collision body for thrown pot
+			throwGroup.forEachAlive(function(throwDebug) {
+				game.debug.body(throwDebug);
+			}, this);
+
+		}
 	}
 
 };
