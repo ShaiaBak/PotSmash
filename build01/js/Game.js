@@ -476,15 +476,25 @@ var Game = {
 		// diagonal movements
 		else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x < 0) {
 			this.player.play('walkUpLeft');
+			// set grab pot detectotion to off screen to disable it while walking diagonal
+			grabPotRect.x = game.world.height;
+			grabPotRect.y = game.world.width;
+			
 			dir = "UPLEFT";
-		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x < 0) {
-			this.player.play('walkDownLeft');
-			dir = "DOWNLEFT";
 		} else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x > 0) {
 			this.player.play('walkUpRight');
+			grabPotRect.x = game.world.height;
+			grabPotRect.y = game.world.width;
 			dir = "UPRIGHT";
+		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x < 0) {
+			this.player.play('walkDownLeft');
+			grabPotRect.x = game.world.height;
+			grabPotRect.y = game.world.width;
+			dir = "DOWNLEFT";
 		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x > 0) {
 			this.player.play('walkDownRight');
+			grabPotRect.x = game.world.height;
+			grabPotRect.y = game.world.width;
 			dir = "DOWNRIGHT";
 		}
 		
