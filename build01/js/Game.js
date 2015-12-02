@@ -17,11 +17,12 @@ var potBreakBool = 0;
 var keysDisabled = 0;
 var itemVal = 0;
 var showDebug = false;
+var enterNextLevel = false;
 
 var enableCollision = true;
 
 // item picked up bool; may have to change if multiple items
-var itemCollected = 0;
+var objectiveComplete = 0;
 
 var pushTimer = 0;
 var triggerTimer = 0;
@@ -297,13 +298,18 @@ var Game = {
 		// this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
 		if (exitBool == 1) {
-			this.game.physics.arcade.overlap(this.player, this.levelExitLayer, this.levelTrigger);
+			this.game.physics.arcade.collide(this.player, this.levelExitLayer, this.levelTrigger, function() {
+				if(enterNextLevel == true) {
+					return false;
+				}
+				return true;
+			});
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
 		}
 
 		// temp level ending condition
-		if (itemCollected == 1) {
+		if (objectiveComplete == 1) {
 			exitBool = 1;
 		}
 
@@ -311,18 +317,13 @@ var Game = {
 		this.checkMovement();
 		this.handleDirection();
 
-		potGroup.forEach(function(pot) {
-			if(this.player.body.touching.up) {
-				console.log('not touching');
-			}
-		});
-
-		if (!this.player.body.touching.up 
-			&& !this.player.body.touching.down 
-			&& !this.player.body.touching.left 
-			&& !this.player.body.touching.right) {
-			pushTimer = 0;
-		}
+		// attempt at fixing is touching
+		// if (!this.player.body.touching.up
+		// 	&& !this.player.body.touching.left 
+		// 	&& !this.player.body.touching.right
+		// 	&& !this.player.body.touching.down) {
+		// 	pushTimer = 0;
+		// }
 	},
 
 	enableKeys: function() {
@@ -398,7 +399,7 @@ var Game = {
 		item.destroy();
 		itemVal++;
 		if(itemVal == 3) {
-			itemCollected = 1;
+			objectiveComplete = 1;
 		}
 	},
 	
@@ -532,15 +533,13 @@ var Game = {
 		// goes through group 'potGroup' and then makes the children do something
 		potGroup.forEach(function(pots) {
 			pots.body.immovable = true;
-
-			// temp
 			pots.body.moves = true;
 		}, this);
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
-			
+
 			switch(dir) {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
@@ -632,9 +631,8 @@ var Game = {
 		//remove grabbedPot
 		this.player.children[0].destroy();
 		grabbedPot = null;
-		//create and move thrown pot
-		// pot = throwGroup.create(grabPotRect.x, grabPotRect.y, 'potSprite_1');
 
+		//create and move thrown pot
 		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_1');
 		pot.animations.add('potBreakAnim', [1, 2, 3, 4], 8 /*fps */, false);
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
@@ -642,7 +640,6 @@ var Game = {
 
 		// resize thrown pot collider and set it to the center
 		pot.body.setSize(16, 16, 8, 8);
-		pot.body.position.x += 20;
 
 		// pot.scale.setTo(.5,.5);
 		switch(dir) {
@@ -738,8 +735,8 @@ var Game = {
 	},
 
 	levelTrigger: function() {
-		console.log('TRIGGERED SO HARD RIGHT NOW');
-		game.time.events.add(Phaser.Timer.SECOND * 0.75, restart /*func */, this);
+		enterNextLevel = true;
+		game.time.events.add(Phaser.Timer.SECOND * 0.25, restart /*func */, this);
 	},
 
 	render: function() {
