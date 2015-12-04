@@ -256,7 +256,12 @@ var Level2P1 = {
 			if (!showDebug) {
 				game.debug.reset();
 			}
-		}, this)
+		}, this);
+
+		key0 = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
+		key0.onDown.add(function() {
+			game.state.restart();
+		}, this);
 
 		// print blank board
 		// printBoard(board,14,15);
@@ -292,25 +297,6 @@ var Level2P1 = {
 
 		pushTimer = 0;
 		triggerTimer = 0;
-
-		//******GRID SETUP******//
-		board = new Array();
-		board[0]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[1]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[2]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[3]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[4]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[5]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[6]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[7]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[8]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[9]  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[10] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[11] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[12] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[13] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		board[14] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		gridCheck;
 
 		//Rows and columns of the grid
 		c=0;
