@@ -11,8 +11,8 @@ var Level2Start = {
 		var menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		var subStyle = {font: "12px Courier", fill: "#ffffff" };
 
-		levelTitle = this.game.add.text(0, 0, "Level 2 goes here", menuStyle);
-		levelSub = this.game.add.text(0, 0, "Space to go back to lvl1", subStyle);
+		levelTitle = this.game.add.text(0, 0, "Congrats! You beat level 1", menuStyle);
+		levelSub = this.game.add.text(0, 0, "Press space to go to level 2", subStyle);
 		levelSub.anchor.set(0.5);
 		levelTitle.anchor.set(0.5);
 
