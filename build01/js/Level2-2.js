@@ -116,7 +116,7 @@ var Level2P2 = {
 
 		// this.item.body.immovable = true;
 
-		//create player
+		// =========== CREATE PLAYER ===========
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
@@ -125,6 +125,10 @@ var Level2P2 = {
 		// anchor point for player sprite
 		this.player.anchor.setTo(.5,.5);
 		this.player.scale.setTo(0.5, 0.5);
+
+		// specific to level 2-2
+		this.player.x += this.player.width/2;
+		this.player.y += this.player.height/2;
 
 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0, 0, 10, 10);
