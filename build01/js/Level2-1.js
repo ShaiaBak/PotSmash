@@ -470,8 +470,8 @@ var Level2P1 = {
 		// check to see if all win conditions are true
 		// make player exit level without player control
 		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
-			this.player.body.velocity.x += playerSpeed;
 			this.player.body.collideWorldBounds = false;
+			this.player.body.velocity.x += playerSpeed/1.5;
 		}
 
 		// check to see if keys are disabled
