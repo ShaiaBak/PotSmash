@@ -75,6 +75,7 @@ var Level2P2 = {
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.detailLayer1 = this.map.createLayer('detailLayer1');
 		this.detailLayer2 = this.map.createLayer('detailLayer2');
+		this.detailLayer3 = this.map.createLayer('detailLayer3');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
@@ -185,6 +186,8 @@ var Level2P2 = {
 			// recalculate pot position based on the .5 anchor position
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
+
+			pot.body.collideWorldBounds = true;
 		}, this);
 
 		potGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);
@@ -213,6 +216,8 @@ var Level2P2 = {
 		throwGroup.forEach(function(pot) {
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
+
+			pot.body.collideWorldBounds = true;
 		});
 
 		// ========= CAMERA STUFF =========

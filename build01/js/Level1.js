@@ -170,7 +170,6 @@ var Level1 = {
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
 		this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
-		// this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
@@ -184,6 +183,8 @@ var Level1 = {
 			// recalculate pot position based on the .5 anchor position
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
+
+			pot.body.collideWorldBounds = true;
 		}, this);
 
 		potGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);

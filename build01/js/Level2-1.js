@@ -184,6 +184,7 @@ var Level2P1 = {
 			// recalculate pot position based on the .5 anchor position
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
+			pot.body.collideWorldBounds = true;
 		}, this);
 
 		potGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);
@@ -212,6 +213,8 @@ var Level2P1 = {
 		throwGroup.forEach(function(pot) {
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
+
+			pot.body.collideWorldBounds = true;
 		});
 
 		// ========= CAMERA STUFF =========
