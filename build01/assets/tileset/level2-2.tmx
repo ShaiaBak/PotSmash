@@ -19,7 +19,7 @@
    eJwzZGBgMETDhAC6+lF9tNGHzQxi1BKrj1QwUvSRgwGHZxE7
   </data>
  </layer>
- <layer name="detailLayer1" width="14" height="15" visible="0">
+ <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
    eJzdzkELgkAQhuFZNX/3/jrFbpVe1WsQihZUpuDrIZAuO7vHPnjYw87HjIg+BY4e81suKFF59mo0aJXzGXLPHVtOOAf0/iG33duL2A6a3sjcgA8mvPHC09Ff+J+RGrEHJIgRGd1eV67K+3/zoHcP7H6zAhDGIrQ=
   </data>
@@ -34,9 +34,9 @@
    eJxjYBh4cI6BoeEsEGOTe4VH302gnhs49H3Fo+8JUM9jHPoYGHHre4VLDwHwlUx9owACjpIZfhfoGO4ATIMPaA==
   </data>
  </layer>
- <layer name="transBlockedLayer" width="14" height="15" visible="0">
+ <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEVgQwLkCpPlxy+PSRI4cP0NvMgQTExBUhMWrrw+dOWgFqmA8AItIMdw==
+   eJxjYMAEVgQwLkCpPlxy+PThMgOfPnx2E2sfKYBcfbQGxMQVITFq68PnTloBapgPAEvADV8=
   </data>
  </layer>
  <objectgroup name="objectsLayer">

@@ -1,7 +1,7 @@
 var levelTitle;
 var keySpace;
 
-var Level2 = {
+var Level2Start = {
 	create: function() {
 		game.world.width = 320;
 		game.world.height = 320;
@@ -29,7 +29,8 @@ var Level2 = {
 
 
 		if(keySpace.isDown) {
-			this.state.start('Game');
+			// this.state.start('Level2-1', true, false);
+			this.state.start('Level2-1', true, false);
 		}
 	}
 }

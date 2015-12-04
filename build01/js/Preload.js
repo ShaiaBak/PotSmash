@@ -3,7 +3,11 @@ Preload = {
 
 		//load game assets
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
-		this.load.image('gameTiles', 'assets/img/tiles-lvl1-32x32.png');
+		this.load.tilemap('level2-1', 'assets/tileset/level2-1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('level2-2', 'assets/tileset/level2-2.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.image('gameTiles-lvl-1', 'assets/img/tiles-lvl1-32x32.png');
+		this.load.image('gameTiles-lvl-2_1', 'assets/img/tiles-lvl2-1-32x32.png');
+		this.load.image('gameTiles-lvl-2_2', 'assets/img/tiles-lvl2-2-32x32.png');
 		// this.load.image('gameTilesTemp', 'assets/img/tileset-placeholder2.png');
 		this.load.spritesheet('item', 'assets/img/player.png',  64, 64);
 		this.load.spritesheet('player', 'assets/img/char_spritesheet_walk-v01.png',  64, 64);

@@ -6,7 +6,9 @@ var game = new Phaser.Game(448, 320, Phaser.CANVAS , '', null);
 game.state.add('Boot', Boot);
 game.state.add('Preload', Preload);
 game.state.add('StartMenu', StartMenu);
-game.state.add('Game', Game);
-game.state.add('Level2', Level2);
+game.state.add('Level1', Level1);
+game.state.add('Level2Start', Level2Start);
+game.state.add('Level2-1', Level2P1);
+game.state.add('Level2-2', Level2P2);
 
 game.state.start('Boot');

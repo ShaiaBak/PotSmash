@@ -6,7 +6,7 @@ var blockedLayer;
 var triggerLayer;
 var levelExitLayer;
 var objectLayer;
-var dir = "UP";
+var dir = "RIGHT";
 var playerSpeed = 100; //100 is a arbitrary default value
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
@@ -16,7 +16,7 @@ var exitBool = 0; // if 0, exit doesn't work
 var potBreakBool = 0;
 var keysDisabled = false;
 var itemVal = 0;
-var objectiveVal = 3;
+var objectiveVal = 1;
 var showDebug = false;
 var enterNextLevel = false;
 
@@ -60,11 +60,13 @@ var triggerGridVal = 7;
 var exitGridVal = 8;
 //******GRID SETUP END******//
 
-var Level1 = {
+var Level2P2 = {
 	create: function() {
-		this.map = this.game.add.tilemap('level1');
+		this.map = this.game.add.tilemap('level2-2');
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+		this.map.addTilesetImage('tiles-lvl2-2-32x32', 'gameTiles-lvl-2_2');
+		this.map.addTilesetImage('tiles-lvl2-1-32x32', 'gameTiles-lvl-2_1');
 		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
 		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
 
@@ -97,12 +99,12 @@ var Level1 = {
 			}
 		}, this);
 
-		// create item
+		// ========== CREATE ITEM =============
 		// for multiple items
 		itemGroup = game.add.group();
 	   	itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 147, 'mega_grid', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 33, 'mega_grid', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
 
@@ -169,8 +171,7 @@ var Level1 = {
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
-		this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
-		// this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 57, 'potSprite_1', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
@@ -271,14 +272,14 @@ var Level1 = {
 		console.log('call restart');
 
 		_TILESIZE = 32;
-		dir = "UP";
+		dir = "RIGHT";
 		playerSpeed = 100; //100 is a arbitrary default value
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
 		potBreakBool = 0;
 		keysDisabled = false;
 		itemVal = 0;
-		objectiveVal = 3;
+		objectiveVal = 1;
 		showDebug = false;
 		enterNextLevel = false;
 
@@ -353,7 +354,6 @@ var Level1 = {
 		// this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
 		// this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
-		// console.log(exitBool);
 		if (exitBool == 1) {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, this.levelTrigger, function() {
 				if(enterNextLevel == true) {
@@ -362,7 +362,6 @@ var Level1 = {
 				return true;
 			});
 		} else {
-			// console.log('do not enter');
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
 		}
 
@@ -456,7 +455,6 @@ var Level1 = {
 		item.body = null;
 		item.destroy();
 		itemVal++;
-		console.log(itemVal);
 		if(itemVal == objectiveVal) {
 			objectiveComplete = 1;
 		}
@@ -470,7 +468,7 @@ var Level1 = {
 		// check to see if all win conditions are true
 		// make player exit level without player control
 		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
-			this.player.body.velocity.y += playerSpeed;
+			this.player.body.velocity.x += playerSpeed;
 			this.player.body.collideWorldBounds = false;
 		}
 
@@ -819,7 +817,7 @@ var Level1 = {
 		}, this);
 
 		// next level after 1 second
-		game.time.events.add(Phaser.Timer.SECOND * 1, lvl1End, this);
+		game.time.events.add(Phaser.Timer.SECOND * 1, lvl2P2End, this);
 	},
 
 	render: function() {
@@ -857,6 +855,6 @@ function printBoard (array,x,y) {
 };
 
 
-function lvl1End() {
-	game.state.start('Level2Start',true,false);
+function lvl2P2End() {
+	game.state.start('Level1');
 };
