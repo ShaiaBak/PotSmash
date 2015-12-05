@@ -79,6 +79,16 @@ var Level2P1 = {
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
 		this.transBlockedLayer.alpha = 0;
 
+		//collision
+		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+
+		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'levelExitLayer');
+
+		// enables other physics stuff
+		// game.physics.startSystem(Phaser.Physics.P2JS);
+
 
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
@@ -124,20 +134,10 @@ var Level2P1 = {
 		this.player.anchor.setTo(.5,.5);
 		this.player.scale.setTo(0.5, 0.5);
 
-		//create pot grab area to check the area right in front of the player for pot grabbing
+ 		this.player.body.setSize(40, 40, 0, 5);
+
+ 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0, 0, 10, 10);
-
- 		this.player.body.setSize(40, 50, 0, 0);
-
-		//collision
-		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
-		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
-
-		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
-		this.map.setCollisionBetween(1, 1896, true, 'levelExitLayer');
-
-		// enables other physics stuff
-		// game.physics.startSystem(Phaser.Physics.P2JS);
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
@@ -272,6 +272,8 @@ var Level2P1 = {
 		gridCheck.tint = 0xff0000;
 		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
 
+		// so the player is ontop of all other items
+		game.world.moveUp(this.player);
 		this.restart();
 	},
 

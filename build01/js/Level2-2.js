@@ -70,19 +70,26 @@ var Level2P2 = {
 		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
 		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
 
-
 		this.bgLayer = this.map.createLayer('backgroundLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.detailLayer1 = this.map.createLayer('detailLayer1');
 		this.detailLayer2 = this.map.createLayer('detailLayer2');
 		this.detailLayer3 = this.map.createLayer('detailLayer3');
 		this.detailLayer4 = this.map.createLayer('detalLayer4_overChar');
-		game.world.bringToTop(this.detailLayer4);
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
 		this.transBlockedLayer.alpha = 0;
 
+		//collision
+		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
+
+		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
+		this.map.setCollisionBetween(1, 1896, true, 'levelExitLayer');
+
+		// enables other physics stuff
+		// game.physics.startSystem(Phaser.Physics.P2JS);
 
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
@@ -132,20 +139,10 @@ var Level2P2 = {
 		this.player.x += this.player.width/2;
 		this.player.y += this.player.height/2;
 
-		//create pot grab area to check the area right in front of the player for pot grabbing
+ 		this.player.body.setSize(40, 40, 0, 5);
+
+ 		//create pot grab area to check the area right in front of the player for pot grabbing
 		grabPotRect = new Phaser.Rectangle(0, 0, 10, 10);
-
- 		this.player.body.setSize(40, 50, 0, 0);
-
-		//collision
-		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
-		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
-
-		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
-		this.map.setCollisionBetween(1, 1896, true, 'levelExitLayer');
-
-		// enables other physics stuff
-		// game.physics.startSystem(Phaser.Physics.P2JS);
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
@@ -281,6 +278,10 @@ var Level2P2 = {
 		gridCheck.tint = 0xff0000;
 		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
 
+		// so the player is ontop of all other items
+		game.world.moveUp(this.player);
+		// so detail layer 4 is overtop of player
+		game.world.bringToTop(this.detailLayer4);
 		this.restart();
 	},
 
