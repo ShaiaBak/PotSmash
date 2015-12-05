@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="57">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="63">
  <tileset firstgid="1" name="tiles-lvl1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl1-32x32.png" width="256" height="256"/>
  </tileset>
@@ -46,6 +46,16 @@
    </properties>
   </object>
   <object id="56" gid="198" x="256" y="128" width="32" height="32"/>
+  <object id="61" gid="57" x="288" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="62" gid="57" x="256" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="detalLayer4_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">

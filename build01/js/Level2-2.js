@@ -241,9 +241,9 @@ var Level2P2 = {
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
 		//enable space bar
-		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		keySPACE = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		//spacebar picks / throws the pot
-		keySpace.onDown.add(function () {
+		keySPACE.onDown.add(function () {
 			if(grabbedPot == null){
 				this.checkPickUp();
 			} else {
@@ -353,11 +353,12 @@ var Level2P2 = {
 
 		if (exitBool == 1) {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, this.levelTrigger, function() {
-				if(enterNextLevel == true) {
+				// if you finished level and you have no pot, kill collision and pass through
+				if(enterNextLevel == true && grabbedPot == null) {
 					return false;
 				}
 				return true;
-			});
+			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
 		}
@@ -371,13 +372,13 @@ var Level2P2 = {
 		this.checkMovement();
 		this.handleDirection();
 
-		// attempt at fixing is touching
-		// if (!this.player.body.touching.up
-		// 	&& !this.player.body.touching.left 
-		// 	&& !this.player.body.touching.right
-		// 	&& !this.player.body.touching.down) {
-		// 	pushTimer = 0;
-		// }
+		// anytime a directional key is let go, reset potTimer
+		this.game.input.keyboard.onUpCallback = function(e) {
+			// console.log(e.keyCode);
+			if(e.keyCode == 38 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 40 ) {
+				pushTimer = 0;
+			}
+		}
 	},
 
 	enableKeys: function() {
@@ -803,18 +804,25 @@ var Level2P2 = {
 	},
 
 	levelTrigger: function(player, exit) {
-		enterNextLevel = true;
-		keysDisabled = true;
-		// make player move autpmatically through door
-		this.checkMovement;
+		// if not holding a pot, allow player to finish level
+		if (grabbedPot == null) {
+			enterNextLevel = true;
+			keysDisabled = true;
+			// make player move autpmatically through door
+			this.checkMovement;
 
-		// reenable keys JUST before next level
-		game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {
-			keysDisabled = false;
-		}, this);
+			// reenable keys JUST before next level
+			game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {
+				keysDisabled = false;
+			}, this);
 
-		// next level after 1 second
-		game.time.events.add(Phaser.Timer.SECOND * 1, lvl2P2End, this);
+			// next level after 1 second
+			game.time.events.add(Phaser.Timer.SECOND * 1, lvl2P2End, this);
+
+		} else { // if holding a pot, throw it, recurse function
+			this.handleThrow();
+			this.levelTrigger();
+		}
 	},
 
 	render: function() {
