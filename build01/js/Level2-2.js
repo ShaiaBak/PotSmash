@@ -76,6 +76,8 @@ var Level2P2 = {
 		this.detailLayer1 = this.map.createLayer('detailLayer1');
 		this.detailLayer2 = this.map.createLayer('detailLayer2');
 		this.detailLayer3 = this.map.createLayer('detailLayer3');
+		this.detailLayer4 = this.map.createLayer('detalLayer4_overChar');
+		game.world.bringToTop(this.detailLayer4);
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
@@ -147,16 +149,16 @@ var Level2P2 = {
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
-		this.player.animations.add('walkDown', [0, 1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkUp', [16, 17, 18, 19], 8 /*fps */, true);
-		this.player.animations.add('walkLeft', [24, 25, 26, 27], 8 /*fps */, true);
-		this.player.animations.add('walkRight', [8 , 9, 10, 11], 8 /*fps */, true);
+		this.player.animations.add('walkDown', [1 ,2 ,3, 0], 8 /*fps */, true);
+		this.player.animations.add('walkUp', [17, 18, 19, 16], 8 /*fps */, true);
+		this.player.animations.add('walkLeft', [25, 26, 27, 24], 8 /*fps */, true);
+		this.player.animations.add('walkRight', [9, 10, 11, 8], 8 /*fps */, true);
 
 		//diagonal animation
-		this.player.animations.add('walkUpRight', [12 , 13, 14, 15], 8 /*fps */, true);
-		this.player.animations.add('walkDownRight', [4 , 5, 6, 7], 8 /*fps */, true);
-		this.player.animations.add('walkUpLeft', [20, 21, 22, 23], 8 /*fps */, true);
-		this.player.animations.add('walkDownLeft', [28, 29, 30, 31], 8 /*fps */, true);
+		this.player.animations.add('walkUpRight', [13, 14, 15, 12], 8 /*fps */, true);
+		this.player.animations.add('walkDownRight', [5, 6, 7, 4], 8 /*fps */, true);
+		this.player.animations.add('walkUpLeft', [21, 22, 23, 20], 8 /*fps */, true);
+		this.player.animations.add('walkDownLeft', [29, 30, 31, 28], 8 /*fps */, true);
 
 		//idle animation
 		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
