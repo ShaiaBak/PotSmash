@@ -8,7 +8,7 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBg5oIQApra+YgJ4VB9p+nDpJwWQo4cYAAC09x+D
+   eJxjYBg5oIQApra+YgJ4VB9p+nDpJwWQo4cYfQDP6yBp
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">

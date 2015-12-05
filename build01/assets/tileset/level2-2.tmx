@@ -11,10 +11,10 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdkbsOgDAIRfl0P8ZXXaxKF+PHeZsGh6YQ0tHhJBA4DNxIRLFiASsISk0NJ3OCC7BSa94IJoVZcTK7MTt+4NU3vLteLzQyll68jWgIhc/jRsbSi5fgcMGV8w0eJXfrf9Y/e70eXhNWkAE=
+   eJzdkUsKgDAMROfoHsZf3fhLN+LhHCjpwppQunTgQQJ9XWSAMhOZSTBmKwc5iRizlZ4MBqPjrWQz2H/gvf+ofVvrBZQd667eAnQhkSMoO9ZdvUhHEjlezxe58d27dz/vnq1eSx4kHFOB
   </data>
  </layer>
- <layer name="blockedLayer" width="14" height="15">
+ <layer name="blockedLayer" width="14" height="15" visible="0">
   <data encoding="base64" compression="zlib">
    eJwzZGBgMETDhAC6+lF9tNGHzQxi1BKrj1QwUvSRgwGHZxE7
   </data>

@@ -8,27 +8,27 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZGBg8CURO0KxE4kYpo9c+0bxKB6sGABmETZ/
+   eJxjYGBg8CURw4ATiRgGyLXPkUQ8qo82+kjVTy19xOqntj5iAAB5bCjJ
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJwzZCAdGELxqL6RqY9U/QOtj1j9lOgDAOa+CG0=
+   eJwzZCAdGELxqL6RqY9U/dTSR6x+ausjBgMAQ3EKVw==
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJy1z8lqAlEQheF+N4dEE5w1aJxxHnCOonFKNGriuJPozhfNv7iLWtg0NrHgg4JTB+7VtP8dC6wGN89ooIkW2nDBjQ7eMMMcX6L3gncMMcIYYUQwwRQ77HEQvTQWWGKFb5H9YI1fnHAWWdXwt9end8NtV+yfYrfBjgc8wgEnnlT+IW63YvfACx/8CCCIkMo3Ou94RRQxxJFAEimVH3V6OeRRQBEllFFR+UWnd4/JIGuiV0PdRK+Pgdr/ALsSIdQ=
+   eJytz9dqQlEQhWHfzW7EriF2xV6wxIYaNfZe7sR454v6XxzI3BzUgwMfDKxZsLdO997Rw/Dgxo4a6vhGAw440UQLU8wwF71P9PGDAYb4QhAj/OKAI06il8QCS6ywFtkGW1zwh6vIyg9/+z9tsXde6I3FPhG7ESaYYYEVNnwo+U7c7sXughseeOGDHwElP6u8I4QwIogihjgSSn5T6WWQRQ55FFBESeX+mUkhraFXQVVDr4uehp6cO+exIdQ=
   </data>
  </layer>
  <layer name="detailLayer2" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKA/mEamvoUU2BlBhJo8LGLJROirRONPReNPwqN3OhJ7AZrcXDT+ZCT2IsLOgoN5SOyZJOgbBcQDANOlCEE=
+   eJxjYKA/mEamvoUU2BlBhJo8LGLJROirBOLpSPypaPKT8OhdhMRegCY3F40/GYk9kwh3wcA8EtSOAvIAADmkCEE=
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgsCIRw8Bg0EcPOUIAXQ0hPi45UszBp48UO4gF9NZHrl3k2EeuPmQAABGnEP8=
+   eJxjYGBgsCIRw8Bg0EcPOUIAmz50eXx6idWHSy0hN5KilhgzaA2IDXdq6aMGAACD1xD/
   </data>
  </layer>
  <objectgroup name="objectsLayer">
@@ -37,7 +37,7 @@
     <property name="type" value="pot1"/>
    </properties>
   </object>
-  <object id="86" name="pot" gid="57" x="320" y="384" width="32" height="32">
+  <object id="86" name="pot" gid="57" x="320" y="352" width="32" height="32">
    <properties>
     <property name="type" value="pot1"/>
    </properties>
@@ -47,7 +47,7 @@
     <property name="type" value="pot1"/>
    </properties>
   </object>
-  <object id="88" name="pot" gid="57" x="288" y="384" width="32" height="32">
+  <object id="88" name="pot" gid="57" x="288" y="352" width="32" height="32">
    <properties>
     <property name="type" value="pot1"/>
    </properties>
@@ -67,7 +67,7 @@
     <property name="type" value="pot1"/>
    </properties>
   </object>
-  <object id="92" name="pot" gid="57" x="352" y="384" width="32" height="32">
+  <object id="92" name="pot" gid="57" x="352" y="320" width="32" height="32">
    <properties>
     <property name="type" value="pot1"/>
    </properties>
@@ -82,7 +82,7 @@
     <property name="type" value="playerStart"/>
    </properties>
   </object>
-  <object id="95" name="item" gid="33" x="384" y="384" width="32" height="32">
+  <object id="95" name="item" gid="33" x="384" y="352" width="32" height="32">
    <properties>
     <property name="type" value="item"/>
    </properties>
@@ -95,7 +95,7 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUkAOsoBgEAAfQAHU=
+   eJxjYBgFo2BkAyYopgQAAARQAAU=
   </data>
  </layer>
 </map>

@@ -79,7 +79,13 @@ var Level2P2 = {
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
-		this.transBlockedLayer.alpha = 0;
+		// this.transBlockedLayer.alpha = 0;
+		// this .visible and .renderable instead of alpha to put less strain on sytem when it comes to layers
+		this.transBlockedLayer.visible = false;
+		this.transBlockedLayer.renderable = false;
+		this.blockedLayer.renderable = false;
+		this.levelExitLayer.visible = false;
+		this.levelExitLayer.renderable = false;
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
