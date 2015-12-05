@@ -370,6 +370,14 @@ var Level2P1 = {
 				pushTimer = 0;
 			}
 		}
+
+		// of holding a pot, cant push
+		// @TODO: ask chloe if she wants pushing pots while holding -  DELETE IF SHE WANTS TO
+		if (grabbedPot != null) {
+			pushTimer = 0;
+		}
+
+		// console.log('pushTimer: ' + pushTimer)
 	},
 
 	enableKeys: function() {
