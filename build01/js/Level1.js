@@ -13,7 +13,7 @@ var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
-var potBreakBool = 0;
+var potSoundBool = 0;
 var keysDisabled = false;
 var itemVal = 0;
 var objectiveVal = 3;
@@ -21,6 +21,8 @@ var showDebug = false;
 var enterNextLevel = false;
 
 var enableCollision = true;
+
+var sfxPot1;
 
 // item picked up bool; may have to change if multiple items
 var objectiveComplete = 0;
@@ -279,7 +281,15 @@ var Level1 = {
 		gridCheck.tint = 0xff0000;
 		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
 
-		// so the player is ontop of all other items
+		// ========== AUDIO =========
+		// pot audio
+		sfxPot1 = game.add.audio('sfx_pot1'); // enable audio
+		// sfxPot1.allowMultiple = true;
+		
+		sfxPot1.addMarker('throwSFX', 0, 0.25);
+		sfxPot1.addMarker('potBreakSFX', 2, 2.50);
+
+		// so the player is ontop of all other objects
 		game.world.moveUp(this.player);
 		this.restart();
 	},
@@ -292,7 +302,7 @@ var Level1 = {
 		playerSpeed = 100; //100 is a arbitrary default value
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
-		potBreakBool = 0;
+		potSoundBool = 0;
 		keysDisabled = false;
 		itemVal = 0;
 		objectiveVal = 3;
@@ -385,6 +395,9 @@ var Level1 = {
 		if (grabbedPot != null) {
 			pushTimer = 0;
 		}
+
+		// audio volume - cannot be set inside create function
+		sfxPot1.volume = 0.2;
 
 		// console.log('pushTimer: ' + pushTimer)
 	},
@@ -672,7 +685,7 @@ var Level1 = {
 			i++;
 		}
 		if(isCloseToPot != null && grabbedPot == null){
-			console.log('Is close to ' + isCloseToPot.name);
+			// console.log('Is close to ' + isCloseToPot.name);
 			this.pickUpPot(isCloseToPot);
 		}
 	},
@@ -685,7 +698,7 @@ var Level1 = {
 
 		// bring grabbedpot to top layer, above sittign pots
 		// move all other pots lower down in layers
-		game.world.moveDown(potGroup);
+		game.world.moveUp(grabbedPot);
 
 		// disable move keys when picking up pot to allow for animation to finish
 		this.player.body.immovable = true;
@@ -721,6 +734,9 @@ var Level1 = {
 		game.world.bringToTop(pot);
 
 		// pot.scale.setTo(.5,.5);
+		
+		// play pot throw sound
+		sfxPot1.play('throwSFX');
 		switch(dir) {
 			// enable collision on all directions except up and down
 			case "UP":
@@ -784,7 +800,7 @@ var Level1 = {
 			break;
 		}
 
-		// after throwing, temporarily have the pot not able to collide with anything
+		// after throwing, temporarily have the pot not able to collide with anything except blocked layer
 		game.time.events.add(150, function(pot){
 			enableCollision = true;
 		}, this);
@@ -802,15 +818,30 @@ var Level1 = {
 				pot.body.velocity.y = 0;
 				pot.body.gravity.y = 0;
 				pot.animations.play('potBreakAnim', 14, false, true);
+				// only play if other pot sound didnt play
+				if(potSoundBool == 0) {
+					sfxPot1.play('potBreakSFX');
+				}
 			});
 		}, this);
 	},
 
 	handlePotBreak: function(pot, wall) {
 		pot.animations.play('potBreakAnim', 14, false, true);
-		console.log("break");
-		// pot.kill();
-		// potBreakBool = 0;
+		console.log('break');
+		pot.body.velocity.x = 0;
+		pot.body.velocity.y = 0;
+		pot.body.gravity.y = 0;
+		sfxPot1.play('potBreakSFX');
+		potSoundBool = 1;
+		pot.animations.killOnComplete = true;
+		// stops other pot break sound from playing until this runs
+		pot.events.onAnimationComplete = new Phaser.Signal();
+		pot.events.onAnimationComplete.add(function() { 
+			game.time.events.add(250, function(){ 
+				potSoundBool = 0;
+			});
+		});
 	},
 
 	levelTrigger: function(player, exit) {

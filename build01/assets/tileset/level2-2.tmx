@@ -14,7 +14,7 @@
    eJzdkUsKgDAMROfoHsZf3fhLN+LhHCjpwppQunTgQQJ9XWSAMhOZSTBmKwc5iRizlZ4MBqPjrWQz2H/gvf+ofVvrBZQd667eAnQhkSMoO9ZdvUhHEjlezxe58d27dz/vnq1eSx4kHFOB
   </data>
  </layer>
- <layer name="blockedLayer" width="14" height="15" visible="0">
+ <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
    eJwzZGBgMETDhAC6+lF9tNGHzQxi1BKrj1QwUvSRgwGHZxE7
   </data>
