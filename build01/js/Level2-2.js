@@ -175,6 +175,29 @@ var Level2P2 = {
 		this.player.animations.add('idleUpLeft', [21], 8 /*fps */, true);
 		this.player.animations.add('idleDownLeft', [29], 8 /*fps */, true);
 
+		// pickup idle animation
+		this.player.animations.add('pickDown', [32], 8 /*fps */, true);
+		this.player.animations.add('pickUp', [48], 8 /*fps */, true);
+		this.player.animations.add('pickLeft', [56], 8 /*fps */, true);
+		this.player.animations.add('pickRight', [40], 8 /*fps */, true);
+
+		this.player.animations.add('pickUpRight', [44], 8 /*fps */, true);
+		this.player.animations.add('pickDownRight', [36], 8 /*fps */, true);
+		this.player.animations.add('pickUpLeft', [52], 8 /*fps */, true);
+		this.player.animations.add('pickDownLeft', [60], 8 /*fps */, true);
+
+		// pickup walk animation
+		this.player.animations.add('pickWalkDown', [33, 34, 35, 32], 8 /*fps */, true);
+		this.player.animations.add('pickWalkUp', [49, 50, 51, 48], 8 /*fps */, true);
+		this.player.animations.add('pickWalkLeft', [57, 58, 59, 56], 8 /*fps */, true);
+		this.player.animations.add('pickWalkRight', [41, 42, 43, 40], 8 /*fps */, true);
+
+		this.player.animations.add('pickWalkUpRight', [45, 46, 47, 44], 8 /*fps */, true);
+		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], 8 /*fps */, true);
+		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
+		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
+
+
 		// ========= CREATE POT STUFF =========
 
 		potGroup = game.add.group();
@@ -548,71 +571,138 @@ var Level2P2 = {
 			dir = "UP";
 			grabPotRect.x = this.player.x + 7;
 			grabPotRect.y = this.player.y - this.player.height + 5;
-			this.player.play('walkUp');
+			this.handleWalkAnim();
 		} else if (this.player.body.velocity.y > 0 && this.player.body.velocity.x == 0) {
 			dir = "DOWN";
 			grabPotRect.x = this.player.x + 7;
 			// JANKY
 			grabPotRect.y = this.player.y + this.player.height - 5;
-			this.player.play('walkDown');
+			this.handleWalkAnim();
 		} else if (this.player.body.velocity.x < 0 && this.player.body.velocity.y == 0) {
 			dir = "LEFT";
 			grabPotRect.x = this.player.x - this.player.width;
 			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
-			this.player.play('walkLeft');
+			this.handleWalkAnim();
 		} else if (this.player.body.velocity.x > 0 && this.player.body.velocity.y == 0) {
 			dir = "RIGHT";
 			grabPotRect.x = this.player.x + 20;
 			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
-			this.player.play('walkRight');
+			this.handleWalkAnim();
 		} 
 		// diagonal movements
 		else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x < 0) {
-			this.player.play('walkUpLeft');
+			dir = "UPLEFT";
+			this.handleWalkAnim();
 			// set grab pot detectotion to off screen to disable it while walking diagonal
 			grabPotRect.x = game.world.height;
 			grabPotRect.y = game.world.width;
-			
-			dir = "UPLEFT";
 		} else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x > 0) {
-			this.player.play('walkUpRight');
-			grabPotRect.x = game.world.height;
-			grabPotRect.y = game.world.width;
 			dir = "UPRIGHT";
+			this.handleWalkAnim();
+			grabPotRect.x = game.world.height;
+			grabPotRect.y = game.world.width;
 		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x < 0) {
-			this.player.play('walkDownLeft');
-			grabPotRect.x = game.world.height;
-			grabPotRect.y = game.world.width;
 			dir = "DOWNLEFT";
-		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x > 0) {
-			this.player.play('walkDownRight');
+			this.handleWalkAnim();
 			grabPotRect.x = game.world.height;
 			grabPotRect.y = game.world.width;
+		} else if(this.player.body.velocity.y > 0 && this.player.body.velocity.x > 0) {
 			dir = "DOWNRIGHT";
+			this.handleWalkAnim();
+			grabPotRect.x = game.world.height;
+			grabPotRect.y = game.world.width;
 		}
 		
 		//idle animation
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
-			if(dir == "DOWN") {
-				this.player.play('idleDown');
-			} else if(dir == "UP") {
-				this.player.play('idleUp');
-			} else if(dir == "LEFT") {
-				this.player.play('idleLeft');
-			} else if(dir == "RIGHT") {
-				this.player.play('idleRight');
+			if (grabbedPot == null) {
+				if(dir == "DOWN") {
+					this.player.play('idleDown');
+				} else if(dir == "UP") {
+					this.player.play('idleUp');
+				} else if(dir == "LEFT") {
+					this.player.play('idleLeft');
+				} else if(dir == "RIGHT") {
+					this.player.play('idleRight');
+				}
+				// diagonal idle
+				else if(dir == "UPLEFT") {
+					this.player.play('idleUpLeft');
+				} else if(dir == "DOWNLEFT") {
+					this.player.play('idleDownLeft');
+				} else if(dir == "UPRIGHT") {
+					this.player.play('idleUpRight');
+				} else if(dir == "DOWNRIGHT") {
+					this.player.play('idleDownRight');
+				} else {
+					this.player.play('idleUp');
+				}
+			} else if (grabbedPot != null) {
+				if(dir == "DOWN") {
+					this.player.play('pickDown');
+				} else if(dir == "UP") {
+					this.player.play('pickUp');
+				} else if(dir == "LEFT") {
+					this.player.play('pickLeft');
+				} else if(dir == "RIGHT") {
+					this.player.play('pickRight');
+				}
+				// diagonal idle
+				else if(dir == "UPLEFT") {
+					this.player.play('idleUpLeft');
+				} else if(dir == "DOWNLEFT") {
+					this.player.play('idleDownLeft');
+				} else if(dir == "UPRIGHT") {
+					this.player.play('idleUpRight');
+				} else if(dir == "DOWNRIGHT") {
+					this.player.play('idleDownRight');
+				} else {
+					this.player.play('idleUp');
+				}
 			}
-			// diagonal idle
+		}
+	},
+
+	handleWalkAnim: function() {
+		if (grabbedPot == null) {	
+			if (dir == "UP") {
+				this.player.play('walkUp');
+			} else if (dir == "DOWN") {
+				this.player.play('walkDown');
+			} else if (dir == "LEFT") {
+				this.player.play('walkLeft');
+			} else if (dir == "RIGHT") {
+				this.player.play('walkRight');
+			} 
+			// diagonal movements
 			else if(dir == "UPLEFT") {
-				this.player.play('idleUpLeft');
-			} else if(dir == "DOWNLEFT") {
-				this.player.play('idleDownLeft');
+				this.player.play('walkUpLeft');
 			} else if(dir == "UPRIGHT") {
-				this.player.play('idleUpRight');
+				this.player.play('walkUpRight');
+			} else if(dir == "DOWNLEFT") {
+				this.player.play('walkDownLeft');
 			} else if(dir == "DOWNRIGHT") {
-				this.player.play('idleDownRight');
-			} else {
-				this.player.play('idleUp');
+				this.player.play('walkDownRight');
+			}
+		} else if (grabbedPot != null) {	
+			if (dir == "UP") {
+				this.player.play('pickWalkUp');
+			} else if (dir == "DOWN") {
+				this.player.play('pickWalkDown');
+			} else if (dir == "LEFT") {
+				this.player.play('pickWalkLeft');
+			} else if (dir == "RIGHT") {
+				this.player.play('pickWalkRight');
+			} 
+			// diagonal movements
+			else if(dir == "UPLEFT") {
+				this.player.play('pickWalkUpLeft');
+			} else if(dir == "UPRIGHT") {
+				this.player.play('pickWalkUpRight');
+			} else if(dir == "DOWNLEFT") {
+				this.player.play('pickWalkDownLeft');
+			} else if(dir == "DOWNRIGHT") {
+				this.player.play('pickWalkDownRight');
 			}
 		}
 	},
