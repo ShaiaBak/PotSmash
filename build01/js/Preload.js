@@ -17,13 +17,14 @@ Preload = {
 		this.load.image('mega_grid', 'assets/img/sprites/mega-placeholder.png', 32, 32);
 
 		// spritesheets
-		this.load.spritesheet('item', 'assets/img/sprites/mega-placeholder.png',  64, 64);
+		this.load.spritesheet('item', 'assets/img/sprites/mega-placeholder.png',  32, 32);
 		this.load.spritesheet('player', 'assets/img/sprites/char_0_spritesheet_v2.png',  64, 64);
 		this.load.spritesheet('potSprite_1', 'assets/img/sprites/barrel_breaking_sprite-32x32.png', 32, 32);
 		this.load.spritesheet('chestSprite', 'assets/img/sprites/2_2_chest_open.png', 128, 192);
 
 		// audio
 		game.load.audio('sfx_pot1', [ 'assets/audio/soundFX/sfx_potsounds_01.mp3', 'assets/audio/soundFX/sfx_potsounds_01.ogg' ]);
+		game.load.audio('sfx_obj1', [ 'assets/audio/soundFX/sfx_objectsounds_01.mp3', 'assets/audio/soundFX/sfx_objectsounds_01.ogg' ]);
 	},
 	create: function() {
 		this.state.start('StartMenu');
