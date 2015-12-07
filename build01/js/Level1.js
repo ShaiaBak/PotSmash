@@ -425,7 +425,7 @@ var Level1 = {
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.2;
 		sfxObj1.volume = 0.1;
-		
+
 		// console.log('pushTimer: ' + pushTimer)
 	},
 
@@ -572,7 +572,7 @@ var Level1 = {
 		if (this.player.body.velocity.y < 0 && this.player.body.velocity.x == 0) {
 			dir = "UP";
 			grabPotRect.x = this.player.x + 7;
-			grabPotRect.y = this.player.y - this.player.height + 5;
+			grabPotRect.y = this.player.y - this.player.height + 15;
 			this.handleWalkAnim();
 		} else if (this.player.body.velocity.y > 0 && this.player.body.velocity.x == 0) {
 			dir = "DOWN";
@@ -582,7 +582,7 @@ var Level1 = {
 			this.handleWalkAnim();
 		} else if (this.player.body.velocity.x < 0 && this.player.body.velocity.y == 0) {
 			dir = "LEFT";
-			grabPotRect.x = this.player.x - this.player.width;
+			grabPotRect.x = this.player.x - this.player.width + 10;
 			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
 			this.handleWalkAnim();
 		} else if (this.player.body.velocity.x > 0 && this.player.body.velocity.y == 0) {
@@ -719,12 +719,12 @@ var Level1 = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
-			sfxPot1.play('potPushSFX');
 			switch(dir) {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// printBoard(board,14,15);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -735,6 +735,7 @@ var Level1 = {
 				case "DOWN":
 				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -745,6 +746,7 @@ var Level1 = {
 				case "LEFT":
 				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -755,6 +757,7 @@ var Level1 = {
 				case "RIGHT":
 				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work

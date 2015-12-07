@@ -20,6 +20,10 @@ var objectiveVal = 1;
 var showDebug = false;
 var enterNextLevel = false;
 
+var chest;
+var nearChest = false;
+var chestOpened = false;
+
 var enableCollision = true;
 
 // item picked up bool; may have to change if multiple items
@@ -131,20 +135,6 @@ var Level2P2 = {
 
 		// this.item.body.immovable = true;
 
-		// ========== CREATE CHEST ============
-		// for single chest
-		var chestResult = this.findObjectsByType('chest', this.map, 'objectsLayer')
-		this.chest = this.game.add.sprite(chestResult[0].x, chestResult[0].y, 'chestSprite');
-		this.game.physics.arcade.enable(this.chest);
-
-		this.chest.scale.setTo(0.5, 0.5);
-		this.chest.body.immovable = true;
-
-		this.chest.animations.add('chestIdle', [0], 8 /*fps */, true);
-		this.chest.animations.add('chestOpen', [0, 1, 2, 3], 8 /*fps */, false);
-
-
-
 		// =========== CREATE PLAYER ===========
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
@@ -217,6 +207,7 @@ var Level2P2 = {
 		potGroup = game.add.group();
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
+
 		// ============ NEW WAY ================
 		this.map.createFromObjects('objectsLayer', 57, 'potSprite_1', 0, true, false, potGroup);
 
@@ -265,6 +256,34 @@ var Level2P2 = {
 
 			pot.body.collideWorldBounds = true;
 		});
+
+		// ========== CREATE CHEST ============
+		// for single chest
+		var chestResult = this.findObjectsByType('chest', this.map, 'objectsLayer')
+		chest = this.game.add.sprite(chestResult[0].x, chestResult[0].y, 'chestSprite');
+		this.game.physics.arcade.enable(chest);
+
+		chest.scale.setTo(0.5, 0.5);
+		chest.body.immovable = true;
+
+		chest.animations.add('chestIdle', [0], 8 /*fps */, true);
+		chest.animations.add('chestOpen', [1, 2, 3], 8 /*fps */, false);
+
+		// ===== CHEST HALO =====
+		// create halo to detect if player is NEXT to a pot but not exactly colliding
+		// using empty sprite
+		
+		// HALO SINGLE
+		this.chestHalo = this.add.sprite(0,0, 'invisibleBlock');
+		this.chestHalo.enableBody = true;
+		// this.chestHalo.physicsBodyType = Phaser.Physics.ARCADE;
+		this.game.physics.arcade.enable(this.chestHalo);
+
+		this.chestHalo.body.immovable = true;
+
+		this.chestHalo.body.setSize(chest.width/3, 2, -1, -chest.height);
+		this.chestHalo.x = chest.x + chest.width/3;
+		this.chestHalo.y = chest.y + chest.height*2;
 
 		// ========= CAMERA STUFF =========
 
@@ -335,8 +354,8 @@ var Level2P2 = {
 
 		// so the player is ontop of all other items
 		game.world.moveUp(this.player);
-		game.world.moveUp(this.chest);
-		game.world.moveUp(this.chest);
+		game.world.moveUp(chest);
+		game.world.moveUp(chest);
 		// so detail layer 4 is overtop of player
 		game.world.bringToTop(this.detailLayer4);
 		this.restart();
@@ -356,8 +375,10 @@ var Level2P2 = {
 		objectiveVal = 1;
 		showDebug = false;
 		enterNextLevel = false;
-
 		enableCollision = true;
+
+		nearChest = false;
+		chestOpened = false;
 
 		// item picked up bool; may have to change if multiple items
 		objectiveComplete = 0;
@@ -384,8 +405,21 @@ var Level2P2 = {
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
 		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
-		this.game.physics.arcade.collide(this.player, this.chest, this.handleChestAnim);
-		
+		this.game.physics.arcade.overlap(this.player, this.chestHalo, null, function() {
+			nearChest = true;
+		}, this);
+
+		keySPACE.onDown.add(function() {
+			if(nearChest && Phaser.Rectangle.intersects(grabPotRect, chest) && !chestOpened) {
+				chest.play('chestOpen');
+				chestOpened = true;
+			} else {
+				nearChest = false;
+			}
+		});
+
+		console.log(chestOpened);
+
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
@@ -591,7 +625,7 @@ var Level2P2 = {
 		if (this.player.body.velocity.y < 0 && this.player.body.velocity.x == 0) {
 			dir = "UP";
 			grabPotRect.x = this.player.x + 7;
-			grabPotRect.y = this.player.y - this.player.height + 5;
+			grabPotRect.y = this.player.y - this.player.height + 15;
 			this.handleWalkAnim();
 		} else if (this.player.body.velocity.y > 0 && this.player.body.velocity.x == 0) {
 			dir = "DOWN";
@@ -601,7 +635,7 @@ var Level2P2 = {
 			this.handleWalkAnim();
 		} else if (this.player.body.velocity.x < 0 && this.player.body.velocity.y == 0) {
 			dir = "LEFT";
-			grabPotRect.x = this.player.x - this.player.width;
+			grabPotRect.x = this.player.x - this.player.width + 10;
 			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
 			this.handleWalkAnim();
 		} else if (this.player.body.velocity.x > 0 && this.player.body.velocity.y == 0) {
@@ -609,7 +643,7 @@ var Level2P2 = {
 			grabPotRect.x = this.player.x + 20;
 			grabPotRect.y = this.player.y - this.player.height*.5 + 21;
 			this.handleWalkAnim();
-		} 
+		}
 		// diagonal movements
 		else if(this.player.body.velocity.y < 0 && this.player.body.velocity.x < 0) {
 			dir = "UPLEFT";
@@ -738,12 +772,12 @@ var Level2P2 = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
-
 			switch(dir) {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// printBoard(board,14,15);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -754,6 +788,7 @@ var Level2P2 = {
 				case "DOWN":
 				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -764,6 +799,7 @@ var Level2P2 = {
 				case "LEFT":
 				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -774,6 +810,7 @@ var Level2P2 = {
 				case "RIGHT":
 				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+					sfxPot1.play('potPushSFX');
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
@@ -958,11 +995,9 @@ var Level2P2 = {
 		});
 	},
 
-	handleChestAnim: function(player, chest) {
-		keySPACE.onDown.add(function () { 
-			chest.play('chestOpen');
-		});
-	},
+	// handleChestAnim: function(player, chestHalo) {
+	// 	chest.play('chestOpen');
+	// },
 
 	levelTrigger: function(player, exit) {
 		// if not holding a pot, allow player to finish level
@@ -1001,6 +1036,8 @@ var Level2P2 = {
 			potGroup.forEachAlive(function(potDebug) {
 				game.debug.body(potDebug);
 			}, this);
+
+			game.debug.body(this.chestHalo);
 
 			// show collision body for thrown pot
 			throwGroup.forEachAlive(function(throwDebug) {
