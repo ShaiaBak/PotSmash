@@ -1,6 +1,12 @@
 Preload = {
 	preload: function() {
 
+		this.lanternLogo = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 30, 'lanternLogo');
+		this.lanternLogo.anchor.setTo(0.5);
+
+		this.preloadBar = this.add.sprite(this.game.world.centerX - 55, this.game.world.centerY + 42, 'loadBar');
+		this.load.setPreloadSprite(this.preloadBar);
+
 		//load game assets
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level2-1', 'assets/tileset/level2-1.json', null, Phaser.Tilemap.TILED_JSON);

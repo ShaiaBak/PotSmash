@@ -1,5 +1,10 @@
 //setting game configuration and loading the assets for the loading screen
 var Boot = {
+  preload: function() {
+    this.load.image('loadBar', 'assets/img/load-bar-placeholder.png');
+    this.load.image('lanternLogo', 'assets/img/LanternCubed-logo-splash.png');
+  },
+
   create: function() {
     //loading screen will have a white background
     this.game.stage.backgroundColor = '#000';
