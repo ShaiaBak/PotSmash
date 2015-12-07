@@ -68,7 +68,7 @@ var Level2P1 = {
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
 		this.map.addTilesetImage('tiles-lvl2-1-32x32', 'gameTiles-lvl-2_1');
-		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
+		// this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
 		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
 
 
@@ -76,6 +76,7 @@ var Level2P1 = {
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.detailLayer1 = this.map.createLayer('detailLayer1');
 		this.detailLayer2 = this.map.createLayer('detailLayer2');
+		this.detailLayer3 = this.map.createLayer('detalLayer3_overChar');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
 		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
@@ -202,7 +203,8 @@ var Level2P1 = {
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
-		this.map.createFromObjects('objectsLayer', 57, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 209, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 208, 'potSprite_1', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
@@ -314,6 +316,7 @@ var Level2P1 = {
 
 		// so the player is ontop of all other items
 		game.world.moveUp(this.player);
+		game.world.bringToTop(this.detailLayer3);
 		this.restart();
 	},
 

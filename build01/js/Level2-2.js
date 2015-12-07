@@ -131,6 +131,14 @@ var Level2P2 = {
 
 		// this.item.body.immovable = true;
 
+		// ========== CREATE CHEST ============
+		// for single chest
+		var chestResult = this.findObjectsByType('chest', this.map, 'objectsLayer')
+		this.chest = this.game.add.sprite(chestResult[0].x, chestResult[0].y, 'chestSprite');
+		this.game.physics.arcade.enable(this.chest);
+
+		this.chest.scale.setTo(0.5, 0.5);
+
 		// =========== CREATE PLAYER ===========
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
@@ -317,6 +325,8 @@ var Level2P2 = {
 
 		// so the player is ontop of all other items
 		game.world.moveUp(this.player);
+		game.world.moveUp(this.chest);
+		game.world.moveUp(this.chest);
 		// so detail layer 4 is overtop of player
 		game.world.bringToTop(this.detailLayer4);
 		this.restart();

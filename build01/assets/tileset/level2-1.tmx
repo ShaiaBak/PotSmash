@@ -1,86 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="109">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="148">
  <tileset firstgid="1" name="tiles-lvl1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl1-32x32.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="65" name="tiles-lvl2-1-32x32" tilewidth="32" tileheight="32">
-  <image source="../img/tiles-lvl2-1-32x32.png" width="384" height="448"/>
+  <image source="../img/tiles-lvl2-1-32x32.png" width="352" height="448"/>
+  <tile id="132">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </tile>
+  <tile id="139">
+   <properties>
+    <property name="type" value="playerStart"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBg8CMRw4AjiXhU36g+cvQNBQAAPEYlLQ==
+   eJxjYGBg8CURw4AjiXhU36g+cvQNBQAAFh4lIQ==
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJwzZCAdGELxqL5RffTQRw6mNwAAlNIHRw==
+   eJwzZCAdGELxqL5RffTQRw4+RWcMAJaNHV8=
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJzFzsdqQlEUheHzcnbErkjUWAh2RYwdiV1iS1QsM0Gd+ZL+gwvuwR3IBXHBx95w9oKjlFJO1FBHA0244EYLbcwwx0I9EkYfAwwxwgciGGOCPQ44it4XlljhD//ibY0NzrjgKt4q6vl0xN7VpglmWGCFDXY4xO1U7L/a9MALH/wIIIiQuN2KfafNKGL4RBwJJJEStyedv2eRQx4FFFFCWdzcdHqvShoZA70qvg30ftAz0Htn7t1LImg=
+   eJzFztluQVEUxvH9cqghihYx0yhFG/MQM0XNw53gzsvwVv4XJ7EuTtLkJOJLflkr2etLtlJKOVBECWVU4MQrqqhhhDEm6h4/2uigix4CCKKPATbYYid6H/jDFDPMxdsCSxxwxEm8/eCCq/o/dbE3tGmCGRa8wAob7OJ2KPZfbbrghgdveIcXPnG7EvtamyGEEUEUMcSRELd7nb+nkMYXMsgih29xc9bpPSpJfBro5VEw0GuiZaD3zNwAPCEi3g==
   </data>
  </layer>
  <layer name="detailLayer2" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgmMtAHlhJpj4QiCJCTREWsTQi9NUB8Twk/hw0+Zl49K5CYq9Ak1uKxp+FxF5IhLtgYBkJaoczuAnEtwbaEVQCABPeClU=
+   eJxjYGBgmMZAHlhIpj4QiCBCTR4WsWQcak8A8UkgvgbElUA8HUluKhAfR+JPwmEGSM0iJP4CIL7MwNBwCYhB/LlIcpPR9M7EYSY6mAfEV4D4KpHqYe6+BHELVrALiHcD8R4g3gvE+4g0mxhwHYsYzB37kcRuAPFhKE0IwPwCUnuOItcNHgAAM/keww==
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgiCARwwA19ZEiRwhg04cuj08vsfpwqSXkRnL14TMDW3hRC5BrLq3cMxgBAACWE/E=
+   eJxjYGBgOE0ihgFq6iNFjhDApg9dHp9eYvSRIofPbmL8Q6w5+MKOkFn49JFiFjX0DUUAABeXMsE=
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <object id="98" name="pot" gid="57" x="64" y="160" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="99" name="pot" gid="57" x="320" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="100" name="pot" gid="57" x="64" y="192" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="101" name="pot" gid="57" x="288" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="102" name="pot" gid="57" x="256" y="128" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="103" name="pot" gid="57" x="288" y="128" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="104" name="pot" gid="57" x="352" y="256" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="105" name="pot" gid="57" x="352" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="pot1"/>
-   </properties>
-  </object>
-  <object id="106" name="item" gid="33" x="384" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="item"/>
-   </properties>
-  </object>
-  <object id="107" gid="100" x="224" y="96" width="32" height="32"/>
-  <object id="108" gid="100" x="224" y="96" width="32" height="32">
+  <object id="109" gid="204" x="224" y="96" width="32" height="32">
    <properties>
     <property name="type" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="111" gid="197" x="384" y="288" width="32" height="32"/>
+  <object id="112" gid="197" x="384" y="288" width="32" height="32"/>
+  <object id="113" gid="209" x="384" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="135" gid="208" x="32" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="136" gid="209" x="352" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="137" gid="209" x="352" y="256" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="138" gid="209" x="352" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="139" gid="209" x="352" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="140" gid="209" x="320" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="141" gid="209" x="288" y="128" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="142" gid="209" x="64" y="160" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="143" gid="208" x="32" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="144" gid="208" x="64" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="145" gid="208" x="256" y="128" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="147" gid="208" x="96" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
    </properties>
   </object>
  </objectgroup>
@@ -91,12 +122,12 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BwASYoHkoAAAYQAAU=
+   eJxjYBgFo2BwgbNQPJQAACBrAZs=
   </data>
  </layer>
- <layer name="detalLaye3_overChar" width="14" height="15">
+ <layer name="detalLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF1AZrgXgdEK8H4g1AvJFIfTuBeBcQ7wbiPUC8l0h9R9H4J4nUNwqoBwAckQih
+   eJztzssNgCAURFH6rwMVUQN+UJdAAdTELQATSFwZJzm7N5knxJ+3I9GhxwBV2TOwWLFhb9wdoTFhxlLZO+Bw4sJduEkPXY+A2PLoB5MBk/QQqg==
   </data>
  </layer>
 </map>
