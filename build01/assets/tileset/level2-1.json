@@ -99,23 +99,7 @@
                  "name":"",
                  "properties":
                     {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":384,
-                 "y":288
-                }, 
-                {
-                 "gid":209,
-                 "height":32,
-                 "id":113,
-                 "name":"",
-                 "properties":
-                    {
-                     "type":"pot2"
+                     "type":"item"
                     },
                  "rotation":0,
                  "type":"",

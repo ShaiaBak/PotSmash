@@ -123,7 +123,7 @@ var Level2P1 = {
 		itemGroup = game.add.group();
 	   	itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 33, 'mega_grid', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 197, 'mega_grid', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
 

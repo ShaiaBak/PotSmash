@@ -138,6 +138,12 @@ var Level2P2 = {
 		this.game.physics.arcade.enable(this.chest);
 
 		this.chest.scale.setTo(0.5, 0.5);
+		this.chest.body.immovable = true;
+
+		this.chest.animations.add('chestIdle', [0], 8 /*fps */, true);
+		this.chest.animations.add('chestOpen', [0, 1, 2, 3], 8 /*fps */, false);
+
+
 
 		// =========== CREATE PLAYER ===========
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
@@ -373,6 +379,8 @@ var Level2P2 = {
 		// player collision (no pot)
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
+		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
+		this.game.physics.arcade.collide(this.player, this.chest, this.handleChestAnim);
 		
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
@@ -389,9 +397,6 @@ var Level2P2 = {
 			}
 			return false;
 		});
-
-		//item player collision
-		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
@@ -944,6 +949,12 @@ var Level2P2 = {
 			game.time.events.add(250, function(){ 
 				potSoundBool = 0;
 			});
+		});
+	},
+
+	handleChestAnim: function(player, chest) {
+		keySPACE.onDown.add(function () { 
+			chest.play('chestOpen');
 		});
 	},
 

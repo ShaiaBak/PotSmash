@@ -48,10 +48,9 @@
    </properties>
   </object>
   <object id="111" gid="197" x="384" y="288" width="32" height="32"/>
-  <object id="112" gid="197" x="384" y="288" width="32" height="32"/>
-  <object id="113" gid="209" x="384" y="288" width="32" height="32">
+  <object id="112" gid="197" x="384" y="288" width="32" height="32">
    <properties>
-    <property name="type" value="pot2"/>
+    <property name="type" value="item"/>
    </properties>
   </object>
   <object id="135" gid="208" x="32" y="384" width="32" height="32">
