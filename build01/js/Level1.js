@@ -378,6 +378,9 @@ var Level1 = {
 			return false;
 		});
 
+		// @TODO: PLACEHOLDER FOR LEVEL 3
+		this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.levelTrigger);
+
 		//item player collision
 		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 

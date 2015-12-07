@@ -267,7 +267,7 @@ var Level2P2 = {
 		chest.body.immovable = true;
 
 		chest.animations.add('chestIdle', [0], 8 /*fps */, true);
-		chest.animations.add('chestOpen', [1, 2, 3], 8 /*fps */, false);
+		chest.animations.add('chestOpen', [0, 1, 2, 3], 8 /*fps */, false);
 
 		// ===== CHEST HALO =====
 		// create halo to detect if player is NEXT to a pot but not exactly colliding
@@ -417,8 +417,6 @@ var Level2P2 = {
 				nearChest = false;
 			}
 		});
-
-		console.log(chestOpened);
 
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
