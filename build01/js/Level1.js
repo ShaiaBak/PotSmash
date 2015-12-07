@@ -306,10 +306,14 @@ var Level1 = {
 		// ========== AUDIO =========
 		// pot audio
 		sfxPot1 = game.add.audio('sfx_pot1'); // enable audio
-		// sfxPot1.allowMultiple = true;
+		sfxPot1.allowMultiple = false;
+		sfxObj1 = game.add.audio('sfx_obj1');
 		
 		sfxPot1.addMarker('throwSFX', 0, 0.25);
-		sfxPot1.addMarker('potBreakSFX', 2, 2.25);
+		sfxPot1.addMarker('potBreakSFX', 2, 0.5);
+		sfxPot1.addMarker('potPushSFX', 6, 0.5);
+
+		sfxObj1.addMarker('moneySFX', 0, 0.5);
 
 		// so the player is ontop of all other objects
 		game.world.moveUp(this.player);
@@ -420,7 +424,8 @@ var Level1 = {
 
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.2;
-
+		sfxObj1.volume = 0.1;
+		
 		// console.log('pushTimer: ' + pushTimer)
 	},
 
@@ -493,6 +498,7 @@ var Level1 = {
 
 	itemCollect: function(player, item) {
 		console.log('item picked up');
+		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
 		itemVal++;
@@ -713,7 +719,7 @@ var Level1 = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
-
+			sfxPot1.play('potPushSFX');
 			switch(dir) {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
