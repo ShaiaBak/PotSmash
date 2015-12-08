@@ -11,9 +11,11 @@ Preload = {
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level2-1', 'assets/tileset/level2-1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level2-2', 'assets/tileset/level2-2.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('level3-1', 'assets/tileset/level3-1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('gameTiles-lvl-1', 'assets/img/tiles-lvl1-32x32.png');
 		this.load.image('gameTiles-lvl-2_1', 'assets/img/tiles-lvl2-1-32x32.png');
 		this.load.image('gameTiles-lvl-2_2', 'assets/img/tiles-lvl2-2-32x32.png');
+		this.load.image('gameTiles-lvl-3_1', 'assets/img/tiles-lvl3-1-32x32.png');
 		// this.load.image('gameTilesTemp', 'assets/img/tileset-placeholder2.png');
 		// this.load.image('testpot', 'assets/img/1_barrel-32x32.png');
 		this.load.image('invisibleBlock', 'assets/img/trans-1x1.png');
@@ -29,8 +31,8 @@ Preload = {
 
 		this.load.spritesheet('potSprite_1', 'assets/img/sprites/1_barrel_breaking_sprite-32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_2-2', 'assets/img/sprites/2_2_pots_breaking32x32.png', 32, 32);
-		this.load.spritesheet('potSprite2_3-1', 'assets/img/sprites/3_pots_breaking2-32x32.png', 32, 32);
-		this.load.spritesheet('potSprite1_3-2', 'assets/img/sprites/3_pots_breaking1-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-1', 'assets/img/sprites/3_pots_breaking2-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-2', 'assets/img/sprites/3_pots_breaking1-32x32.png', 32, 32);
 
 		// audio
 		game.load.audio('sfx_pot1', [ 'assets/audio/soundFX/sfx_potsounds_01.mp3', 
