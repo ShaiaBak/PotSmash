@@ -203,8 +203,8 @@ var Level2P1 = {
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
-		this.map.createFromObjects('objectsLayer', 209, 'potSprite_1', 0, true, false, potGroup);
-		this.map.createFromObjects('objectsLayer', 208, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 144, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 145, 'potSprite_1', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 

@@ -25,8 +25,12 @@ Preload = {
 		// spritesheets
 		this.load.spritesheet('item', 'assets/img/sprites/mega-placeholder.png',  32, 32);
 		this.load.spritesheet('player', 'assets/img/sprites/char_0_spritesheet_v2.png',  64, 64);
-		this.load.spritesheet('potSprite_1', 'assets/img/sprites/1_barrel_breaking_sprite-32x32.png', 32, 32);
 		this.load.spritesheet('chestSprite', 'assets/img/sprites/2_2_chest_open.png', 128, 192);
+
+		this.load.spritesheet('potSprite_1', 'assets/img/sprites/1_barrel_breaking_sprite-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_2-2', 'assets/img/sprites/2_2_pots_breaking32x32.png', 32, 32);
+		this.load.spritesheet('potSprite2_3-1', 'assets/img/sprites/3_pots_breaking2-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite1_3-2', 'assets/img/sprites/3_pots_breaking1-32x32.png', 32, 32);
 
 		// audio
 		game.load.audio('sfx_pot1', [ 'assets/audio/soundFX/sfx_potsounds_01.mp3', 
