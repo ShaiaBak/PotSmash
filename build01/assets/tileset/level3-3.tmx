@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="236">
+ <tileset firstgid="1" name="tiles-lvl3-3-32x32" tilewidth="32" tileheight="32">
+  <image source="../img/tiles-lvl3-3-32x32.png" width="256" height="224"/>
+  <tile id="45">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="type" value="pot-3-3-heavy"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="backgroundLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOEEHDxAIZNEwsYGFgOMAMxIxANhMJ9sLUM0PMINpeTiDmAmJuIOYBYnYgZiNCHxtULQeSHnYi9MHUCiDpIcU+dJpY+9BpcuwjBaDHB7EAPT4GGgAAvowD5w==
+  </data>
+ </layer>
+ <layer name="blockedLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJwzZGBgMKQCRgf01kesfmrrw6eXHD3Dwb7BnG5ohQEp8Rr+
+  </data>
+ </layer>
+ <layer name="detailLayer1" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAEgkAsBMTCWOTwAUkglgJiaRL0KAKxEhArA7EKCfo0gVgLiLWBWAeI5UjQS03AysBwAI/coLBPlob2iQGxOJq4BAnmq0JpeSBWIEGfLpRWB2INEvTRCgAAx3sFdw==
+  </data>
+ </layer>
+ <layer name="transBlockedLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOMELD9NZHqn50c4YzoKX/Bir8BlucAQAfDwPp
+  </data>
+ </layer>
+ <objectgroup name="objectsLayer">
+  <properties>
+   <property name="type" value="pot3-3"/>
+  </properties>
+  <object id="213" gid="46" x="128" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="214" gid="47" x="160" y="224" width="32" height="32"/>
+  <object id="227" gid="46" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="228" gid="46" x="192" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="229" gid="46" x="288" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="230" gid="46" x="256" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="231" gid="46" x="288" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="232" gid="46" x="288" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="233" gid="46" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="234" gid="46" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3_3"/>
+   </properties>
+  </object>
+  <object id="235" gid="52" x="256" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="playerStart"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="detailLayer3_overChar" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFxABeIOYDYv4BdIPoANo9CvADAH2kAEA=
+  </data>
+ </layer>
+ <layer name="triggerLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF9ABGdNY3CugLALPYAGU=
+  </data>
+ </layer>
+ <layer name="levelExitLayer" width="14" height="15" opacity="0.36">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DoAmMoHmgAADisAGc=
+  </data>
+ </layer>
+</map>
