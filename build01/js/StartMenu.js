@@ -18,6 +18,10 @@ var StartMenu = {
 		key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+		key5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+		key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
+		key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
+		key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
 	},
 
 	update: function() {
@@ -44,6 +48,12 @@ var StartMenu = {
 		}
 		if(key4.isDown) {
 			this.state.start('Level3-1');
+		}
+		if(key5.isDown) {
+			this.state.start('Level3-2');
+		}
+		if(key6.isDown) {
+			this.state.start('Level3-3');
 		}
 	}
 }

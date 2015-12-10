@@ -11,5 +11,8 @@ game.state.add('Level2Start', Level2Start);
 game.state.add('Level2-1', Level2P1);
 game.state.add('Level2-2', Level2P2);
 game.state.add('Level3-1', Level3P1);
+game.state.add('Level3-2', Level3P2);
+game.state.add('Level3-3', Level3P3);
+
 
 game.state.start('Boot');

@@ -34,15 +34,16 @@
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <properties>
-   <property name="type" value="pot3-3"/>
-  </properties>
   <object id="213" gid="46" x="128" y="288" width="32" height="32">
    <properties>
     <property name="type" value="pot3_3"/>
    </properties>
   </object>
-  <object id="214" gid="47" x="160" y="224" width="32" height="32"/>
+  <object id="214" gid="47" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3-3-heavy"/>
+   </properties>
+  </object>
   <object id="227" gid="46" x="160" y="192" width="32" height="32">
    <properties>
     <property name="type" value="pot3_3"/>

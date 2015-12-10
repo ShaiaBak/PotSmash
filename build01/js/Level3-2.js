@@ -6,7 +6,7 @@ var blockedLayer;
 var triggerLayer;
 var levelExitLayer;
 var objectLayer;
-var dir = "DOWN";
+var dir = "RIGHT";
 var playerSpeed = 100; //100 is a arbitrary default value
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
@@ -22,10 +22,8 @@ var enterNextLevel = false;
 
 var enableCollision = true;
 
-var sfxPot1;
-
 // item picked up bool; may have to change if multiple items
-var objectiveComplete = 0;
+var objectiveComplete = 1;
 
 var pushTimer = 0;
 var triggerTimer = 0;
@@ -62,29 +60,24 @@ var triggerGridVal = 7;
 var exitGridVal = 8;
 //******GRID SETUP END******//
 
-var Level2P1 = {
+var Level3P2 = {
 	create: function() {
-		this.map = this.game.add.tilemap('level2-1');
+		this.map = this.game.add.tilemap('level3-2');
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-		this.map.addTilesetImage('tiles-lvl2-1-32x32', 'gameTiles-lvl-2_1');
-		// this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
+		this.map.addTilesetImage('tiles-lvl3-2-32x32', 'gameTiles-lvl-3_2');
 		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
-
 
 		this.bgLayer = this.map.createLayer('backgroundLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
 		this.detailLayer1 = this.map.createLayer('detailLayer1');
-		this.detailLayer2 = this.map.createLayer('detailLayer2');
-		this.detailLayer3 = this.map.createLayer('detalLayer3_overChar');
+		this.detailLayer3 = this.map.createLayer('detailLayer3_overChar');
 		this.transBlockedLayer = this.map.createLayer('transBlockedLayer');
-		this.triggerLayer = this.map.createLayer('triggerLayer');
 		this.levelExitLayer = this.map.createLayer('levelExitLayer');
 		// this.transBlockedLayer.alpha = 0;
 		// this .visible and .renderable instead of alpha to put less strain on sytem when it comes to layers
 		this.transBlockedLayer.visible = false;
 		this.transBlockedLayer.renderable = false;
-		this.blockedLayer.visible = false;
 		this.blockedLayer.renderable = false;
 		this.levelExitLayer.visible = false;
 		this.levelExitLayer.renderable = false;
@@ -93,12 +86,11 @@ var Level2P1 = {
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
 		this.map.setCollisionBetween(1, 1896, true, 'transBlockedLayer');
 
-		this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
+		// this.map.setCollisionBetween(1, 1896, true, 'triggerLayer');
 		this.map.setCollisionBetween(1, 1896, true, 'levelExitLayer');
 
 		// enables other physics stuff
 		// game.physics.startSystem(Phaser.Physics.P2JS);
-
 
 		// resize world so that dimensions match the map
 		// doesnt work.. must figure out
@@ -123,7 +115,7 @@ var Level2P1 = {
 		itemGroup = game.add.group();
 	   	itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 133, 'mega_grid', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 33, 'mega_grid', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
 
@@ -144,6 +136,10 @@ var Level2P1 = {
 		this.player.anchor.setTo(.5,.5);
 		this.player.scale.setTo(0.5, 0.5);
 
+		// specific to level 2-2
+		this.player.x += this.player.width/2;
+		this.player.y += this.player.height/2;
+
  		this.player.body.setSize(40, 40, 0, 5);
 
  		//create pot grab area to check the area right in front of the player for pot grabbing
@@ -151,16 +147,16 @@ var Level2P1 = {
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
-		this.player.animations.add('walkDown', [0, 1 ,2 ,3], 8 /*fps */, true);
-		this.player.animations.add('walkUp', [16, 17, 18, 19], 8 /*fps */, true);
-		this.player.animations.add('walkLeft', [24, 25, 26, 27], 8 /*fps */, true);
-		this.player.animations.add('walkRight', [8 , 9, 10, 11], 8 /*fps */, true);
+		this.player.animations.add('walkDown', [1 ,2 ,3, 0], 8 /*fps */, true);
+		this.player.animations.add('walkUp', [17, 18, 19, 16], 8 /*fps */, true);
+		this.player.animations.add('walkLeft', [25, 26, 27, 24], 8 /*fps */, true);
+		this.player.animations.add('walkRight', [9, 10, 11, 8], 8 /*fps */, true);
 
 		//diagonal animation
-		this.player.animations.add('walkUpRight', [12 , 13, 14, 15], 8 /*fps */, true);
-		this.player.animations.add('walkDownRight', [4 , 5, 6, 7], 8 /*fps */, true);
-		this.player.animations.add('walkUpLeft', [20, 21, 22, 23], 8 /*fps */, true);
-		this.player.animations.add('walkDownLeft', [28, 29, 30, 31], 8 /*fps */, true);
+		this.player.animations.add('walkUpRight', [13, 14, 15, 12], 8 /*fps */, true);
+		this.player.animations.add('walkDownRight', [5, 6, 7, 4], 8 /*fps */, true);
+		this.player.animations.add('walkUpLeft', [21, 22, 23, 20], 8 /*fps */, true);
+		this.player.animations.add('walkDownLeft', [29, 30, 31, 28], 8 /*fps */, true);
 
 		//idle animation
 		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
@@ -202,9 +198,9 @@ var Level2P1 = {
 		potGroup = game.add.group();
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
+
 		// ============ NEW WAY ================
-		this.map.createFromObjects('objectsLayer', 144, 'potSprite_1', 0, true, false, potGroup);
-		this.map.createFromObjects('objectsLayer', 145, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 37, 'potSprite_3-2', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
@@ -218,6 +214,7 @@ var Level2P1 = {
 			// recalculate pot position based on the .5 anchor position
 			pot.x = pot.x + pot.width/2;
 			pot.y = pot.y + pot.height/2;
+
 			pot.body.collideWorldBounds = true;
 		}, this);
 
@@ -320,6 +317,8 @@ var Level2P1 = {
 
 		// so the player is ontop of all other items
 		game.world.moveUp(this.player);
+
+		// so detail layer 4 is overtop of player
 		game.world.bringToTop(this.detailLayer3);
 		this.restart();
 	},
@@ -328,7 +327,7 @@ var Level2P1 = {
 		console.log('call restart');
 
 		_TILESIZE = 32;
-		dir = "DOWN";
+		dir = "RIGHT";
 		playerSpeed = 100; //100 is a arbitrary default value
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
@@ -338,11 +337,10 @@ var Level2P1 = {
 		objectiveVal = 1;
 		showDebug = false;
 		enterNextLevel = false;
-
 		enableCollision = true;
 
 		// item picked up bool; may have to change if multiple items
-		objectiveComplete = 0;
+		objectiveComplete = 1;
 
 		pushTimer = 0;
 		triggerTimer = 0;
@@ -365,7 +363,8 @@ var Level2P1 = {
 		// player collision (no pot)
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
-		
+		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
+
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
@@ -381,9 +380,6 @@ var Level2P1 = {
 			}
 			return false;
 		});
-
-		//item player collision
-		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
@@ -519,8 +515,8 @@ var Level2P1 = {
 		// check to see if all win conditions are true
 		// make player exit level without player control
 		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
+			this.player.body.velocity.x += playerSpeed;
 			this.player.body.collideWorldBounds = false;
-			this.player.body.velocity.x += playerSpeed/1.5;
 		}
 
 		// check to see if keys are disabled
@@ -822,7 +818,7 @@ var Level2P1 = {
 		grabbedPot = null;
 
 		//create and move thrown pot
-		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_1');
+		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_3-2');
 		pot.animations.add('potBreakAnim', [1, 2, 3, 4], 8 /*fps */, false);
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
@@ -958,7 +954,8 @@ var Level2P1 = {
 			}, this);
 
 			// next level after 1 second
-			game.time.events.add(Phaser.Timer.SECOND * 1, lvl2P1End, this);
+			game.time.events.add(Phaser.Timer.SECOND * 1, lvl2P2End, this);
+
 		} else { // if holding a pot, throw it, recurse function
 			this.handleThrow();
 			this.levelTrigger();
@@ -1000,6 +997,6 @@ function printBoard (array,x,y) {
 };
 
 
-function lvl2P1End() {
-	game.state.start('Level2-2');
+function lvl2P2End() {
+	game.state.start('Level3-3');
 };
