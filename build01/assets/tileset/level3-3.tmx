@@ -15,7 +15,7 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAOEEHDxAIZNEwsYGFgOMAMxIxANhMJ9sLUM0PMINpeTiDmAmJuIOYBYnYgZiNCHxtULQeSHnYi9MHUCiDpIcU+dJpY+9BpcuwjBaDHB7EAPT4GGgAAvowD5w==
+   eJxjYKAOEEHDxAIZNEwsYGFgOMAMxIxANhMJ9sLUM0PMINpeTiDmAmJuIOYBYnYgZiNCHxtULQeSHnYi9MHUCiDpIcU+dJpY+9BpWtkHA+jxQSxAj4+BBgDFOAPu
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
@@ -25,7 +25,7 @@
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEgkAsBMTCWOTwAUkglgJiaRL0KAKxEhArA7EKCfo0gVgLiLWBWAeI5UjQS03AysBwAI/coLBPlob2iQGxOJq4BAnmq0JpeSBWIEGfLpRWB2INEvTRCgAAx3sFdw==
+   eJxjYMAEgkAsBMTCWOTwAUkglgJiaRL0KAKxEhArA7EKCfo0gVgLiLWBWAeI5UjQS03AysBwAI/coLBPlob2iQGxOJo4Ownmq0JpeSBWIEGfLpRWB2INEvTRCgAAt0cFZg==
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
@@ -92,7 +92,7 @@
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFxABeIOYDYv4BdIPoANo9CvADAH2kAEA=
+   eJxjYBgFxABeIOYDYv4BdIPoANpNCpAYaAcMAAAAlIQAWA==
   </data>
  </layer>
  <layer name="triggerLayer" width="14" height="15">
