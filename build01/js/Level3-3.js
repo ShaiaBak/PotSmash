@@ -204,7 +204,7 @@ var Level3P3 = {
 		heavyPotGroup.enableBody = true;
 		heavyPotGroup.physicsBodyType = Phaser.Physics.ARCADE;
 
-		this.map.createFromObjects('objectsLayer', 47, 'potSprite_3-2', 0, true, false, heavyPotGroup);
+		this.map.createFromObjects('objectsLayer', 47, 'potSprite_3-3-heavy', 0, true, false, heavyPotGroup);
 
 		this.game.physics.arcade.enable(heavyPotGroup);
 
