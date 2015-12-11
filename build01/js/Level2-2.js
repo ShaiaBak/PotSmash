@@ -19,8 +19,10 @@ var itemVal = 0;
 var objectiveVal = 1;
 var showDebug = false;
 var enterNextLevel = false;
+var spaceDisabled = false;
 
 var chest;
+var chestItem;
 var nearChest = false;
 var chestOpened = false;
 
@@ -285,6 +287,16 @@ var Level2P2 = {
 		this.chestHalo.x = chest.x + chest.width/3;
 		this.chestHalo.y = chest.y + chest.height*2;
 
+		// =========== CREATE CHEST ITEM ===========
+		chestItem = game.add.sprite(0, 0, 'mega_grid');
+		chestItem.anchor.setTo(0.5, 0.5);
+		// chestItem.body.immovable = true;
+
+		chestItem.x = chest.x + chest.width/2;
+		chestItem.y = chest.y + chest.height/2 + chestItem.width/2;
+
+		// chestItem.alpha = 0;
+
 		// ========= CAMERA STUFF =========
 
 		// set bounds to world for camera and player
@@ -303,10 +315,12 @@ var Level2P2 = {
 		keySPACE = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		//spacebar picks / throws the pot
 		keySPACE.onDown.add(function () {
-			if(grabbedPot == null){
-				this.checkPickUp();
-			} else {
-				this.handleThrow();
+			if(!spaceDisabled) {
+				if(grabbedPot == null){
+					this.checkPickUp();
+				} else {
+					this.handleThrow();
+				}
 			}
 		}, this);
 
@@ -358,6 +372,7 @@ var Level2P2 = {
 		game.world.moveUp(chest);
 		// so detail layer 4 is overtop of player
 		game.world.bringToTop(this.detailLayer4);
+		game.world.bringToTop(chestItem);
 		this.restart();
 	},
 
@@ -376,6 +391,7 @@ var Level2P2 = {
 		showDebug = false;
 		enterNextLevel = false;
 		enableCollision = true;
+		spaceDisabled = false;
 
 		nearChest = false;
 		chestOpened = false;
@@ -770,6 +786,7 @@ var Level2P2 = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
+			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
@@ -817,6 +834,9 @@ var Level2P2 = {
 				break;
 
 			}
+			game.time.events.add(200, function(){
+				spaceDisabled = false;
+			}, this);
 			pushTimer = 0;
 		}
 	},
@@ -1036,6 +1056,8 @@ var Level2P2 = {
 			}, this);
 
 			game.debug.body(this.chestHalo);
+
+			game.debug.body(chest);
 
 			// show collision body for thrown pot
 			throwGroup.forEachAlive(function(throwDebug) {

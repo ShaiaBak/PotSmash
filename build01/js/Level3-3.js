@@ -20,6 +20,7 @@ var itemVal = 0;
 var objectiveVal = 1;
 var showDebug = false;
 var enterNextLevel = false;
+var spaceDisabled = false;
 
 var enableCollision = true;
 
@@ -299,10 +300,12 @@ var Level3P3 = {
 		keySPACE = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		//spacebar picks / throws the pot
 		keySPACE.onDown.add(function () {
-			if(grabbedPot == null){
-				this.checkPickUp();
-			} else {
-				this.handleThrow();
+			if(!spaceDisabled) {
+				if(grabbedPot == null){
+					this.checkPickUp();
+				} else {
+					this.handleThrow();
+				}
 			}
 		}, this);
 
@@ -372,6 +375,7 @@ var Level3P3 = {
 		showDebug = false;
 		enterNextLevel = false;
 		enableCollision = true;
+		spaceDisabled = false;
 
 		// item picked up bool; may have to change if multiple items
 		objectiveComplete = 0;
@@ -752,6 +756,7 @@ var Level3P3 = {
 		pushTimer++;
 		if(pushTimer >= 50) {
 			console.log('push');
+			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
 				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
@@ -799,6 +804,9 @@ var Level3P3 = {
 				break;
 
 			}
+			game.time.events.add(150, function(){
+				spaceDisabled = false;
+			}, this);
 			pushTimer = 0;
 		}
 	},
