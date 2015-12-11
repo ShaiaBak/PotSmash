@@ -962,7 +962,7 @@ var Level3P2 = {
 			}, this);
 
 			// next level after 1 second
-			game.time.events.add(Phaser.Timer.SECOND * 1, lvl2P2End, this);
+			game.time.events.add(Phaser.Timer.SECOND * 1, lvl3P2End, this);
 
 		} else { // if holding a pot, throw it, recurse function
 			this.handleThrow();
@@ -1005,6 +1005,6 @@ function printBoard (array,x,y) {
 };
 
 
-function lvl2P2End() {
-	game.state.start('Level3-3');
+function lvl3P2End() {
+	game.state.start('Level3-3',true,false);
 };

@@ -36,24 +36,24 @@ var StartMenu = {
 		}
 
 		if(key1.isDown) {
-			this.state.start('Level1');
+			this.state.start('Level1',true,false);
 		}
 
 		if(key2.isDown) {
-			this.state.start('Level2-1');
+			this.state.start('Level2-1',true,false);
 		}
 
 		if(key3.isDown) {
-			this.state.start('Level2-2');
+			this.state.start('Level2-2',true,false);
 		}
 		if(key4.isDown) {
-			this.state.start('Level3-1');
+			this.state.start('Level3-1',true,false);
 		}
 		if(key5.isDown) {
-			this.state.start('Level3-2');
+			this.state.start('Level3-2',true,false);
 		}
 		if(key6.isDown) {
-			this.state.start('Level3-3');
+			this.state.start('Level3-3',true,false);
 		}
 	}
 }
