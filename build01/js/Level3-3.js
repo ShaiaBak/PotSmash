@@ -84,8 +84,7 @@ var Level3P3 = {
 		this.blockedLayer.renderable = false;
 		this.levelExitLayer.visible = false;
 		this.levelExitLayer.renderable = false;
-		this.triggerLayer.visible = false;
-		this.triggerLayer.renderable = false;
+		// this.triggerLayer.visible = false;
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
@@ -223,7 +222,7 @@ var Level3P3 = {
 		}, this);
 
 		heavyPotGroup.callAll('animations.add', 'animations', 'potIdle', [0], 10, true);
-		heavyPotGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, false);
+		heavyPotGroup.callAll('animations.add', 'animations', 'potFall', [0, 1, 2, 3, 4], 10, false);
 
 		heavyPotGroup.callAll('animations.play', 'animations', 'potIdle');
 
@@ -420,6 +419,10 @@ var Level3P3 = {
 			return false;
 		});
 
+		this.game.physics.arcade.collide(this.player, heavyPotGroup, this.pushPot);
+		// this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.levTrigger);
+		// this.game.physics.arcade.overlap(this.triggerLayer, heavyPotGroup, this.objectiveTrigger);
+
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
 		// this.game.physics.arcade.collide(potGroup, potGroup);
@@ -441,6 +444,7 @@ var Level3P3 = {
 		// temp level ending condition
 		if (objectiveComplete == 1) {
 			exitBool = 1;
+			this.objectiveTrigger();
 		}
 
 		this.gridCheckFunc();
@@ -487,6 +491,8 @@ var Level3P3 = {
 					board[c][r] = wallGridVal;
 
 				} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
+					board[c][r] = potGridVal;
+				} else if(this.game.physics.arcade.overlap(gridCheck, heavyPotGroup)) {
 					board[c][r] = potGridVal;
 				} else if (this.game.physics.arcade.overlap(gridCheck, this.player)) {
 					board[c][r] = playerGridVal;
@@ -766,7 +772,7 @@ var Level3P3 = {
 				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
-					exitBool = 1;
+					objectiveComplete = 1;
 				}
 				break;
 
@@ -777,7 +783,7 @@ var Level3P3 = {
 				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
 					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
-					exitBool = 1;
+					objectiveComplete = 1;
 				}
 				break;
 
@@ -788,7 +794,7 @@ var Level3P3 = {
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
-					exitBool = 1;
+					objectiveComplete = 1;
 				}
 				break;
 
@@ -799,7 +805,7 @@ var Level3P3 = {
 				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
 					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 					// make exits work
-					exitBool = 1;
+					objectiveComplete = 1;
 				}
 				break;
 
@@ -983,6 +989,16 @@ var Level3P3 = {
 		});
 	},
 
+	objectiveTrigger: function(heavyPot, trigger) {
+		console.log('enter');
+		heavyPotGroup.forEach(function(heavyPot) {
+			game.time.events.add(250, function(){
+				heavyPot.animations.play('potFall', 14, false, true);
+				heavyPot.animations.killOnComplete = true;
+			});
+		});
+	},
+
 	levelTrigger: function(player, exit) {
 		// if not holding a pot, allow player to finish level
 		if (grabbedPot == null) {
@@ -1016,10 +1032,16 @@ var Level3P3 = {
 			// show collision body for player
 			game.debug.body(this.player);
 
+			game.debug.body(this.triggerLayer);
+
 			// show collision body for pots
 			potGroup.forEachAlive(function(potDebug) {
 				game.debug.body(potDebug);
 			}, this);
+
+			heavyPotGroup.forEachAlive(function(heavyDebug) {
+				game.debug.body(heavyDebug);
+			});
 
 			// show collision body for thrown pot
 			throwGroup.forEachAlive(function(throwDebug) {

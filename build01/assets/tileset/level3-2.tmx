@@ -20,7 +20,7 @@
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuIASFoxLnpA+XJhSN4yCwQEAEDoDMQ==
+   eJxjYBgFuIASFoxLnpA+XJhSNyCrGwUDBwBDOgNT
   </data>
  </layer>
  <objectgroup name="objectsLayer">
