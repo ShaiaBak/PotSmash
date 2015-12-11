@@ -5,7 +5,7 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAcSKJhYoEiGiYWMAExIxJNrP3MUMwN1YtuPy69MHtY0OyF0bjczoyJG9AwWBwZoJvPisU+dCCJRQ02t6L7TxGLGhYi/IctDHgZEGGLz63Y9KLbSwig+5NYgGwfL5SmFgAAjzIFRw==
+   eJxjYKAcSKJhYoEiGiYWMAExIxJNrP3MUMwN1YtuPy69MHvY0OyF0bjczoyJG9AwWBwZoJvPisU+dCCJRQ0LFrPQ/aeIRQ0LEf7DFga8DIiwxedWbHrR7SUE0P1JLEC2jxdKUwsAAJNqBUk=
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
