@@ -290,12 +290,11 @@ var Level2P2 = {
 		// =========== CREATE CHEST ITEM ===========
 		chestItem = game.add.sprite(0, 0, 'mega_grid');
 		chestItem.anchor.setTo(0.5, 0.5);
-		// chestItem.body.immovable = true;
 
 		chestItem.x = chest.x + chest.width/2;
 		chestItem.y = chest.y + chest.height/2 + chestItem.width/2;
 
-		// chestItem.alpha = 0;
+		chestItem.alpha = 0;
 
 		// ========= CAMERA STUFF =========
 
@@ -429,6 +428,15 @@ var Level2P2 = {
 			if(nearChest && Phaser.Rectangle.intersects(grabPotRect, chest) && !chestOpened) {
 				chest.play('chestOpen');
 				chestOpened = true;
+				keysDisabled = true;
+				game.time.events.add(500, function(){
+					chestItem.alpha = 1;
+				}, this);
+
+				game.time.events.add(1500, function(){
+					chestItem.alpha = 0;
+					keysDisabled = false;
+				}, this);
 			} else {
 				nearChest = false;
 			}
