@@ -847,7 +847,7 @@ var Level2P2 = {
 				break;
 
 			}
-			game.time.events.add(200, function(){
+			game.time.events.add(225, function(){
 				spaceDisabled = false;
 			}, this);
 			pushTimer = 0;
