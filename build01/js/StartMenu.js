@@ -25,11 +25,11 @@ var StartMenu = {
 	},
 
 	update: function() {
-		menuText.x = Math.floor(game.world.width/2);
-		menuText.y = Math.floor(game.world.height/2);
+		menuText.x = Math.floor(Math.floor(game.world.width/2));
+		menuText.y = Math.floor(Math.floor(game.world.height/2));
 
-		subText.x = Math.floor(game.world.width/2);
-		subText.y = Math.floor(game.world.height/2+20);
+		subText.x = Math.floor(Math.floor(game.world.width/2));
+		subText.y = Math.floor(Math.floor(game.world.height/2+20));
 
 		if(keySpace.isDown) {
 			this.state.start('Level1');
