@@ -8,6 +8,7 @@ var levelExitLayer;
 var objectLayer;
 var dir = "RIGHT";
 var playerSpeed = 100; //100 is a arbitrary default value
+var walkFPS = 8;
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
 var grabbedPot;
@@ -126,7 +127,7 @@ var Level2P2 = {
 		itemGroup = game.add.group();
 	   	itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 33, 'mega_grid', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 33, 'item-boot', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
 
@@ -158,16 +159,16 @@ var Level2P2 = {
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
-		this.player.animations.add('walkDown', [1 ,2 ,3, 0], 8 /*fps */, true);
-		this.player.animations.add('walkUp', [17, 18, 19, 16], 8 /*fps */, true);
-		this.player.animations.add('walkLeft', [25, 26, 27, 24], 8 /*fps */, true);
-		this.player.animations.add('walkRight', [9, 10, 11, 8], 8 /*fps */, true);
+		this.player.animations.add('walkDown', [1 ,2 ,3, 0], walkFPS /*fps */, true);
+		this.player.animations.add('walkUp', [17, 18, 19, 16], walkFPS /*fps */, true);
+		this.player.animations.add('walkLeft', [25, 26, 27, 24], walkFPS /*fps */, true);
+		this.player.animations.add('walkRight', [9, 10, 11, 8], walkFPS /*fps */, true);
 
 		//diagonal animation
-		this.player.animations.add('walkUpRight', [13, 14, 15, 12], 8 /*fps */, true);
-		this.player.animations.add('walkDownRight', [5, 6, 7, 4], 8 /*fps */, true);
-		this.player.animations.add('walkUpLeft', [21, 22, 23, 20], 8 /*fps */, true);
-		this.player.animations.add('walkDownLeft', [29, 30, 31, 28], 8 /*fps */, true);
+		this.player.animations.add('walkUpRight', [13, 14, 15, 12], walkFPS /*fps */, true);
+		this.player.animations.add('walkDownRight', [5, 6, 7, 4], walkFPS /*fps */, true);
+		this.player.animations.add('walkUpLeft', [21, 22, 23, 20], walkFPS /*fps */, true);
+		this.player.animations.add('walkDownLeft', [29, 30, 31, 28], walkFPS /*fps */, true);
 
 		//idle animation
 		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
@@ -193,15 +194,15 @@ var Level2P2 = {
 		this.player.animations.add('pickDownLeft', [60], 8 /*fps */, true);
 
 		// pickup walk animation
-		this.player.animations.add('pickWalkDown', [33, 34, 35, 32], 8 /*fps */, true);
-		this.player.animations.add('pickWalkUp', [49, 50, 51, 48], 8 /*fps */, true);
-		this.player.animations.add('pickWalkLeft', [57, 58, 59, 56], 8 /*fps */, true);
-		this.player.animations.add('pickWalkRight', [41, 42, 43, 40], 8 /*fps */, true);
+		this.player.animations.add('pickWalkDown', [33, 34, 35, 32], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkUp', [49, 50, 51, 48], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkLeft', [57, 58, 59, 56], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkRight', [41, 42, 43, 40], walkFPS /*fps */, true);
 
-		this.player.animations.add('pickWalkUpRight', [45, 46, 47, 44], 8 /*fps */, true);
-		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], 8 /*fps */, true);
-		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
-		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
+		this.player.animations.add('pickWalkUpRight', [45, 46, 47, 44], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], walkFPS /*fps */, true);
 
 
 		// ========= CREATE POT STUFF =========
@@ -288,7 +289,7 @@ var Level2P2 = {
 		this.chestHalo.y = chest.y + chest.height*2;
 
 		// =========== CREATE CHEST ITEM ===========
-		chestItem = game.add.sprite(0, 0, 'mega_grid');
+		chestItem = game.add.sprite(0, 0, 'item-boot');
 		chestItem.anchor.setTo(0.5, 0.5);
 
 		chestItem.x = chest.x + chest.width/2;
@@ -381,6 +382,7 @@ var Level2P2 = {
 		_TILESIZE = 32;
 		dir = "RIGHT";
 		playerSpeed = 100; //100 is a arbitrary default value
+		walkFPS = 8;
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
 		potSoundBool = 0;
@@ -437,6 +439,9 @@ var Level2P2 = {
 					chestItem.alpha = 0;
 					keysDisabled = false;
 				}, this);
+
+				playerSpeed = 125;
+				walkFPS = 12;
 			} else {
 				nearChest = false;
 			}

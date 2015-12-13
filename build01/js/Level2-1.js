@@ -69,9 +69,6 @@ var Level2P1 = {
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
 		this.map.addTilesetImage('tiles-lvl2-1-32x32', 'gameTiles-lvl-2_1');
-		// this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
-		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
-
 
 		this.bgLayer = this.map.createLayer('backgroundLayer');
 		this.blockedLayer = this.map.createLayer('blockedLayer');
@@ -204,8 +201,8 @@ var Level2P1 = {
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
-		this.map.createFromObjects('objectsLayer', 144, 'potSprite_1', 0, true, false, potGroup);
-		this.map.createFromObjects('objectsLayer', 145, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 144, 'potSprite_2-1a', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 145, 'potSprite_2-1b', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
@@ -830,7 +827,7 @@ var Level2P1 = {
 		grabbedPot = null;
 
 		//create and move thrown pot
-		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_1');
+		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_2-1a');
 		pot.animations.add('potBreakAnim', [1, 2, 3, 4], 8 /*fps */, false);
 		pot.animations.add('potIdle', [0], 8 /*fps */, true);
 		pot.animations.play('potIdle');
