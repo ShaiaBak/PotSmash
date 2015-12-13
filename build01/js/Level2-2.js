@@ -204,6 +204,9 @@ var Level2P2 = {
 		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], walkFPS /*fps */, true);
 		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], walkFPS /*fps */, true);
 
+		// get item
+		this.player.animations.add('getChestItem', [32], walkFPS /*fps */, true);
+
 
 		// ========= CREATE POT STUFF =========
 
@@ -433,6 +436,8 @@ var Level2P2 = {
 				keysDisabled = true;
 				game.time.events.add(500, function(){
 					chestItem.alpha = 1;
+					dir = 'DOWN';
+					this.handleWalkAnim();
 				}, this);
 
 				game.time.events.add(1500, function(){
@@ -445,7 +450,7 @@ var Level2P2 = {
 			} else {
 				nearChest = false;
 			}
-		});
+		}, this);
 
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
@@ -697,7 +702,7 @@ var Level2P2 = {
 		
 		//idle animation
 		if (this.player.body.velocity.y == 0 && this.player.body.velocity.x == 0) {
-			if (grabbedPot == null) {
+			if (grabbedPot == null && chestItem.alpha == 0) {
 				if(dir == "DOWN") {
 					this.player.play('idleDown');
 				} else if(dir == "UP") {
@@ -719,7 +724,7 @@ var Level2P2 = {
 				} else {
 					this.player.play('idleUp');
 				}
-			} else if (grabbedPot != null) {
+			} else if (grabbedPot != null && chestItem.alpha == 0) {
 				if(dir == "DOWN") {
 					this.player.play('pickDown');
 				} else if(dir == "UP") {
@@ -741,6 +746,10 @@ var Level2P2 = {
 				} else {
 					this.player.play('idleUp');
 				}
+			} else if(chestItem.alpha == 1 && dir == 'DOWN' && chestOpened == true && keysDisabled == true) {
+			// } else if(chestItem.alpha == 1) {
+				console.log('got the item');
+				this.player.play('getChestItem');
 			}
 		}
 	},
