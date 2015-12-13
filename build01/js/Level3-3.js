@@ -7,13 +7,16 @@ var triggerLayer;
 var levelExitLayer;
 var objectLayer;
 var dir = "LEFT";
-var playerSpeed = 100; //100 is a arbitrary default value
+var playerSpeed = 125; //100 is a arbitrary default value
+var walkFPS = 12;
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var heavyPotGroup;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
+var triggerCounter = 0;
+var triggerObjBool = 0;
 var potSoundBool = 0;
 var keysDisabled = false;
 var itemVal = 0;
@@ -151,16 +154,16 @@ var Level3P3 = {
 
 		// animations
 		// animations.add(variable, whats frames-starting from zero, FPS, loop[t/f])
-		this.player.animations.add('walkDown', [1 ,2 ,3, 0], 8 /*fps */, true);
-		this.player.animations.add('walkUp', [17, 18, 19, 16], 8 /*fps */, true);
-		this.player.animations.add('walkLeft', [25, 26, 27, 24], 8 /*fps */, true);
-		this.player.animations.add('walkRight', [9, 10, 11, 8], 8 /*fps */, true);
+		this.player.animations.add('walkDown', [1 ,2 ,3, 0], walkFPS /*fps */, true);
+		this.player.animations.add('walkUp', [17, 18, 19, 16], walkFPS /*fps */, true);
+		this.player.animations.add('walkLeft', [25, 26, 27, 24], walkFPS /*fps */, true);
+		this.player.animations.add('walkRight', [9, 10, 11, 8], walkFPS /*fps */, true);
 
 		//diagonal animation
-		this.player.animations.add('walkUpRight', [13, 14, 15, 12], 8 /*fps */, true);
-		this.player.animations.add('walkDownRight', [5, 6, 7, 4], 8 /*fps */, true);
-		this.player.animations.add('walkUpLeft', [21, 22, 23, 20], 8 /*fps */, true);
-		this.player.animations.add('walkDownLeft', [29, 30, 31, 28], 8 /*fps */, true);
+		this.player.animations.add('walkUpRight', [13, 14, 15, 12], walkFPS /*fps */, true);
+		this.player.animations.add('walkDownRight', [5, 6, 7, 4], walkFPS /*fps */, true);
+		this.player.animations.add('walkUpLeft', [21, 22, 23, 20], walkFPS /*fps */, true);
+		this.player.animations.add('walkDownLeft', [29, 30, 31, 28], walkFPS /*fps */, true);
 
 		//idle animation
 		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
@@ -186,15 +189,15 @@ var Level3P3 = {
 		this.player.animations.add('pickDownLeft', [60], 8 /*fps */, true);
 
 		// pickup walk animation
-		this.player.animations.add('pickWalkDown', [33, 34, 35, 32], 8 /*fps */, true);
-		this.player.animations.add('pickWalkUp', [49, 50, 51, 48], 8 /*fps */, true);
-		this.player.animations.add('pickWalkLeft', [57, 58, 59, 56], 8 /*fps */, true);
-		this.player.animations.add('pickWalkRight', [41, 42, 43, 40], 8 /*fps */, true);
+		this.player.animations.add('pickWalkDown', [33, 34, 35, 32], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkUp', [49, 50, 51, 48], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkLeft', [57, 58, 59, 56], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkRight', [41, 42, 43, 40], walkFPS /*fps */, true);
 
-		this.player.animations.add('pickWalkUpRight', [45, 46, 47, 44], 8 /*fps */, true);
-		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], 8 /*fps */, true);
-		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
-		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
+		this.player.animations.add('pickWalkUpRight', [45, 46, 47, 44], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], walkFPS /*fps */, true);
+		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], walkFPS /*fps */, true);
 
 
 		// ========= CREATE HEAVY POT =========
@@ -346,7 +349,9 @@ var Level3P3 = {
 		
 		sfxPot1.addMarker('throwSFX', 0, 0.25);
 		sfxPot1.addMarker('potBreakSFX', 2, 0.5);
+		sfxPot1.addMarker('potBreak2SFX', 4, 0.5);
 		sfxPot1.addMarker('potPushSFX', 6, 0.5);
+		sfxPot1.addMarker('potFallSFX', 8, 0.75);
 
 		sfxObj1.addMarker('moneySFX', 0, 0.5);
 
@@ -364,12 +369,15 @@ var Level3P3 = {
 
 		_TILESIZE = 32;
 		dir = "LEFT";
-		playerSpeed = 100; //100 is a arbitrary default value
+		playerSpeed = 125; //100 is a arbitrary default value
+		walkFPS = 12;
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
 		potSoundBool = 0;
 		keysDisabled = false;
 		itemVal = 0;
+		triggerCounter = 0;
+		triggerObjBool = 0;
 		objectiveVal = 1;
 		showDebug = false;
 		enterNextLevel = false;
@@ -381,6 +389,7 @@ var Level3P3 = {
 
 		pushTimer = 0;
 		triggerTimer = 0;
+
 
 		//Rows and columns of the grid
 		c=0;
@@ -413,13 +422,18 @@ var Level3P3 = {
 			return false;
 		});
 		this.game.physics.arcade.collide(throwGroup, potGroup, this.handlePotBreak, function() {
-			if (enableCollision) {
+			if (enableCollision) { 
 				return true;
 			}
 			return false;
 		});
 
-		this.game.physics.arcade.collide(this.player, heavyPotGroup, this.pushPot);
+		this.game.physics.arcade.collide(this.player, heavyPotGroup, this.pushPot, function() {
+			heavyPotGroup.forEach(function(heavyPot) {
+				triggerObjBool = 1;
+			}, this);
+		});
+		this.game.physics.arcade.overlap(heavyPotGroup, this.triggerLayer, this.noop);
 		// this.game.physics.arcade.overlap(potGroup, this.triggerLayer, this.levTrigger);
 		// this.game.physics.arcade.overlap(this.triggerLayer, heavyPotGroup, this.objectiveTrigger);
 
@@ -444,7 +458,9 @@ var Level3P3 = {
 		// temp level ending condition
 		if (objectiveComplete == 1) {
 			exitBool = 1;
-			this.objectiveTrigger();
+			if(triggerCounter == 0) {
+				this.objectiveTrigger();
+			}
 		}
 
 		this.gridCheckFunc();
@@ -466,7 +482,7 @@ var Level3P3 = {
 		}
 
 		// audio volume - cannot be set inside create function
-		sfxPot1.volume = 0.2;
+		sfxPot1.volume = 0.5;
 		sfxObj1.volume = 0.1;
 
 		// console.log('pushTimer: ' + pushTimer)
@@ -761,56 +777,100 @@ var Level3P3 = {
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
-			console.log('push');
+			console.log('push ' + obj2);
 			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
-				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
-					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// printBoard(board,14,15);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
-					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					objectiveComplete = 1;
-				}
+					if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
+						game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						// printBoard(board,14,15);
+						sfxPot1.play('potPushSFX');
+					} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
+						game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						// make exits work
+						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(175, function(){
+							sfxPot1.play('potFallSFX');
+						});
+						game.time.events.add(850, function(){
+							sfxPot1.play('potBreak2SFX');
+						});
+						sfxPot1.play('potPushSFX');
+						if(triggerObjBool == 1) {
+							objectiveComplete = 1;
+							triggerObjBool = 0;
+						}
+					}
 				break;
 
 				case "DOWN":
-				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
-					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
-					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					objectiveComplete = 1;
-				}
+					if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
+						game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						sfxPot1.play('potPushSFX');
+					} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
+						game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						// make exits work
+						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(175, function(){
+							sfxPot1.play('potFallSFX');
+						});
+						game.time.events.add(850, function(){
+							sfxPot1.play('potBreak2SFX');
+						});
+						sfxPot1.play('potPushSFX');
+						if(triggerObjBool == 1) {
+							objectiveComplete = 1;
+							triggerObjBool = 0;
+						}
+					}
 				break;
 
 				case "LEFT":
-				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
-					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
-					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					objectiveComplete = 1;
-				}
+					if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
+						game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						sfxPot1.play('potPushSFX');
+					} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
+						game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						// make exits work
+						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(175, function(){
+							sfxPot1.play('potFallSFX');
+						});
+						game.time.events.add(850, function(){
+							sfxPot1.play('potBreak2SFX');
+						});
+						sfxPot1.play('potPushSFX');
+						if(triggerObjBool == 1) {
+							objectiveComplete = 1;
+							triggerObjBool = 0;
+						}
+					}
 				break;
 
 				case "RIGHT":
-				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
-					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
-					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					objectiveComplete = 1;
-				}
+					if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
+						game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						sfxPot1.play('potPushSFX');
+					} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
+						game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
+						// make exits work
+						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(175, function(){
+							sfxPot1.play('potFallSFX');
+						});
+						game.time.events.add(850, function(){
+							sfxPot1.play('potBreak2SFX');
+						});
+						sfxPot1.play('potPushSFX');
+						if(triggerObjBool == 1) {
+							objectiveComplete = 1;
+							triggerObjBool = 0;
+						}
+					}
 				break;
 
 			}
-			game.time.events.add(150, function(){
+			game.time.events.add(225, function(){
 				spaceDisabled = false;
 			}, this);
 			pushTimer = 0;
@@ -995,8 +1055,15 @@ var Level3P3 = {
 			game.time.events.add(250, function(){
 				heavyPot.animations.play('potFall', 14, false, true);
 				heavyPot.animations.killOnComplete = true;
+				// game.time.events.add(175, function(){
+				// 	sfxPot1.play('potFallSFX');
+				// });
+				// game.time.events.add(850, function(){
+				// 	sfxPot1.play('potBreak2SFX');
+				// });
 			});
 		});
+		triggerCounter = 1;
 	},
 
 	levelTrigger: function(player, exit) {
@@ -1019,6 +1086,11 @@ var Level3P3 = {
 			this.handleThrow();
 			this.levelTrigger();
 		}
+	},
+
+	noop: function() {
+		// no operation function to keepfunctions from running more than once
+		console.log('noop');
 	},
 
 	render: function() {
@@ -1063,5 +1135,5 @@ function printBoard (array,x,y) {
 
 
 function lvl3P3End() {
-	// game.state.start('Level1');
+	game.state.start('Level1');
 };
