@@ -28,17 +28,20 @@ Preload = {
 		this.load.image('touch_segment', 'assets/img/touch_segment.png');
 		this.load.image('touch', 'assets/img/touch.png');
 		this.load.image('mega_grid', 'assets/img/sprites/mega-placeholder.png', 32, 32);
+		this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
 
 		// spritesheets
-		this.load.spritesheet('item', 'assets/img/sprites/mega-placeholder.png',  32, 32);
-		this.load.spritesheet('player', 'assets/img/sprites/char_0_spritesheet_v2.png',  64, 64);
-		this.load.spritesheet('chestSprite', 'assets/img/sprites/2_2_chest_open.png', 128, 192);
+		// this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
+		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v2.png',  64, 64);
+		this.load.spritesheet('chestSprite', 'assets/img/sprites/terrain/2_2_chest_open.png', 128, 192);
 
-		this.load.spritesheet('potSprite_1', 'assets/img/sprites/1_barrel_breaking_sprite-32x32.png', 32, 32);
-		this.load.spritesheet('potSprite_2-2', 'assets/img/sprites/2_2_pots_breaking32x32.png', 32, 32);
-		this.load.spritesheet('potSprite_3-1', 'assets/img/sprites/3_pots_breaking2-32x32.png', 32, 32);
-		this.load.spritesheet('potSprite_3-2', 'assets/img/sprites/3_pots_breaking3-32x32.png', 32, 32);
-		this.load.spritesheet('potSprite_3-3-heavy', 'assets/img/sprites/3_pots_heavy-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_1', 'assets/img/sprites/pots/1_barrel_breaking_sprite-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_2-1a', 'assets/img/sprites/pots/2_1a_pots_breaking-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_2-1b', 'assets/img/sprites/pots/2_1b_pots_breaking-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_2-2', 'assets/img/sprites/pots/2_2_pots_breaking32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-1', 'assets/img/sprites/pots/3_pots_breaking2-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-2', 'assets/img/sprites/pots/3_pots_breaking3-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-3-heavy', 'assets/img/sprites/pots/3_pots_heavy-32x32.png', 32, 32);
 
 		// audio
 		game.load.audio('sfx_pot1', [ 'assets/audio/soundFX/sfx_potsounds_01.mp3', 
