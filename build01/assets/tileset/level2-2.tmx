@@ -3,40 +3,37 @@
  <tileset firstgid="1" name="tiles-lvl1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl1-32x32.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="65" name="tiles-lvl2-1-32x32" tilewidth="32" tileheight="32">
-  <image source="../img/tiles-lvl2-1-32x32.png" width="352" height="448"/>
- </tileset>
- <tileset firstgid="219" name="tiles-lvl2-2-32x32" tilewidth="32" tileheight="32">
+ <tileset firstgid="65" name="tiles-lvl2-2-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl2-2-32x32.png" width="352" height="288"/>
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdkUsKgDAMROfo3tNf3fhLN+IFHCjpwppQunTgQQJ9XWSAMhOZSTBmKwc5iRizlZ4MBqPjrWQz2H/gvf+ofVvrBZQd667eAnQhkSMoO9ZdvUhHEjlezxe58d27dz/vnq1eSx5mg21J
+   eJxjYMAELkDsCsRuONi4gD8QBwBxIA42LuAIxE44sDMefT5A7IsD+w0DfehmEKuWWH1uDJhxDOPD9LkzMDS4QTAcBDJgxjGMD9MXBNQTCMFwgC+ew4E4kgF7vOMLP1zhaUimPnIBAPUnJUo=
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJwzZGBgMETDhAC6+lF9tNGHzQxi1BKrj1QwUvSRgwGHZxE7
+   eJwzZGBgMETDhAC6+lF9tNGHzQxi1BKrj1QwlPSRA0gNW2QMAHH3EQo=
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJztzbsSQDAQheHdFi0ewDA0RKJxezeP7u+UdjuFM/kmRc6ZiDiiHPUMRDL6OQrnrqRfoXbu/tjT6HN3KlcLy26g1yNiRsCE8WW/8J5w4sCODavx3y/nBh3qC98=
+   eJztzbsOQEAQheF5Wlq0SLSyQrPr1rC8qF+nM9MpnOTLFDMnI6JPgtRwfydDjsLYK1GhNvb+6NM+ZifSOGh6A3c9ZkwYEeBf+iv7BScOROzYlH+/nAs8LBYh
   </data>
  </layer>
  <layer name="detailLayer2" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJztjCkOgDAUBX+DBgEGBJy1Z2WRLIIdw8imUBIqUEwyou9nKnKlxAprbG7uLlrssMfBugXK3a244Y6HsYc00UPnIqXJPLofkUVEz2huE+/R2nxIlOhYvf+noMk9ui85AXCpE70=
+   eJxjYMAEHkDsCcReQOyNRR4XCAbiECAOBeIwNLlMPPrigDgeiBOAOBFJvBiIS0iwHwbqgLieDH2jgIEhloGhIQaIkcWigfwoNDFyQCXQjAoyzGkB6mmmgv20BACURA2q
   </data>
  </layer>
  <layer name="detailLayer3" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBh4wMrI0MACxNjkFBlx6xMA6uHHoU8Hjz5poB4pqD4OoDpOJLXmePSNgoEBfxiwxzEhwI4jbdACAAAj5QYC
+   eJxjYBh4kM3A0JAFxNjk2vHoKwPqKcWhbxIefY1APQ1QfXlAnI8kNxefQ0fBgIAkHHFMCOSSqY8cAACc8wok
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEVgQwLkCpPlxy+PSRI4fPbmL1DQdATFwREqO2PnzupBWghvkAQooMdw==
+   eJxjYMAEVgQwLkCpPlxy+PSRI4fPbmL1DQdATFwREqO2PnxupRUg1g34AAAdYgw9
   </data>
  </layer>
  <objectgroup name="objectsLayer">
@@ -45,7 +42,7 @@
     <property name="type" value="playerStart"/>
    </properties>
   </object>
-  <object id="56" gid="253" x="256" y="96" width="32" height="32">
+  <object id="56" gid="99" x="256" y="96" width="32" height="32">
    <properties>
     <property name="type" value="chest"/>
    </properties>
@@ -63,7 +60,7 @@
  </objectgroup>
  <layer name="detalLayer4_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFxAJFRoYGcvTpkKlvFJAGFMgMZ22gPi0K4wgAPygDSA==
+   eJxjYBgFxIJ2BoYGcvRNIlPfKCANtJEZzhOB+iZQGEcAOEsFQQ==
   </data>
  </layer>
  <layer name="triggerLayer" width="14" height="15">
@@ -73,7 +70,7 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2B4Ais62gUAG8AAOw==
+   eJxjYBgFo2BwAys66yMHAABA6AB1
   </data>
  </layer>
 </map>

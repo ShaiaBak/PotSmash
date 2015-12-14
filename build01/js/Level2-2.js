@@ -73,7 +73,6 @@ var Level2P2 = {
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
 		this.map.addTilesetImage('tiles-lvl2-2-32x32', 'gameTiles-lvl-2_2');
-		this.map.addTilesetImage('tiles-lvl2-1-32x32', 'gameTiles-lvl-2_1');
 		this.map.addTilesetImage('tiles-lvl1-32x32', 'gameTiles-lvl-1');
 		// this.map.addTilesetImage('tileset-placeholder2', 'gameTilesTemp');
 
@@ -447,6 +446,8 @@ var Level2P2 = {
 
 				playerSpeed = 125;
 				walkFPS = 12;
+
+				objectiveComplete = 1;
 			} else {
 				nearChest = false;
 			}
@@ -602,8 +603,10 @@ var Level2P2 = {
 		// check to see if all win conditions are true
 		// make player exit level without player control
 		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
-			this.player.body.velocity.x += playerSpeed;
+			this.player.body.velocity.x -= 100;
+			this.player.body.velocity.y -= 25;
 			this.player.body.collideWorldBounds = false;
+			game.add.tween(this.player).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0, 1000, true);
 		}
 
 		// check to see if keys are disabled

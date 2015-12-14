@@ -5,12 +5,12 @@
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAcSKJhYoEiGiYWMAExIxJNrP3MUMwN1YtuPy69MHtY0OyF0bjcDrOPFYjZIOwGNAyWRwbo5rNgsQ8dSGJRg82t6P5TJNI+dP9hCwNeBkTY4nMrNr3o9hIC6P4kFiDbxwulqQUAlvIFSw==
+   eJxjYKAcSKJhYoEiGiYWMAExIxJNrP3MUMwN1YtuPy69MHtY0OyF0bjcDrOPFYjZIOwGNAyWRwbo5rNgsQ8dSGJRg82t6P5TJNI+dP9hCwNeBkTY4nMrNr3o9hIC6P60hWJCANk+XihNLQAA1OYFxQ==
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJyzZWBgsKUQowN66yPWHGIAtfSRAgazXdTUR0kc0CrdUJr2YRgAN4IZBg==
+   eJyzZWBgsKUQowN66yPWHGIAtfSRAgazXdTUR0kcEEo35OgjRg+xGAAZAhjJ
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
@@ -29,7 +29,7 @@
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <object id="178" gid="63" x="288" y="448" width="32" height="32">
+  <object id="178" gid="63" x="352" y="224" width="32" height="32">
    <properties>
     <property name="type" value="playerStart"/>
    </properties>
@@ -107,7 +107,7 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgZwAGKB5tdxKobBYMbAACdZgFB
+   eJxjYBgZwAGKB5tdxKobBfiBA5l6yNGHDQAA4mYCAQ==
   </data>
  </layer>
 </map>
