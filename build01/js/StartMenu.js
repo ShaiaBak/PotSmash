@@ -2,9 +2,11 @@ var menuText;
 var keySpace;
 var player;
 var title;
+var panComplete = false;
 var titleComplete = false;
 var screenFlash;
 var flashed = false;
+var startPotGroup;
 
 var StartMenu = {
 	create: function() {
@@ -25,11 +27,35 @@ var StartMenu = {
 		title = game.add.sprite(40, -25, 'titleLogo');
 		title.alpha = 0;
 
-		startPot = bgLayer3.addChild(game.make.sprite(120, -500, 'startHoneyPot', 5));
-		startPot.scale.setTo(0.5, 0.5);
-		startPot.alpha = 0;
-		startPot.smoothed = false;
+		startPot1 = bgLayer3.addChild(game.make.sprite(90, -530, 'startPot1', 5));
+		startPot2 = bgLayer3.addChild(game.make.sprite(140, -460, 'startPot2', 5));
+		startPot3 = bgLayer3.addChild(game.make.sprite(130, -400, 'startPot3', 5));
+		startPot4 = bgLayer3.addChild(game.make.sprite(140, -520, 'startPot4', 5));
+
 		player = bgLayer3.addChild(game.make.sprite(70, -500, 'playerStartMenu', 5));
+
+		startPot5 = bgLayer3.addChild(game.make.sprite(20, -450, 'startPot5', 5));
+		startPot6 = bgLayer3.addChild(game.make.sprite(0, -400, 'startPot6', 5));
+		startPot7 = bgLayer3.addChild(game.make.sprite(100, -390, 'startPot7', 5));
+		startPot8 = bgLayer3.addChild(game.make.sprite(40, -380, 'startPot8', 5));
+
+		startPot1.alpha = 0;
+		startPot2.alpha = 0;
+		startPot3.alpha = 0;
+		startPot4.alpha = 0;
+		startPot5.alpha = 0;
+		startPot6.alpha = 0;
+		startPot7.alpha = 0;
+		startPot8.alpha = 0;
+
+		startPot1.scale.set(0.5);
+		startPot2.scale.set(0.5);
+		startPot3.scale.set(0.5);
+		startPot4.scale.set(0.5);
+		startPot5.scale.set(0.5);
+		startPot6.scale.set(0.5);
+		startPot7.scale.set(0.5);
+		startPot8.scale.set(0.5);
 		// console.log(player.x + player.y);
 
 		screenFlash = game.add.graphics(0, 0);
@@ -64,9 +90,6 @@ var StartMenu = {
 		key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
 		key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
 		key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
-
-		// console.log(bgLayer1.y);
-		// console.log(this.game.world.height);
 	},
 
 	update: function() {
@@ -100,50 +123,59 @@ var StartMenu = {
 		player.animations.play('windIdle');
 
 		game.time.events.add(1000, function(){
-			if(bgLayer3.y < 600) {
+			if(bgLayer3.y < 620) {
 				bgLayer1.y += 0.1;
 				bgLayer2.y += 0.25;
 				bgLayer3.y += 0.5;
-			} else {
-				titleComplete = true;
 			}
 		});
 
-		// if(keySpace.isDown) {
-		// 	this.state.start('Level1');
-		// }
-
-		if(keySpace.isDown && titleComplete == false ) {
-			bgLayer1.y = 640;
-			bgLayer2.y = 610;
-			bgLayer3.y = 640;
-			if(keySpace.isUp) {
-				titleComplete = true;
-			}
-		} else if(keySpace.isDown && titleComplete == true) {
-			this.state.start('Level1');
+		if(bgLayer3.y >= 620) {
+			panComplete = true;
 		}
 
-		// console.log(titleComplete);
+		keySpace.onDown.add(function(key) {
+			if(panComplete == false ) {
+				bgLayer1.y = 640;
+				bgLayer2.y = 610;
+				bgLayer3.y = 620;
+				startPot1.alpha = 1;
+				startPot2.alpha = 1;
+				startPot3.alpha = 1;
+				startPot4.alpha = 1;
+				startPot5.alpha = 1;
+				startPot6.alpha = 1;
+				startPot7.alpha = 1;
+				startPot8.alpha = 1;
+				titleComplete = true;
+				title.alpha = 1;
+			} else if(panComplete == true && titleComplete == true) {
+				this.state.start('Level1');
+			}
+		}, this);
 
-		if(titleComplete == true) {
+		console.log(titleComplete);
+
+		if(panComplete == true && titleComplete == false) {
 			game.time.events.add(1000, function(){
 				if(flashed == false) {
 					screenFlash.alpha = 1;
 					title.alpha = 1;
-					console.log('titleComplete');
-					// s = this.game.add.tween(screenFlash)
-					// s.to({ alpha: 0 }, 600, null)
-					// s.start();
-					// game.time.events.add(100, function(){
-					// 	game.add.tween(screenFlash).to( { alpha: 0 }, 2000, "Linear", true);
-					// });
+					console.log('panComplete');
 					flashed = true;
 				}
 			});
 			if(flashed == true) {
-				startPot.alpha = 1;
-				game.add.tween(screenFlash).to( { alpha: 0 }, 150, "Linear", true); 
+				startPot1.alpha = 1;
+				startPot2.alpha = 1;
+				startPot3.alpha = 1;
+				startPot4.alpha = 1;
+				startPot5.alpha = 1;
+				startPot6.alpha = 1;
+				startPot7.alpha = 1;
+				startPot8.alpha = 1;
+				game.add.tween(screenFlash).to( { alpha: 0 }, 150, "Linear", true);
+				titleComplete = true;
 			}
 		}
   

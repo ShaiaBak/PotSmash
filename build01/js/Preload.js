@@ -15,7 +15,14 @@ Preload = {
 		game.load.image('titleLogo', 'assets/img/startMenu/faketitle.png');
 
 		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterstart2.png',  136, 136);
-		this.load.spritesheet('startHoneyPot', 'assets/img/startMenu/pots/start-HoneyPot.png',  256, 256);
+		this.load.spritesheet('startPot1', 'assets/img/startMenu/pots/start-pot1.png',  256, 256);
+		this.load.spritesheet('startPot2', 'assets/img/startMenu/pots/start-pot2.png',  256, 256);
+		this.load.spritesheet('startPot3', 'assets/img/startMenu/pots/start-pot3.png',  256, 256);
+		this.load.spritesheet('startPot4', 'assets/img/startMenu/pots/start-pot4.png',  256, 256);
+		this.load.spritesheet('startPot5', 'assets/img/startMenu/pots/start-pot5.png',  256, 256);
+		this.load.spritesheet('startPot6', 'assets/img/startMenu/pots/start-pot6.png',  256, 256);
+		this.load.spritesheet('startPot7', 'assets/img/startMenu/pots/start-pot7.png',  256, 256);
+		this.load.spritesheet('startPot8', 'assets/img/startMenu/pots/start-pot8.png',  256, 256);
 
 
 		//load game assets
