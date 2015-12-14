@@ -1,8 +1,33 @@
 var menuText;
 var keySpace;
+var player;
+
 var StartMenu = {
 	create: function() {
 		game.stage.backgroundColor = '#000';
+
+		bgLayer1 = game.add.image(this.game.world.centerX, this.game.world.height, 'startBG');
+		bgLayer1.anchor.set(0.5, 1);
+		bgLayer1.smoothed = false;
+
+		bgLayer2 = game.add.image(this.game.world.centerX, this.game.world.height, 'startUnderlay');
+		bgLayer2.anchor.set(0.5, 1);
+		bgLayer2.smoothed = false;
+
+		bgLayer3 = game.add.image(this.game.world.centerX, this.game.world.height, 'startOverlay');
+		bgLayer3.anchor.set(0.5, 1);
+		bgLayer3.smoothed = false;
+
+		player = bgLayer3.addChild(game.make.sprite(70, -325, 'playerStartMenu', 5));
+		console.log(player.x + player.y)
+
+		// player = game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'playerStartMenu', 5);
+		player.smoothed = false;
+		player.animations.add('windIdle', [0,1,2,3], 8, true);
+		game.world.bringToTop(player)
+
+    	// bgLayer1.x += bgLayer1.width;
+    	// bgLayer1.y = bgLayer1.height/2;
 
 		var menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		var subStyle = {font: "12px Courier", fill: "#ffffff" };
@@ -22,6 +47,9 @@ var StartMenu = {
 		key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
 		key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
 		key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
+
+		// console.log(bgLayer1.y);
+		console.log(this.game.world.height);
 	},
 
 	update: function() {
@@ -55,5 +83,17 @@ var StartMenu = {
 		if(key6.isDown) {
 			this.state.start('Level3-3',true,false);
 		}
+
+		player.animations.play('windIdle');
+
+		game.time.events.add(1000, function(){
+			if(bgLayer3.y < 478) {
+				bgLayer1.y += 0.25;
+				bgLayer2.y += 0.5;
+				bgLayer3.y += 1;
+			}
+		});
+
+		// console.log(bgLayer1.y);
 	}
 }

@@ -1104,5 +1104,5 @@ function printBoard (array,x,y) {
 
 
 function lvl2P2End() {
-	game.state.start('Level3-1');
+	game.state.start('Level3Start');
 };

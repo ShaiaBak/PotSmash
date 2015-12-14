@@ -7,6 +7,15 @@ Preload = {
 		this.preloadBar = this.add.sprite(this.game.world.centerX - 55, this.game.world.centerY + 42, 'loadBar');
 		this.load.setPreloadSprite(this.preloadBar);
 
+		//start screen assets
+		game.load.image('startBG-placeholder', 'assets/img/startMenu/screen.png');
+		game.load.image('startBG', 'assets/img/startMenu/background.png');
+		game.load.image('startOverlay', 'assets/img/startMenu/overlay.png');
+		game.load.image('startUnderlay', 'assets/img/startMenu/underlay.png');
+
+		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterstart2.png',  136, 136);
+
+
 		//load game assets
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level2-1', 'assets/tileset/level2-1.json', null, Phaser.Tilemap.TILED_JSON);
