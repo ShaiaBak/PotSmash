@@ -12,8 +12,10 @@ Preload = {
 		game.load.image('startBG', 'assets/img/startMenu/background.png');
 		game.load.image('startOverlay', 'assets/img/startMenu/overlay.png');
 		game.load.image('startUnderlay', 'assets/img/startMenu/underlay.png');
+		game.load.image('titleLogo', 'assets/img/startMenu/faketitle.png');
 
 		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterstart2.png',  136, 136);
+		this.load.spritesheet('startHoneyPot', 'assets/img/startMenu/pots/start-HoneyPot.png',  256, 256);
 
 
 		//load game assets
