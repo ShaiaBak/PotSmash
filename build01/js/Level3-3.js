@@ -13,6 +13,7 @@ var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var heavyPotGroup;
+var heavyPotAlive = true;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 var triggerCounter = 0;
@@ -376,6 +377,7 @@ var Level3P3 = {
 		potSoundBool = 0;
 		keysDisabled = false;
 		itemVal = 0;
+		heavyPotAlive = true;
 		triggerCounter = 0;
 		triggerObjBool = 0;
 		objectiveVal = 1;
@@ -455,8 +457,14 @@ var Level3P3 = {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
 		}
 
+		heavyPotGroup.forEach(function(pot) {
+			if(pot.alive == false) {
+				heavyPotAlive = false;
+			}
+		});
+
 		// temp level ending condition
-		if (objectiveComplete == 1) {
+		if (objectiveComplete == 1 ) {
 			exitBool = 1;
 			if(triggerCounter == 0) {
 				this.objectiveTrigger();
@@ -777,7 +785,6 @@ var Level3P3 = {
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
-			console.log('push ' + obj2);
 			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
@@ -788,18 +795,23 @@ var Level3P3 = {
 					} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
 						game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 						// make exits work
-						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(250, function(){
+							obj2.loadTexture('potSprite_3-3-heavy', 1);
+							obj2.animations.add('potFall', [1, 2, 3, 4], 10, false);
+							obj2.animations.play('potFall', 14, false, true);
+							obj2.animations.killOnComplete = true;
+						});
 						game.time.events.add(175, function(){
 							sfxPot1.play('potFallSFX');
 						});
 						game.time.events.add(850, function(){
 							sfxPot1.play('potBreak2SFX');
+							if(triggerObjBool == 1 && heavyPotAlive == false) {
+								objectiveComplete = 1;
+								triggerObjBool = 0;
+							}
 						});
 						sfxPot1.play('potPushSFX');
-						if(triggerObjBool == 1) {
-							objectiveComplete = 1;
-							triggerObjBool = 0;
-						}
 					}
 				break;
 
@@ -810,18 +822,23 @@ var Level3P3 = {
 					} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
 						game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 						// make exits work
-						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(250, function(){
+							obj2.loadTexture('potSprite_3-3-heavy', 1);
+							obj2.animations.add('potFall', [1, 2, 3, 4], 10, false);
+							obj2.animations.play('potFall', 14, false, true);
+							obj2.animations.killOnComplete = true;
+						});
 						game.time.events.add(175, function(){
 							sfxPot1.play('potFallSFX');
 						});
 						game.time.events.add(850, function(){
 							sfxPot1.play('potBreak2SFX');
+							if(triggerObjBool == 1 && heavyPotAlive == false) {
+								objectiveComplete = 1;
+								triggerObjBool = 0;
+							}
 						});
 						sfxPot1.play('potPushSFX');
-						if(triggerObjBool == 1) {
-							objectiveComplete = 1;
-							triggerObjBool = 0;
-						}
 					}
 				break;
 
@@ -832,18 +849,23 @@ var Level3P3 = {
 					} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
 						game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 						// make exits work
-						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(250, function(){
+							obj2.loadTexture('potSprite_3-3-heavy', 1);
+							obj2.animations.add('potFall', [1, 2, 3, 4], 10, false);
+							obj2.animations.play('potFall', 14, false, true);
+							obj2.animations.killOnComplete = true;
+						});
 						game.time.events.add(175, function(){
 							sfxPot1.play('potFallSFX');
 						});
 						game.time.events.add(850, function(){
 							sfxPot1.play('potBreak2SFX');
+							if(triggerObjBool == 1 && heavyPotAlive == false) {
+								objectiveComplete = 1;
+								triggerObjBool = 0;
+							}
 						});
 						sfxPot1.play('potPushSFX');
-						if(triggerObjBool == 1) {
-							objectiveComplete = 1;
-							triggerObjBool = 0;
-						}
 					}
 				break;
 
@@ -854,18 +876,23 @@ var Level3P3 = {
 					} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
 						game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
 						// make exits work
-						obj2.animations.play('potFall', 14, false, true);
+						game.time.events.add(250, function(){
+							obj2.loadTexture('potSprite_3-3-heavy', 1);
+							obj2.animations.add('potFall', [1, 2, 3, 4], 10, false);
+							obj2.animations.play('potFall', 14, false, true);
+							obj2.animations.killOnComplete = true;
+						});
 						game.time.events.add(175, function(){
 							sfxPot1.play('potFallSFX');
 						});
 						game.time.events.add(850, function(){
 							sfxPot1.play('potBreak2SFX');
+							if(triggerObjBool == 1 && heavyPotAlive == false) {
+								objectiveComplete = 1;
+								triggerObjBool = 0;
+							}
 						});
 						sfxPot1.play('potPushSFX');
-						if(triggerObjBool == 1) {
-							objectiveComplete = 1;
-							triggerObjBool = 0;
-						}
 					}
 				break;
 
@@ -1053,14 +1080,7 @@ var Level3P3 = {
 		console.log('enter');
 		heavyPotGroup.forEach(function(heavyPot) {
 			game.time.events.add(250, function(){
-				heavyPot.animations.play('potFall', 14, false, true);
-				heavyPot.animations.killOnComplete = true;
-				// game.time.events.add(175, function(){
-				// 	sfxPot1.play('potFallSFX');
-				// });
-				// game.time.events.add(850, function(){
-				// 	sfxPot1.play('potBreak2SFX');
-				// });
+				// play unlock sound
 			});
 		});
 		triggerCounter = 1;
