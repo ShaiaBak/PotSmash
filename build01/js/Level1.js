@@ -197,6 +197,16 @@ var Level1 = {
 		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
 		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
 
+		this.player.animations.add('pushWalkDown', [65, 66, 67, 64], 8 /*fps */, true);
+		this.player.animations.add('pushWalkUp', [80, 81, 82, 83], 8 /*fps */, true);
+		this.player.animations.add('pushWalkLeft', [88, 89, 90, 91], 8 /*fps */, true);
+		this.player.animations.add('pushWalkRight', [72, 73, 74, 75], 8 /*fps */, true);
+
+		this.player.animations.add('pushWalkUpRight', [76, 77, 78, 79], 8 /*fps */, true);
+		this.player.animations.add('pushWalkDownRight', [68, 69, 70, 71], 8 /*fps */, true);
+		this.player.animations.add('pushWalkUpLeft', [84, 85, 86, 87], 8 /*fps */, true);
+		this.player.animations.add('pushWalkDownLeft', [92, 93, 94, 95], 8 /*fps */, true);
+
 		// ========= CREATE POT STUFF =========
 
 		potGroup = game.add.group();
@@ -433,7 +443,7 @@ var Level1 = {
 		sfxPot1.volume = 0.2;
 		sfxObj1.volume = 0.1;
 
-		// console.log('pushTimer: ' + pushTimer)
+		console.log('dir: ' + dir)
 	},
 
 	enableKeys: function() {
@@ -673,7 +683,7 @@ var Level1 = {
 	},
 
 	handleWalkAnim: function() {
-		if (grabbedPot == null) {	
+		if (grabbedPot == null && pushTimer == 0) {	
 			if (dir == "UP") {
 				this.player.play('walkUp');
 			} else if (dir == "DOWN") {
@@ -693,7 +703,7 @@ var Level1 = {
 			} else if(dir == "DOWNRIGHT") {
 				this.player.play('walkDownRight');
 			}
-		} else if (grabbedPot != null) {	
+		} else if (grabbedPot != null && pushTimer == 0) {	
 			if (dir == "UP") {
 				this.player.play('pickWalkUp');
 			} else if (dir == "DOWN") {
@@ -712,6 +722,29 @@ var Level1 = {
 				this.player.play('pickWalkDownLeft');
 			} else if(dir == "DOWNRIGHT") {
 				this.player.play('pickWalkDownRight');
+			}
+
+		// TODO: add more conditions -
+		// if grabpotrect is intersecting, if player is close(may not need with intersect)
+		} else if(grabbedPot == null && pushTimer > 0) {
+			if (dir == "UP") {
+				this.player.play('pushWalkUp');
+			} else if (dir == "DOWN") {
+				this.player.play('pushWalkDown');
+			} else if (dir == "LEFT") {
+				this.player.play('pushWalkLeft');
+			} else if (dir == "RIGHT") {
+				this.player.play('pushWalkRight');
+			} 
+			// diagonal movements
+			else if(dir == "UPLEFT") {
+				this.player.play('pushWalkUpLeft');
+			} else if(dir == "UPRIGHT") {
+				this.player.play('pushWalkUpRight');
+			} else if(dir == "DOWNLEFT") {
+				this.player.play('pushWalkDownLeft');
+			} else if(dir == "DOWNRIGHT") {
+				this.player.play('pushWalkDownRight');
 			}
 		}
 	},
