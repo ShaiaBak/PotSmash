@@ -120,6 +120,10 @@ var StartMenu = {
 			this.state.start('Level3-3',true,false);
 		}
 
+		if(key8.isDown) {
+			this.state.start('Level2Start',true,false);
+		}
+
 		player.animations.play('windIdle');
 
 		game.time.events.add(1000, function(){
@@ -153,8 +157,6 @@ var StartMenu = {
 				this.state.start('Level1');
 			}
 		}, this);
-
-		console.log(titleComplete);
 
 		if(panComplete == true && titleComplete == false) {
 			game.time.events.add(1000, function(){

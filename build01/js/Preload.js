@@ -24,6 +24,9 @@ Preload = {
 		this.load.spritesheet('startPot7', 'assets/img/startMenu/pots/start-pot7.png',  256, 256);
 		this.load.spritesheet('startPot8', 'assets/img/startMenu/pots/start-pot8.png',  256, 256);
 
+		// map screen
+		game.load.image('map', 'assets/img/mapScreen/map.png');
+
 
 		//load game assets
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -39,8 +42,6 @@ Preload = {
 		this.load.image('gameTiles-lvl-3_1', 'assets/img/tiles-lvl3-1-32x32.png');
 		this.load.image('gameTiles-lvl-3_2', 'assets/img/tiles-lvl3-2-32x32.png');
 		this.load.image('gameTiles-lvl-3_3', 'assets/img/tiles-lvl3-3-32x32.png');
-		// this.load.image('gameTilesTemp', 'assets/img/tileset-placeholder2.png');
-		// this.load.image('testpot', 'assets/img/1_barrel-32x32.png');
 		this.load.image('invisibleBlock', 'assets/img/trans-1x1.png');
 		this.load.image('compass', 'assets/img/compass_rose.png');
 		this.load.image('touch_segment', 'assets/img/touch_segment.png');
@@ -49,7 +50,6 @@ Preload = {
 		this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
 
 		// spritesheets
-		// this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
 		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v2.png',  64, 64);
 		this.load.spritesheet('chestSprite', 'assets/img/sprites/terrain/2_2_chest_open.png', 128, 192);
 

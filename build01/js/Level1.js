@@ -136,7 +136,7 @@ var Level1 = {
 		// this.item.body.immovable = true;
 
 		// =========== CREATE PLAYER ===========
-		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
+		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
 		this.player.body.collideWorldBounds = true;
