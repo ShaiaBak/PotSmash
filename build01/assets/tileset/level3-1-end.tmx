@@ -15,21 +15,21 @@
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFmkCsxUAaEAViQyA2AmIxEvTJArElEFsBsRxUTBuIdQjoU0JiS0HtNwZiEzLstwZiGyT7kQEnEHMRYT86EARiIRLcMdSB6QDbzw7EHGTo4wdiASq5AQBOmgQ8
+   eJytzs0KgkAYheHZWW7MQBeCLVxoqWhaWf7c/3X5LiYYZ1Pf4IEHhoHD+ZTa5oZSyRKhQ49Y0EsxYsJF/1Wof/Qy453o/QeeDvszFmPfzBH+H/t2QpwFd9jJUeAq7DVocRf2BrzxEfa+eTn29oqHg0MvwGmnG1axaAXj
   </data>
  </layer>
  <layer name="detailLayer2" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBhagBOIucjQJwjEQlR2y2AEKgT4o4A2AADuwAB/
+   eJxjYBhagBOIucjQJwjEQlR2y1AAKgPtgBECALngAFs=
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAc2KFheujDZQYl9hOrF5v9AwnQ3UOOHLHmkyM/EgAAtZEHBw==
+   eJxjYKAc2KFheujDZQYl9hOrF5v9Awnw2Y/uVmL1kaJuoP0/GAAAWoEGyQ==
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <object id="178" gid="63" x="352" y="224" width="32" height="32">
+  <object id="178" gid="63" x="256" y="448" width="32" height="32">
    <properties>
     <property name="type" value="playerStart"/>
    </properties>
@@ -117,7 +117,7 @@
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtAQiaHxhIvXJoPGlqeAWQkCXDnYMVwAA3xwAjA==
+   eJxjYBgF9ATCZOqTpqorsANdOtgxXAEAibwAXA==
   </data>
  </layer>
  <layer name="triggerLayer" width="14" height="15">
