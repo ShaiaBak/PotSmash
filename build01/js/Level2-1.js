@@ -161,16 +161,16 @@ var Level2P1 = {
 		this.player.animations.add('walkDownLeft', [28, 29, 30, 31], 8 /*fps */, true);
 
 		//idle animation
-		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
-		this.player.animations.add('idleUp', [16], 8 /*fps */, true);
-		this.player.animations.add('idleLeft', [25], 8 /*fps */, true);
-		this.player.animations.add('idleRight', [8], 8 /*fps */, true);
+		this.player.animations.add('idleDown', [96, 97], 3 /*fps */, true);
+		this.player.animations.add('idleRight', [100, 101], 3 /*fps */, true);
+		this.player.animations.add('idleUp', [104, 105], 3 /*fps */, true);
+		this.player.animations.add('idleLeft', [108, ,109], 3 /*fps */, true);
 
 		// diagonal animation
-		this.player.animations.add('idleUpRight', [14], 8 /*fps */, true);
-		this.player.animations.add('idleDownRight', [6], 8 /*fps */, true);
-		this.player.animations.add('idleUpLeft', [21], 8 /*fps */, true);
-		this.player.animations.add('idleDownLeft', [29], 8 /*fps */, true);
+		this.player.animations.add('idleDownRight', [98, 99], 3 /*fps */, true);
+		this.player.animations.add('idleUpRight', [102, 103], 3 /*fps */, true);
+		this.player.animations.add('idleUpLeft', [106, 107], 3 /*fps */, true);
+		this.player.animations.add('idleDownLeft', [110, 111], 3 /*fps */, true);
 
 		// pickup idle animation
 		this.player.animations.add('pickDown', [32], 8 /*fps */, true);
@@ -193,6 +193,16 @@ var Level2P1 = {
 		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], 8 /*fps */, true);
 		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
 		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
+
+		this.player.animations.add('pushWalkDown', [64, 65, 66, 67], 8 /*fps */, true);
+		this.player.animations.add('pushWalkUp', [80, 81, 82, 83], 8 /*fps */, true);
+		this.player.animations.add('pushWalkLeft', [88, 89, 90, 91], 8 /*fps */, true);
+		this.player.animations.add('pushWalkRight', [72, 73, 74, 75], 8 /*fps */, true);
+
+		this.player.animations.add('pushWalkUpRight', [76, 77, 78, 79], 8 /*fps */, true);
+		this.player.animations.add('pushWalkDownRight', [68, 69, 70, 71], 8 /*fps */, true);
+		this.player.animations.add('pushWalkUpLeft', [84, 85, 86, 87], 8 /*fps */, true);
+		this.player.animations.add('pushWalkDownLeft', [92, 93, 94, 95], 8 /*fps */, true);
 
 
 		// ========= CREATE POT STUFF =========

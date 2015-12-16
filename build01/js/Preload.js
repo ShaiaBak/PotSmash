@@ -50,7 +50,7 @@ Preload = {
 		this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
 
 		// spritesheets
-		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v3.png',  64, 64);
+		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v4.png',  64, 64);
 		this.load.spritesheet('chestSprite', 'assets/img/sprites/terrain/2_2_chest_open.png', 128, 192);
 
 		this.load.spritesheet('potSprite_1', 'assets/img/sprites/pots/1_barrel_breaking_sprite-32x32.png', 32, 32);
