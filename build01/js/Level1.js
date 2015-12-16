@@ -7,6 +7,7 @@ var triggerLayer;
 var levelExitLayer;
 var objectLayer;
 var dir = "UP";
+var currDir = dir;
 var playerSpeed = 100; //100 is a arbitrary default value
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
@@ -164,16 +165,16 @@ var Level1 = {
 		this.player.animations.add('walkDownLeft', [28, 29, 30, 31], 8 /*fps */, true);
 
 		//idle animation
-		this.player.animations.add('idleDown', [0], 8 /*fps */, true);
-		this.player.animations.add('idleUp', [16], 8 /*fps */, true);
-		this.player.animations.add('idleLeft', [25], 8 /*fps */, true);
-		this.player.animations.add('idleRight', [8], 8 /*fps */, true);
+		this.player.animations.add('idleDown', [96, 97], 2 /*fps */, true);
+		this.player.animations.add('idleRight', [100, 101], 2 /*fps */, true);
+		this.player.animations.add('idleUp', [104, 105], 2 /*fps */, true);
+		this.player.animations.add('idleLeft', [108, ,109], 2 /*fps */, true);
 
 		// diagonal animation
-		this.player.animations.add('idleUpRight', [14], 8 /*fps */, true);
-		this.player.animations.add('idleDownRight', [6], 8 /*fps */, true);
-		this.player.animations.add('idleUpLeft', [21], 8 /*fps */, true);
-		this.player.animations.add('idleDownLeft', [29], 8 /*fps */, true);
+		this.player.animations.add('idleDownRight', [98, 99], 2 /*fps */, true);
+		this.player.animations.add('idleUpRight', [102, 103], 2 /*fps */, true);
+		this.player.animations.add('idleUpLeft', [106, 107], 2 /*fps */, true);
+		this.player.animations.add('idleDownLeft', [110, 111], 2 /*fps */, true);
 
 		// pickup idle animation
 		this.player.animations.add('pickDown', [32], 8 /*fps */, true);
@@ -197,7 +198,7 @@ var Level1 = {
 		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
 		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
 
-		this.player.animations.add('pushWalkDown', [65, 66, 67, 64], 8 /*fps */, true);
+		this.player.animations.add('pushWalkDown', [64, 65, 66, 67], 8 /*fps */, true);
 		this.player.animations.add('pushWalkUp', [80, 81, 82, 83], 8 /*fps */, true);
 		this.player.animations.add('pushWalkLeft', [88, 89, 90, 91], 8 /*fps */, true);
 		this.player.animations.add('pushWalkRight', [72, 73, 74, 75], 8 /*fps */, true);
@@ -338,6 +339,7 @@ var Level1 = {
 
 		_TILESIZE = 32;
 		dir = "UP";
+		currDir = dir;
 		playerSpeed = 100; //100 is a arbitrary default value
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
@@ -434,16 +436,24 @@ var Level1 = {
 		}
 
 		// of holding a pot, cant push
-		// @TODO: ask chloe if she wants pushing pots while holding -  DELETE IF SHE WANTS TO
 		if (grabbedPot != null) {
 			pushTimer = 0;
+		}
+
+		// if player changes direction, pushTimer = 0
+		if(pushTimer > 1) {
+			currDir = dir;
+		}
+		if(dir != currDir && currDir != null) {
+			pushTimer = 0;
+			currDir = null;
 		}
 
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.2;
 		sfxObj1.volume = 0.1;
 
-		console.log('dir: ' + dir)
+		// console.log(pushTimer);
 	},
 
 	enableKeys: function() {
@@ -724,9 +734,8 @@ var Level1 = {
 				this.player.play('pickWalkDownRight');
 			}
 
-		// TODO: add more conditions -
-		// if grabpotrect is intersecting, if player is close(may not need with intersect)
-		} else if(grabbedPot == null && pushTimer > 0) {
+		// pushing anim
+		} else if(grabbedPot == null && pushTimer >= 0) {
 			if (dir == "UP") {
 				this.player.play('pushWalkUp');
 			} else if (dir == "DOWN") {
@@ -738,13 +747,13 @@ var Level1 = {
 			} 
 			// diagonal movements
 			else if(dir == "UPLEFT") {
-				this.player.play('pushWalkUpLeft');
+				this.player.play('walkUpLeft');
 			} else if(dir == "UPRIGHT") {
-				this.player.play('pushWalkUpRight');
+				this.player.play('walkUpRight');
 			} else if(dir == "DOWNLEFT") {
-				this.player.play('pushWalkDownLeft');
+				this.player.play('walkDownLeft');
 			} else if(dir == "DOWNRIGHT") {
-				this.player.play('pushWalkDownRight');
+				this.player.play('walkDownRight');
 			}
 		}
 	},
@@ -810,7 +819,7 @@ var Level1 = {
 			game.time.events.add(225, function(){
 				spaceDisabled = false;
 			}, this);
-			pushTimer = 0;
+			pushTimer = 1;
 		}
 	},
 	
@@ -970,7 +979,7 @@ var Level1 = {
 
 	handlePotBreak: function(pot, wall) {
 		pot.animations.play('potBreakAnim', 14, false, true);
-		console.log('break');
+		// console.log('break');
 		pot.body.velocity.x = 0;
 		pot.body.velocity.y = 0;
 		pot.body.gravity.y = 0;

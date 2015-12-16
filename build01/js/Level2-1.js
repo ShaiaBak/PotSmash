@@ -7,6 +7,7 @@ var triggerLayer;
 var levelExitLayer;
 var objectLayer;
 var dir = "DOWN";
+var currDir = dir;
 var playerSpeed = 100; //100 is a arbitrary default value
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
@@ -161,16 +162,16 @@ var Level2P1 = {
 		this.player.animations.add('walkDownLeft', [28, 29, 30, 31], 8 /*fps */, true);
 
 		//idle animation
-		this.player.animations.add('idleDown', [96, 97], 3 /*fps */, true);
-		this.player.animations.add('idleRight', [100, 101], 3 /*fps */, true);
-		this.player.animations.add('idleUp', [104, 105], 3 /*fps */, true);
-		this.player.animations.add('idleLeft', [108, ,109], 3 /*fps */, true);
+		this.player.animations.add('idleDown', [96, 97], 2 /*fps */, true);
+		this.player.animations.add('idleRight', [100, 101], 2 /*fps */, true);
+		this.player.animations.add('idleUp', [104, 105], 2 /*fps */, true);
+		this.player.animations.add('idleLeft', [108, ,109], 2 /*fps */, true);
 
 		// diagonal animation
-		this.player.animations.add('idleDownRight', [98, 99], 3 /*fps */, true);
-		this.player.animations.add('idleUpRight', [102, 103], 3 /*fps */, true);
-		this.player.animations.add('idleUpLeft', [106, 107], 3 /*fps */, true);
-		this.player.animations.add('idleDownLeft', [110, 111], 3 /*fps */, true);
+		this.player.animations.add('idleDownRight', [98, 99], 2 /*fps */, true);
+		this.player.animations.add('idleUpRight', [102, 103], 2 /*fps */, true);
+		this.player.animations.add('idleUpLeft', [106, 107], 2 /*fps */, true);
+		this.player.animations.add('idleDownLeft', [110, 111], 2 /*fps */, true);
 
 		// pickup idle animation
 		this.player.animations.add('pickDown', [32], 8 /*fps */, true);
@@ -339,6 +340,7 @@ var Level2P1 = {
 
 		_TILESIZE = 32;
 		dir = "DOWN";
+		currDir = dir;
 		playerSpeed = 100; //100 is a arbitrary default value
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
@@ -432,9 +434,17 @@ var Level2P1 = {
 		}
 
 		// of holding a pot, cant push
-		// @TODO: ask chloe if she wants pushing pots while holding -  DELETE IF SHE WANTS TO
 		if (grabbedPot != null) {
 			pushTimer = 0;
+		}
+
+		// if player changes direction, pushTimer = 0
+		if(pushTimer > 1) {
+			currDir = dir;
+		}
+		if(dir != currDir && currDir != null) {
+			pushTimer = 0;
+			currDir = null;
 		}
 
 		// audio volume - cannot be set inside create function
@@ -679,7 +689,7 @@ var Level2P1 = {
 	},
 
 	handleWalkAnim: function() {
-		if (grabbedPot == null) {	
+		if (grabbedPot == null && pushTimer == 0) {	
 			if (dir == "UP") {
 				this.player.play('walkUp');
 			} else if (dir == "DOWN") {
@@ -699,7 +709,7 @@ var Level2P1 = {
 			} else if(dir == "DOWNRIGHT") {
 				this.player.play('walkDownRight');
 			}
-		} else if (grabbedPot != null) {	
+		} else if (grabbedPot != null && pushTimer == 0) {	
 			if (dir == "UP") {
 				this.player.play('pickWalkUp');
 			} else if (dir == "DOWN") {
@@ -718,6 +728,28 @@ var Level2P1 = {
 				this.player.play('pickWalkDownLeft');
 			} else if(dir == "DOWNRIGHT") {
 				this.player.play('pickWalkDownRight');
+			}
+
+		// pushing anim
+		} else if(grabbedPot == null && pushTimer >= 0) {
+			if (dir == "UP") {
+				this.player.play('pushWalkUp');
+			} else if (dir == "DOWN") {
+				this.player.play('pushWalkDown');
+			} else if (dir == "LEFT") {
+				this.player.play('pushWalkLeft');
+			} else if (dir == "RIGHT") {
+				this.player.play('pushWalkRight');
+			} 
+			// diagonal movements
+			else if(dir == "UPLEFT") {
+				this.player.play('walkUpLeft');
+			} else if(dir == "UPRIGHT") {
+				this.player.play('walkUpRight');
+			} else if(dir == "DOWNLEFT") {
+				this.player.play('walkDownLeft');
+			} else if(dir == "DOWNRIGHT") {
+				this.player.play('walkDownRight');
 			}
 		}
 	},
@@ -783,7 +815,7 @@ var Level2P1 = {
 			game.time.events.add(225, function(){
 				spaceDisabled = false;
 			}, this);
-			pushTimer = 0;
+			pushTimer = 1;
 		}
 	},
 	
