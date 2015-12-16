@@ -39,6 +39,7 @@ Preload = {
 		this.load.tilemap('level3-1', 'assets/tileset/level3-1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level3-2', 'assets/tileset/level3-2.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level3-3', 'assets/tileset/level3-3.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('level3-1-end', 'assets/tileset/level3-1-end.json', null, Phaser.Tilemap.TILED_JSON);
 
 		this.load.image('gameTiles-lvl-1', 'assets/img/tiles-lvl1-32x32.png');
 		this.load.image('gameTiles-lvl-2_1', 'assets/img/tiles-lvl2-1-32x32.png');

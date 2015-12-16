@@ -111,7 +111,7 @@ var Level2Start = {
 
 		if(player.y <= 200) {
 			this.textAnim();
-			// this.state.start('Level2-1', true, false);
+			this.state.start('Level2-1', true, false);
 		}
 	},
 
