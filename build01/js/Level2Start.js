@@ -3,7 +3,7 @@ var keySpace;
 var mapBg;
 var player;
 var playerSpeed = 100;
-var dir = "RIGHT";
+var dir = "DOWN";
 
 var Level2Start = {
 	create: function() {
@@ -17,7 +17,7 @@ var Level2Start = {
 
 		// player
 
-		player = game.add.sprite(game.world.centerX + 100, game.world.centerY + 50, 'player');
+		player = game.add.sprite(game.world.centerX - 100, game.world.centerY + 50, 'player');
 		game.physics.arcade.enable(player);
 		player.body.collideWorldBounds = true;
 
@@ -93,12 +93,18 @@ var Level2Start = {
 			// this.state.start('Level2-1', true, false);
 			this.state.start('Level2-1', true, false);
 		}
+
+		if(player.x >= 300) {
+			this.state.start('Level2-1', true, false);
+		}
+
+		// console.log(player.x);
 	},
 
 	checkMovement: function() {
 		//Player is not moving when nothing is pressed
-		player.body.velocity.y = 0;
-		player.body.velocity.x = 0;
+		// player.body.velocity.y = 0;
+		// player.body.velocity.x = 0;
 
 		// check to see if all win conditions are true
 		// make player exit level without player control
@@ -106,6 +112,10 @@ var Level2Start = {
 		// 	player.body.velocity.y += playerSpeed;
 		// 	player.body.collideWorldBounds = false;
 		// }
+		game.time.events.add(500, function(){
+			player.body.velocity.x = playerSpeed;
+			player.body.collideWorldBounds = false;
+		}, this);
 		
 		//Checks arrow keys
 		if(this.cursors.up.isDown) {
@@ -134,6 +144,7 @@ var Level2Start = {
 	},
 
 	handleDirection: function() {
+		console.log(player.body.velocity.x);
 		//cardinal directions handling
 		// all grab pot rect are offset because it registers top left first. needed to offset.
 		if (player.body.velocity.y < 0 && player.body.velocity.x == 0) {
