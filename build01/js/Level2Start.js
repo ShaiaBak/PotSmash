@@ -4,6 +4,7 @@ var mapBg;
 var player;
 var playerSpeed = 100;
 var dir = "DOWN";
+var menuStyle;
 
 var Level2Start = {
 	create: function() {
@@ -12,12 +13,26 @@ var Level2Start = {
 
 		// game.stage.backgroundColor = '#000';
 
-		mapBg = game.add.image(0, 0, 'map');
+		// map = game.add.image(0, 0, 'map');
+		// map.scale.setTo(1.25, 1.25);
+
+		mapBg = game.add.image(0, 0, 'bgMap');
 		mapBg.scale.setTo(1.25, 1.25);
 
-		// player
+		house1 = game.add.image(game.world.centerX + 80, game.world.centerY + 60, 'house1');
+		house1.scale.setTo(1.25, 1.25);
+		house1.anchor.setTo(0.5, 0.5);
 
-		player = game.add.sprite(game.world.centerX - 100, game.world.centerY + 50, 'player');
+		house2 = game.add.image(game.world.centerX + 80, game.world.centerY + 60, 'house2');
+		house2.scale.setTo(1.25, 1.25);
+		house2.anchor.setTo(0.5, 0.5);
+
+		house3 = game.add.image(game.world.centerX + 80, game.world.centerY + 60, 'house3');
+		house3.scale.setTo(1.25, 1.25);
+		house3.anchor.setTo(0.5, 0.5);
+		
+		// player
+		player = game.add.sprite(game.world.centerX - 100, game.world.centerY + 80, 'player');
 		game.physics.arcade.enable(player);
 		player.body.collideWorldBounds = true;
 
@@ -58,8 +73,8 @@ var Level2Start = {
 		// follow types: FOLLOW_LOCKON, FOLLOW_PLATFORMER, FOLLOW_TOPDOWN, FOLLOW_LOCKON_TIGHT
 		this.camera.follow(player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT); 
 
-		var menuStyle = {font: "16px Courier", fill: "#ffffff" };
-		var subStyle = {font: "12px Courier", fill: "#ffffff" };
+		menuStyle = {font: "16px Courier", fill: "#ffffff" };
+		subStyle = {font: "12px Courier", fill: "#ffffff" };
 
 		levelTitle = game.add.text(0, 0, "Congrats! You beat level 1", menuStyle);
 		levelSub = game.add.text(0, 0, "Press space to go to level 2", subStyle);
@@ -75,7 +90,7 @@ var Level2Start = {
 
 	restart: function() {
 		playerSpeed = 100;
-		dir = "RIGHT";
+		dir = "DOWN";
 	},
 
 	update: function() {
@@ -87,18 +102,33 @@ var Level2Start = {
 
 		this.checkMovement();
 		this.handleDirection();
-
+		this.autoWalk();
 
 		if(keySpace.isDown) {
 			// this.state.start('Level2-1', true, false);
 			this.state.start('Level2-1', true, false);
 		}
 
-		if(player.x >= 300) {
-			this.state.start('Level2-1', true, false);
+		if(player.y <= 200) {
+			this.textAnim();
+			// this.state.start('Level2-1', true, false);
 		}
+	},
 
-		// console.log(player.x);
+	autoWalk: function() {
+		if(player.x <= 300) {
+			game.time.events.add(500, function(){
+				player.body.velocity.x = playerSpeed;
+				player.body.collideWorldBounds = false;
+			}, this);
+		} else if(player.y > 200) {
+			player.body.velocity.x = playerSpeed;
+			player.body.velocity.y = -playerSpeed;
+		} else if(player.y <= 200) {
+			dir = 'UP';
+			player.body.velocity.y = 0;
+			player.body.velocity.x = 0;
+		}
 	},
 
 	checkMovement: function() {
@@ -112,10 +142,6 @@ var Level2Start = {
 		// 	player.body.velocity.y += playerSpeed;
 		// 	player.body.collideWorldBounds = false;
 		// }
-		game.time.events.add(500, function(){
-			player.body.velocity.x = playerSpeed;
-			player.body.collideWorldBounds = false;
-		}, this);
 		
 		//Checks arrow keys
 		if(this.cursors.up.isDown) {
@@ -135,16 +161,15 @@ var Level2Start = {
 		// reason is that player goes too fast when moving diagonally
 		// @TODO: change for touch controls
 		if(player.body.velocity.y >= 51 && player.body.velocity.x >= 51 ||
-			player.body.velocity.y <= -51 && player.body.velocity.x <= -51 ||
-			player.body.velocity.y >= 51 && player.body.velocity.x <= -51 ||
-			player.body.velocity.y <= -51 && player.body.velocity.x >= 51) {
+		player.body.velocity.y <= -51 && player.body.velocity.x <= -51 ||
+		player.body.velocity.y >= 51 && player.body.velocity.x <= -51 ||
+		player.body.velocity.y <= -51 && player.body.velocity.x >= 51) {
 			player.body.velocity.y = player.body.velocity.y*0.75;
 			player.body.velocity.x = player.body.velocity.x*0.75;
 		}
 	},
 
 	handleDirection: function() {
-		console.log(player.body.velocity.x);
 		//cardinal directions handling
 		// all grab pot rect are offset because it registers top left first. needed to offset.
 		if (player.body.velocity.y < 0 && player.body.velocity.x == 0) {
@@ -226,5 +251,14 @@ var Level2Start = {
 		} else if(dir == "DOWNRIGHT") {
 			player.play('walkDownRight');
 		}
-	}
+	},
+
+	textAnim: function() {
+		var words = String("This is a nice sentence").split("");
+
+		for(var i=0;i<words.length;i++) {
+			// game.add.bitmapText(300, 200, 'font', words[i],20);
+			game.add.text(300, 200, words[i], {font: "16px Courier", fill: "#ffffff" } );
+		}
+	},
 }

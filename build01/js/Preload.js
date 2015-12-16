@@ -26,6 +26,10 @@ Preload = {
 
 		// map screen
 		game.load.image('map', 'assets/img/mapScreen/map.png');
+		game.load.image('bgMap', 'assets/img/mapScreen/mapbg.png');
+		game.load.image('house1', 'assets/img/mapScreen/house1.png');
+		game.load.image('house2', 'assets/img/mapScreen/house2.png');
+		game.load.image('house3', 'assets/img/mapScreen/house3.png');
 
 
 		//load game assets
