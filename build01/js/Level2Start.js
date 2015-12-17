@@ -5,6 +5,23 @@ var player;
 var playerSpeed = 100;
 var dir = "DOWN";
 var menuStyle;
+var keysDisabled = true;
+
+var ranText = 0;
+
+var textOverlay;
+var textActive = false;
+var lvlText;
+
+var line = [];
+var letterIndex = 0;
+var wordIndex = 0;
+var letterDelay = 30;
+var lineIndex = 120;
+var wordDelay = 400;
+var lineDelay = 200;
+var textComplete = false;
+var content;
 
 var Level2Start = {
 	create: function() {
@@ -76,42 +93,65 @@ var Level2Start = {
 		menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		subStyle = {font: "12px Courier", fill: "#ffffff" };
 
-		levelTitle = game.add.text(0, 0, "Congrats! You beat level 1", menuStyle);
-		levelSub = game.add.text(0, 0, "Press space to go to level 2", subStyle);
-		levelSub.anchor.set(0.5);
-		levelTitle.anchor.set(0.5);
+		textOverlay = game.add.graphics(0, 0);
+		textOverlay.beginFill(0x000000, 1);
+		textOverlay.fixedToCamera = true;
+		textOverlay.drawRect(0, 0, this.game.width, this.game.height);
+		textOverlay.alpha = 0;
+		textOverlay.endFill();
+
+		// levelTitle = game.add.text(0, 0, "Congrats! You beat level 1", menuStyle);
+		// levelSub = game.add.text(0, 0, "Press space to go to level 2", subStyle);
+		// levelSub.anchor.set(0.5);
+		// levelTitle.anchor.set(0.5);
 
 		//move player with ARROW keys
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
 		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+		keySpace.onDown.add(function() {
+			if(textComplete == true && textActive) {
+				lvl2Start();
+				this.resetText();
+			}
+		}, this);
+
+		game.world.bringToTop(textOverlay);
+
 		this.restart();
 	},
 
 	restart: function() {
 		playerSpeed = 100;
 		dir = "DOWN";
+		keysDisabled = true;
+		textActive = false;
+		ranText = 0;
+		wordIndex = 0;
+		lineIndex = 0;
+		wordDelay = 50;
+		lineDelay = 150;
+		textComplete = false;
 	},
 
 	update: function() {
-		levelTitle.x = Math.floor(game.world.width/2);
-		levelTitle.y = Math.floor(game.world.height/2);
+		// levelTitle.x = Math.floor(game.world.width/2);
+		// levelTitle.y = Math.floor(game.world.height/2);
 
-		levelSub.x = Math.floor(game.world.width/2);
-		levelSub.y = Math.floor(game.world.height/2+20);
+		// levelSub.x = Math.floor(game.world.width/2);
+		// levelSub.y = Math.floor(game.world.height/2+20);
 
 		this.checkMovement();
 		this.handleDirection();
 		this.autoWalk();
 
-		if(keySpace.isDown) {
-			// this.state.start('Level2-1', true, false);
-			this.state.start('Level2-1', true, false);
-		}
-
-		if(player.y <= 200) {
-			this.textAnim();
-			this.state.start('Level2-1', true, false);
+		if(player.y <= 220 && ranText == 0) {
+			lvl2Content = ["You beat level 2!",
+					"Good job.",
+					"Press Space."]
+			content = lvl2Content;
+			this.textFunc();
 		}
 	},
 
@@ -132,29 +172,22 @@ var Level2Start = {
 	},
 
 	checkMovement: function() {
-		//Player is not moving when nothing is pressed
-		// player.body.velocity.y = 0;
-		// player.body.velocity.x = 0;
-
-		// check to see if all win conditions are true
-		// make player exit level without player control
-		// if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
-		// 	player.body.velocity.y += playerSpeed;
-		// 	player.body.collideWorldBounds = false;
-		// }
 		
 		//Checks arrow keys
-		if(this.cursors.up.isDown) {
-			player.body.velocity.y -= playerSpeed;
-		}
-		else if(this.cursors.down.isDown) {
-			player.body.velocity.y += playerSpeed;
-		}
-		if(this.cursors.left.isDown) {
-			player.body.velocity.x -= playerSpeed;
-		}
-		else if(this.cursors.right.isDown) {
-			player.body.velocity.x += playerSpeed;
+		// check to see if keys are disabled
+		if(keysDisabled == false) {
+			if(this.cursors.up.isDown) {
+				player.body.velocity.y -= playerSpeed;
+			}
+			else if(this.cursors.down.isDown) {
+				player.body.velocity.y += playerSpeed;
+			}
+			if(this.cursors.left.isDown) {
+				player.body.velocity.x -= playerSpeed;
+			}
+			else if(this.cursors.right.isDown) {
+				player.body.velocity.x += playerSpeed;
+			}
 		}
 	
 		// if player is going diagonally, go 0.75 the speed in both directions
@@ -253,12 +286,99 @@ var Level2Start = {
 		}
 	},
 
-	textAnim: function() {
-		var words = String("This is a nice sentence").split("");
+	textFunc: function() {
+		if(textActive == false) {
+			lvlText = game.add.text(300, 200, '', {font: "16px Courier", fill: "#ffffff" });
+			lvlText.fixedToCamera = true;
+			lvlText.cameraOffset.setTo(100, 100);
+			game.world.bringToTop(lvlText);
 
-		for(var i=0;i<words.length;i++) {
-			// game.add.bitmapText(300, 200, 'font', words[i],20);
-			game.add.text(300, 200, words[i], {font: "16px Courier", fill: "#ffffff" } );
+			textActive = true;
+			game.add.tween(textOverlay).to( { alpha: 1 }, 250, "Linear", true);
+			game.time.events.add(500, function(){
+				this.textAnim();
+			}, this);
+			ranText = 1;
 		}
 	},
+
+	resetText: function() {
+		if(textActive == true) {
+			textActive = false;
+			lvlText.destroy();
+			lineIndex = 0;
+			game.add.tween(textOverlay).to( { alpha: 0 }, 150, "Linear", true);
+			game.time.events.add(1000, function(){
+				this.textFunc();
+			}, this);
+		}
+	},
+
+	textAnim: function() {
+		//text complete
+		if (lineIndex === content.length) {
+			textComplete = true;
+			return;
+		}
+
+		line = content[lineIndex].split('');
+
+		letterIndex = 0;
+
+		game.time.events.repeat(letterDelay, line.length, this.nextLetter, this);
+
+		lineIndex++;
+	},
+
+	nextLetter: function() {
+		// console.log(line[letterIndex]);
+		lvlText.text = lvlText.text.concat(line[letterIndex] + '');
+
+		letterIndex++;
+
+		if(letterIndex === line.length) {
+			lvlText.text = lvlText.text.concat("\n");
+
+			game.time.events.add(lineDelay, this.textAnim, this);
+		}
+	},
+
+	wordAnim: function() {
+		// for animating text word by word
+		if (lineIndex === content.length) {
+			return;
+		}
+
+		line = content[lineIndex].split(' ');
+
+		wordIndex = 0;
+
+		game.time.events.repeat(wordDelay, line.length, this.nextWord, this);
+
+		lineIndex++;
+
+		// var words = String("This is a nice sentence").split("");
+
+		// for(var i=0;i<words.length;i++) {
+			// game.add.bitmapText(300, 200, 'font', words[i],20);
+			// game.add.text(300, 200, words[i], {font: "16px Courier", fill: "#ffffff" } );
+		// }
+	},
+
+	nextWord: function() {
+		console.log(line[wordIndex]);
+		lvlText.text = lvlText.text.concat(line[wordIndex] + ' ');
+
+		wordIndex++;
+
+		if(wordIndex === line.length) {
+			lvlText.text = lvlText.text.concat("\n");
+
+			game.time.events.add(lineDelay, this.textAnim, this);
+		}
+	}
 }
+
+function lvl2Start() {
+	game.state.start('Level2-1',true,false);
+};
