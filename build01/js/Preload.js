@@ -52,6 +52,7 @@ Preload = {
 		this.load.image('touch_segment', 'assets/img/touch_segment.png');
 		this.load.image('touch', 'assets/img/touch.png');
 		this.load.image('mega_grid', 'assets/img/sprites/mega-placeholder.png', 32, 32);
+		this.load.spritesheet('gems', 'assets/img/sprites/items/gems.png', 32, 32);
 		this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
 
 		// spritesheets

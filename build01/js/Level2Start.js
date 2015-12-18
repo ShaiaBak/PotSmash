@@ -7,17 +7,16 @@ var dir = "DOWN";
 var menuStyle;
 var keysDisabled = true;
 
+// text variables
 var ranText = 0;
-
 var textOverlay;
 var textActive = false;
 var lvlText;
-
 var line = [];
 var letterIndex = 0;
 var wordIndex = 0;
 var letterDelay = 30;
-var lineIndex = 120;
+var lineIndex = 0;
 var wordDelay = 400;
 var lineDelay = 200;
 var textComplete = false;
@@ -93,6 +92,8 @@ var Level2Start = {
 		menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		subStyle = {font: "12px Courier", fill: "#ffffff" };
 
+
+		// ====== CREATE TEXT =======
 		textOverlay = game.add.graphics(0, 0);
 		textOverlay.beginFill(0x000000, 1);
 		textOverlay.fixedToCamera = true;
@@ -126,22 +127,20 @@ var Level2Start = {
 		playerSpeed = 100;
 		dir = "DOWN";
 		keysDisabled = true;
-		textActive = false;
+
 		ranText = 0;
+		textActive = false;
+		line = [];
+		letterIndex = 0;
 		wordIndex = 0;
 		lineIndex = 0;
-		wordDelay = 50;
-		lineDelay = 150;
+		letterDelay = 30;
+		wordDelay = 400;
+		lineDelay = 200;
 		textComplete = false;
 	},
 
 	update: function() {
-		// levelTitle.x = Math.floor(game.world.width/2);
-		// levelTitle.y = Math.floor(game.world.height/2);
-
-		// levelSub.x = Math.floor(game.world.width/2);
-		// levelSub.y = Math.floor(game.world.height/2+20);
-
 		this.checkMovement();
 		this.handleDirection();
 		this.autoWalk();
@@ -288,9 +287,10 @@ var Level2Start = {
 
 	textFunc: function() {
 		if(textActive == false) {
-			lvlText = game.add.text(300, 200, '', {font: "16px Courier", fill: "#ffffff" });
+			lvlText = game.add.text(300, 200, '', {font: "16px Courier", fill: "#ffffff", boundsAlignH: "center", boundsAlignV: "middle"});
 			lvlText.fixedToCamera = true;
-			lvlText.cameraOffset.setTo(100, 100);
+			lvlText.cameraOffset.setTo(game.world.width/3/2, 80);
+			game.world.bringToTop(textOverlay);
 			game.world.bringToTop(lvlText);
 
 			textActive = true;
@@ -308,9 +308,6 @@ var Level2Start = {
 			lvlText.destroy();
 			lineIndex = 0;
 			game.add.tween(textOverlay).to( { alpha: 0 }, 150, "Linear", true);
-			game.time.events.add(1000, function(){
-				this.textFunc();
-			}, this);
 		}
 	},
 
@@ -356,13 +353,6 @@ var Level2Start = {
 		game.time.events.repeat(wordDelay, line.length, this.nextWord, this);
 
 		lineIndex++;
-
-		// var words = String("This is a nice sentence").split("");
-
-		// for(var i=0;i<words.length;i++) {
-			// game.add.bitmapText(300, 200, 'font', words[i],20);
-			// game.add.text(300, 200, words[i], {font: "16px Courier", fill: "#ffffff" } );
-		// }
 	},
 
 	nextWord: function() {

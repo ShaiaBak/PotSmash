@@ -15,6 +15,7 @@ var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 var potSoundBool = 0;
+// disable keys
 var keysDisabled = false;
 var itemVal = 0;
 var objectiveVal = 3;
@@ -25,6 +26,21 @@ var spaceDisabled = false;
 var enableCollision = true;
 
 var sfxPot1;
+
+// text variables
+var ranText = 0;
+var textOverlay;
+var textActive = false;
+var lvlText;
+var line = [];
+var letterIndex = 0;
+var wordIndex = 0;
+var letterDelay = 30;
+var lineIndex = 0;
+var wordDelay = 400;
+var lineDelay = 200;
+var textComplete = false;
+var content;
 
 // item picked up bool; may have to change if multiple items
 var objectiveComplete = 0;
@@ -125,9 +141,22 @@ var Level1 = {
 		itemGroup = game.add.group();
 	   	itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 147, 'mega_grid', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 147, 'gems', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
+
+		itemGroup.callAll('animations.add', 'animations', 'gemSprite', [0], 10, false);
+
+		itemGroup.callAll('animations.play', 'animations','gemSprite');
+
+		// itemGroup.forEach(function(item) {
+		// 	var i = 0;
+		// 	item.animations.play(gemSprite);
+		// 	i++
+		// 	if(i > 3) {
+		// 		i = 0;
+		// 	}
+		// }, this);
 
 		// only works for single item
 		// var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
@@ -278,12 +307,15 @@ var Level1 = {
 		keySPACE = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		//spacebar picks / throws the pot
 		keySPACE.onDown.add(function () {
-			if(!spaceDisabled) {
+			if(!spaceDisabled && !keysDisabled) {
 				if(grabbedPot == null){
 					this.checkPickUp();
 				} else {
 					this.handleThrow();
 				}
+			} else if(keysDisabled && textComplete == true && textActive) {
+				this.resetText();
+				keysDisabled = false;
 			}
 		}, this);
 
@@ -317,6 +349,14 @@ var Level1 = {
 		gridCheck.tint = 0xff0000;
 		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
 
+		// ====== CREATE TEXT OVERLAY =======
+		textOverlay = game.add.graphics(0, 0);
+		textOverlay.beginFill(0x000000, 1);
+		textOverlay.fixedToCamera = true;
+		textOverlay.drawRect(0, 0, this.game.width, this.game.height);
+		textOverlay.alpha = 0;
+		textOverlay.endFill();
+
 		// ========== AUDIO =========
 		// pot audio
 		sfxPot1 = game.add.audio('sfx_pot1'); // enable audio
@@ -331,11 +371,12 @@ var Level1 = {
 
 		// so the player is ontop of all other objects
 		game.world.moveUp(this.player);
+		game.world.bringToTop(textOverlay);
 		this.restart();
 	},
 
 	restart: function() {
-		console.log('call restart');
+		// console.log('call restart');
 
 		_TILESIZE = 32;
 		dir = "UP";
@@ -370,6 +411,18 @@ var Level1 = {
 
 		triggerGridVal = 7;
 		exitGridVal = 8;
+
+		// text variables
+		ranText = 0;
+		textActive = false;
+		line = [];
+		letterIndex = 0;
+		wordIndex = 0;
+		lineIndex = 0;
+		letterDelay = 30;
+		wordDelay = 400;
+		lineDelay = 200;
+		textComplete = false;
 	},
 
 	update: function() {
@@ -415,7 +468,12 @@ var Level1 = {
 				return true;
 			}, this);
 		} else {
-			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
+			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
+				var lvl1ExitContent = ["I need money for adventures."];
+				content = lvl1ExitContent;
+				// console.log(content);
+				this.textFunc();
+			}, null, this);
 		}
 
 		// temp level ending condition
@@ -524,12 +582,12 @@ var Level1 = {
 	},
 
 	itemCollect: function(player, item) {
-		console.log('item picked up');
+		// console.log('item picked up');
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
 		itemVal++;
-		console.log(itemVal);
+		// console.log(itemVal);
 		if(itemVal == objectiveVal) {
 			objectiveComplete = 1;
 		}
@@ -993,6 +1051,66 @@ var Level1 = {
 				potSoundBool = 0;
 			});
 		});
+	},
+
+	textFunc: function() {
+		if(textActive == false) {
+			keysDisabled = true;
+			// ====== CREATE TEXT =======
+			lvlText = game.add.text(0, 0, '', {font: "16px Courier", fill: "#ffffff", boundsAlignH: "center", boundsAlignV: "middle" });
+			lvlText.fixedToCamera = true;
+			lvlText.cameraOffset.setTo(game.world.width/3/2, 100);
+
+			game.world.bringToTop(textOverlay);
+			game.world.bringToTop(lvlText);
+
+			textActive = true;
+			game.add.tween(textOverlay).to( { alpha: 0.8 }, 250, "Linear", true);
+			game.time.events.add(400, function(){
+				this.textAnim();
+			}, this);
+			ranText = 1;
+		}
+	},
+
+	resetText: function() {
+		if(textActive == true) {
+			textActive = false;
+			textComplete = false;
+			lvlText.destroy();
+			lineIndex = 0;
+			game.add.tween(textOverlay).to( { alpha: 0 }, 150, "Linear", true);
+		}
+	},
+
+	textAnim: function() {
+		//text complete
+		if (lineIndex === content.length) {
+			textComplete = true;
+			console.log(lvlText.width)
+			return;
+		}
+
+		line = content[lineIndex].split('');
+
+		letterIndex = 0;
+
+		game.time.events.repeat(letterDelay, line.length, this.nextLetter, this);
+
+		lineIndex++;
+	},
+
+	nextLetter: function() {
+		// console.log(line[letterIndex]);
+		lvlText.text = lvlText.text.concat(line[letterIndex] + '');
+
+		letterIndex++;
+
+		if(letterIndex === line.length) {
+			lvlText.text = lvlText.text.concat("\n");
+
+			game.time.events.add(lineDelay, this.textAnim, this);
+		}
 	},
 
 	levelTrigger: function(player, exit) {

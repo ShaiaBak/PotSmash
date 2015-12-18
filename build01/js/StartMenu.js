@@ -163,7 +163,6 @@ var StartMenu = {
 				if(flashed == false) {
 					screenFlash.alpha = 1;
 					title.alpha = 1;
-					console.log('panComplete');
 					flashed = true;
 				}
 			});
