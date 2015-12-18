@@ -141,22 +141,29 @@ var Level1 = {
 		itemGroup = game.add.group();
 	   	itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 147, 'gems', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
 
-		itemGroup.callAll('animations.add', 'animations', 'gemSprite', [0], 10, false);
+		var frameStop = 0;
+		var nameNum = 0;
 
-		itemGroup.callAll('animations.play', 'animations','gemSprite');
+		itemGroup.forEach(function(item) {
+			nameNum++;
+			item.name = 'item' + nameNum;
+		}, this);
 
-		// itemGroup.forEach(function(item) {
-		// 	var i = 0;
-		// 	item.animations.play(gemSprite);
-		// 	i++
-		// 	if(i > 3) {
-		// 		i = 0;
-		// 	}
-		// }, this);
+		for (var i = 0; i < itemGroup.length; i++) {
+			frameStop++;
+			if(frameStop > 3) {
+				frameStop = 0;
+			}
+			itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
+			console.log(frameStop);
+			itemGroup.children[i].play('gemSprite');
+			// itemGroup.callAll('animations.play', 'animations','gemSprite');
+		};
+
 
 		// only works for single item
 		// var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
@@ -243,7 +250,7 @@ var Level1 = {
 		potGroup.enableBody = true;
 		potGroup.physicsBodyType = Phaser.Physics.ARCADE;
 		// ============ NEW WAY ================
-		this.map.createFromObjects('objectsLayer', 171, 'potSprite_1', 0, true, false, potGroup);
+		this.map.createFromObjects('objectsLayer', 57, 'potSprite_1', 0, true, false, potGroup);
 
 		this.game.physics.arcade.enable(potGroup);
 
