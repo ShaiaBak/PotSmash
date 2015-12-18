@@ -139,7 +139,7 @@ var Level1 = {
 		// ========== CREATE ITEM =============
 		// for multiple items
 		itemGroup = game.add.group();
-	   	itemGroup.enableBody = true;
+		itemGroup.enableBody = true;
 
 		this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
 
@@ -159,9 +159,7 @@ var Level1 = {
 				frameStop = 0;
 			}
 			itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
-			console.log(frameStop);
 			itemGroup.children[i].play('gemSprite');
-			// itemGroup.callAll('animations.play', 'animations','gemSprite');
 		};
 
 

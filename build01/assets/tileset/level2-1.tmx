@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="148">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="186">
  <tileset firstgid="1" name="tiles-lvl2-1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl2-1-32x32.png" width="352" height="448"/>
   <tile id="132">
@@ -44,12 +44,6 @@
     <property name="type" value="playerStart"/>
    </properties>
   </object>
-  <object id="111" gid="133" x="384" y="288" width="32" height="32"/>
-  <object id="112" gid="133" x="384" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="item"/>
-   </properties>
-  </object>
   <object id="135" gid="144" x="32" y="384" width="32" height="32">
    <properties>
     <property name="type" value="pot3"/>
@@ -75,12 +69,7 @@
     <property name="type" value="pot2"/>
    </properties>
   </object>
-  <object id="140" gid="145" x="320" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="pot2"/>
-   </properties>
-  </object>
-  <object id="141" gid="145" x="288" y="128" width="32" height="32">
+  <object id="141" gid="145" x="256" y="128" width="32" height="32">
    <properties>
     <property name="type" value="pot2"/>
    </properties>
@@ -100,7 +89,7 @@
     <property name="type" value="pot3"/>
    </properties>
   </object>
-  <object id="145" gid="144" x="256" y="128" width="32" height="32">
+  <object id="145" gid="144" x="288" y="128" width="32" height="32">
    <properties>
     <property name="type" value="pot3"/>
    </properties>
@@ -110,6 +99,101 @@
     <property name="type" value="pot3"/>
    </properties>
   </object>
+  <object id="148" gid="133" x="64" y="256" width="32" height="32"/>
+  <object id="149" gid="133" x="96" y="256" width="32" height="32"/>
+  <object id="150" gid="133" x="128" y="256" width="32" height="32"/>
+  <object id="151" gid="133" x="160" y="256" width="32" height="32"/>
+  <object id="153" gid="145" x="352" y="160" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="154" gid="145" x="288" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="156" gid="145" x="320" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="158" gid="145" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="160" gid="145" x="288" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="161" gid="145" x="320" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="163" gid="145" x="288" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="164" gid="145" x="256" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot2"/>
+   </properties>
+  </object>
+  <object id="165" gid="144" x="320" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="166" gid="144" x="288" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="167" gid="144" x="256" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="168" gid="133" x="256" y="128" width="32" height="32"/>
+  <object id="169" gid="133" x="288" y="128" width="32" height="32"/>
+  <object id="170" gid="133" x="352" y="160" width="32" height="32"/>
+  <object id="171" gid="133" x="288" y="288" width="32" height="32"/>
+  <object id="172" gid="133" x="288" y="320" width="32" height="32"/>
+  <object id="173" gid="133" x="256" y="384" width="32" height="32"/>
+  <object id="174" gid="133" x="32" y="384" width="32" height="32"/>
+  <object id="175" gid="133" x="96" y="384" width="32" height="32"/>
+  <object id="176" gid="133" x="352" y="288" width="32" height="32"/>
+  <object id="177" gid="133" x="352" y="192" width="32" height="32"/>
+  <object id="178" gid="144" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="179" gid="144" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="180" gid="144" x="64" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="181" gid="144" x="192" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="184" gid="144" x="384" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="185" gid="133" x="384" y="288" width="32" height="32"/>
  </objectgroup>
  <layer name="triggerLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">

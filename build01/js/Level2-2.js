@@ -124,11 +124,29 @@ var Level2P2 = {
 		// ========== CREATE ITEM =============
 		// for multiple items
 		itemGroup = game.add.group();
-	   	itemGroup.enableBody = true;
+		itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 33, 'item-boot', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
+
+		var frameStop = 0;
+		var nameNum = 0;
+
+		itemGroup.forEach(function(item) {
+			nameNum++;
+			item.name = 'item' + nameNum;
+		}, this);
+
+		for (var i = 0; i < itemGroup.length; i++) {
+			frameStop++;
+			if(frameStop > 3) {
+				frameStop = 0;
+			}
+			itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
+			itemGroup.children[i].play('gemSprite');
+		};
+
 
 		// only works for single item
 		// var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
