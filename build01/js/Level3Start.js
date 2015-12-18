@@ -145,7 +145,7 @@ var Level3Start = {
 		this.handleDirection();
 		this.autoWalk();
 
-		if(player.x >= 500 && ranText == 0) {
+		if(player.x >= 550 && ranText == 0) {
 			lvl2Content = ["You beat level 2!",
 					"Good job.",
 					"Press Space."]
@@ -156,17 +156,17 @@ var Level3Start = {
 
 	autoWalk: function() {
 		game.time.events.add(500, function(){
-			if(player.y <= 270) {
+			if(player.y <= 270 && player.x < 400) {
 				player.body.velocity.y = playerSpeed;
 				// 	player.body.collideWorldBounds = false;
 				
-			} else if(player.y > 270) {
+			} else if(player.y > 270 &&  player.x <= 550) {
 				player.body.velocity.y = 0;
 				player.body.velocity.x = playerSpeed;
-			} else if(player.y > 270 && player.x >= 500) {
+			} else if(player.y > 250 && player.x >= 550) {
 				dir = "UP";
 				player.body.velocity.x = 0;
-				player.body.velocity.y = 0;
+				player.body.velocity.y = -playerSpeed;
 			}
 		}, this);
 	},
