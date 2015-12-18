@@ -29,6 +29,21 @@ var spaceDisabled = false;
 
 var enableCollision = true;
 
+// text variables
+var ranText = 0;
+var textOverlay;
+var textActive = false;
+var lvlText;
+var line = [];
+var letterIndex = 0;
+var wordIndex = 0;
+var letterDelay = 30;
+var lineIndex = 0;
+var wordDelay = 400;
+var lineDelay = 200;
+var textComplete = false;
+var content;
+
 // item picked up bool; may have to change if multiple items
 var objectiveComplete = 0;
 
@@ -332,12 +347,15 @@ var Level3P3 = {
 		keySPACE = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		//spacebar picks / throws the pot
 		keySPACE.onDown.add(function () {
-			if(!spaceDisabled) {
+			if(!spaceDisabled && !keysDisabled) {
 				if(grabbedPot == null){
 					this.checkPickUp();
 				} else {
 					this.handleThrow();
 				}
+			} else if(keysDisabled && textComplete == true && textActive) {
+				this.resetText();
+				keysDisabled = false;
 			}
 		}, this);
 
@@ -370,6 +388,14 @@ var Level3P3 = {
 		gridCheck.body.setSize(32, 32, 0, 0);
 		gridCheck.tint = 0xff0000;
 		this.map.setTileIndexCallback(1,this.testCallback,gridCheck);
+
+		// ====== CREATE TEXT OVERLAY =======
+		textOverlay = game.add.graphics(0, 0);
+		textOverlay.beginFill(0x000000, 1);
+		textOverlay.fixedToCamera = true;
+		textOverlay.drawRect(0, 0, this.game.width, this.game.height);
+		textOverlay.alpha = 0;
+		textOverlay.endFill();
 
 		// ========== AUDIO =========
 		// pot audio
@@ -434,6 +460,18 @@ var Level3P3 = {
 
 		triggerGridVal = 7;
 		exitGridVal = 8;
+
+		// text variables
+		ranText = 0;
+		textActive = false;
+		line = [];
+		letterIndex = 0;
+		wordIndex = 0;
+		lineIndex = 0;
+		letterDelay = 30;
+		wordDelay = 400;
+		lineDelay = 200;
+		textComplete = false;
 	},
 
 	update: function() {
@@ -484,7 +522,12 @@ var Level3P3 = {
 				return true;
 			}, this);
 		} else {
-			this.game.physics.arcade.collide(this.player, this.levelExitLayer);
+			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
+				var lvl1ExitContent = ["I need money for adventures."];
+				content = lvl1ExitContent;
+				// console.log(content);
+				this.textFunc();
+			}, null, this);
 		}
 
 		heavyPotGroup.forEach(function(pot) {
@@ -1134,6 +1177,66 @@ var Level3P3 = {
 				potSoundBool = 0;
 			});
 		});
+	},
+
+	textFunc: function() {
+		if(textActive == false) {
+			keysDisabled = true;
+			// ====== CREATE TEXT =======
+			lvlText = game.add.text(0, 0, '', {font: "16px Courier", fill: "#ffffff", boundsAlignH: "center", boundsAlignV: "middle" });
+			lvlText.fixedToCamera = true;
+			lvlText.cameraOffset.setTo(game.world.width/3/2, 100);
+
+			game.world.bringToTop(textOverlay);
+			game.world.bringToTop(lvlText);
+
+			textActive = true;
+			game.add.tween(textOverlay).to( { alpha: 0.8 }, 250, "Linear", true);
+			game.time.events.add(400, function(){
+				this.textAnim();
+			}, this);
+			ranText = 1;
+		}
+	},
+
+	resetText: function() {
+		if(textActive == true) {
+			textActive = false;
+			textComplete = false;
+			lvlText.destroy();
+			lineIndex = 0;
+			game.add.tween(textOverlay).to( { alpha: 0 }, 150, "Linear", true);
+		}
+	},
+
+	textAnim: function() {
+		//text complete
+		if (lineIndex === content.length) {
+			textComplete = true;
+			console.log(lvlText.width)
+			return;
+		}
+
+		line = content[lineIndex].split('');
+
+		letterIndex = 0;
+
+		game.time.events.repeat(letterDelay, line.length, this.nextLetter, this);
+
+		lineIndex++;
+	},
+
+	nextLetter: function() {
+		// console.log(line[letterIndex]);
+		lvlText.text = lvlText.text.concat(line[letterIndex] + '');
+
+		letterIndex++;
+
+		if(letterIndex === line.length) {
+			lvlText.text = lvlText.text.concat("\n");
+
+			game.time.events.add(lineDelay, this.textAnim, this);
+		}
 	},
 
 	objectiveTrigger: function(heavyPot, trigger) {
