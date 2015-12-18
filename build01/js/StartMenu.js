@@ -90,6 +90,7 @@ var StartMenu = {
 		key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
 		key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
 		key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
+		key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
 	},
 
 	update: function() {
@@ -123,6 +124,10 @@ var StartMenu = {
 		if(key8.isDown) {
 			this.state.start('Level2Start',true,false);
 		}
+		if(key9.isDown) {
+			this.state.start('Level3Start',true,false);
+		}
+
 
 		player.animations.play('windIdle');
 
