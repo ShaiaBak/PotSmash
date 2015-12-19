@@ -54,6 +54,7 @@ Preload = {
 		this.load.image('mega_grid', 'assets/img/sprites/mega-placeholder.png', 32, 32);
 		this.load.spritesheet('gems', 'assets/img/sprites/items/gems.png', 32, 32);
 		this.load.spritesheet('item-boot', 'assets/img/sprites/items/boot.png',  32, 32);
+		this.load.spritesheet('pizza', 'assets/img/sprites/items/pizza.png',  64, 64);
 
 		// spritesheets
 		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v4.png',  64, 64);

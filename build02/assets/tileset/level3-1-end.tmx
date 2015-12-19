@@ -29,7 +29,7 @@
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <object id="178" gid="63" x="256" y="448" width="32" height="32">
+  <object id="178" gid="63" x="128" y="160" width="32" height="32">
    <properties>
     <property name="type" value="playerStart"/>
    </properties>

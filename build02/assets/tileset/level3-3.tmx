@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="236">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="239">
  <tileset firstgid="1" name="tiles-lvl3-3-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl3-3-32x32.png" width="256" height="224"/>
   <tile id="45">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAOMELD9NZHqn50c4YzoKX/qBl+pMb/YAIAQ8cEGw==
+   eJxjYKAOMELD9NZHqn50c0ixb6gBWrp5oMJksMUDAFuGBH8=
   </data>
  </layer>
  <objectgroup name="objectsLayer">
@@ -42,16 +42,6 @@
   <object id="214" gid="47" x="160" y="224" width="32" height="32">
    <properties>
     <property name="type" value="pot3-3-heavy"/>
-   </properties>
-  </object>
-  <object id="227" gid="46" x="160" y="192" width="32" height="32">
-   <properties>
-    <property name="type" value="pot3_3"/>
-   </properties>
-  </object>
-  <object id="228" gid="46" x="192" y="192" width="32" height="32">
-   <properties>
-    <property name="type" value="pot3_3"/>
    </properties>
   </object>
   <object id="229" gid="46" x="288" y="192" width="32" height="32">
@@ -89,10 +79,20 @@
     <property name="type" value="playerStart"/>
    </properties>
   </object>
+  <object id="237" gid="47" x="192" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3-3-heavy"/>
+   </properties>
+  </object>
+  <object id="238" gid="47" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3-3-heavy"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFxABeIOYDYv4BdIPoANpNCpAYaAcMAAAAlIQAWA==
+   eJxjYBhZgBeI+YCYn076qAlEB9BuUoDEQDtgAAAA9kQAgg==
   </data>
  </layer>
  <layer name="triggerLayer" width="14" height="15">
@@ -102,7 +102,7 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15" opacity="0.36">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DoAmMoHmgAADisAGc=
+   eJxjYBgFo2BwAOOBdgAFAAAovAA0
   </data>
  </layer>
 </map>
