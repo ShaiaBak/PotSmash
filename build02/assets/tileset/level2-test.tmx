@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="33">
+ <tileset firstgid="1" name="tileset-placeholder2" tilewidth="32" tileheight="32">
+  <image source="../img/tileset-placeholder2.png" width="608" height="192"/>
+ </tileset>
+ <tileset firstgid="115" name="tiles-lvl1-32x32" tilewidth="32" tileheight="32">
+  <image source="../img/tiles-lvl1-32x32.png" width="256" height="256"/>
+ </tileset>
+ <layer name="backgroundLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgKEbCDGh8mBgDGhvGLyECowNK9BGDqaGPWD0jTR8perEBYvVRai8p/iPkZmIAACezQhw=
+  </data>
+ </layer>
+ <layer name="blockedLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxbzMDAsJgCTAwY1Teqj1J9+MwgJ72Sm85xyQMAROhBlg==
+  </data>
+ </layer>
+ <layer name="transBlockedLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAMrCEC01IfNnFCbh0FAweGaxwAAM2mE30=
+  </data>
+ </layer>
+ <layer name="detailLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJy1ztcKAjEQheG8tGvvvZddexesV+oT+kOW4E3WCbgHPjKQOSFK6WSRC+ckUkir36miFs5FlFDGAUecLL0Mq13Onp5NbrjjYelV6PmcgZ5NnnjhHfHXNTYR9y5poY2OYLeOBpoYYYyJoNfHAEMssMRK0Jtihrlg9ztb7LB37J1xwVWwm0fB8f1/JgEvhnc/3r4hDg==
+  </data>
+ </layer>
+ <objectgroup name="objectsLayer">
+  <object id="4" gid="16" x="208" y="447" width="32" height="32">
+   <properties>
+    <property name="type" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="14" name="pot" gid="15" x="256" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="22" name="pot" gid="171" x="96" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="27" name="pot" gid="171" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+  <object id="32" name="pot" gid="171" x="128" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="triggerLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DwgJKBdgCZAABWqAB1
+  </data>
+ </layer>
+ <layer name="levelExitLayer" width="14" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUEAIlUIwLAAAeeADp
+  </data>
+ </layer>
+</map>
