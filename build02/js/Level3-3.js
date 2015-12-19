@@ -16,7 +16,7 @@ var grabbedPot;
 var heavyPotGroup;
 var heavyPotAlive = true;
 var grabPotRect; //the rectangle area the player can grab pots
-var exitBool = 0; // if 0, exit doesn't work
+var exitBool = 1; // if 0, exit doesn't work
 var triggerCounter = 0;
 var triggerObjBool = 0;
 var potSoundBool = 0;
@@ -104,7 +104,7 @@ var Level3P3 = {
 		this.blockedLayer.renderable = false;
 		this.levelExitLayer.visible = false;
 		this.levelExitLayer.renderable = false;
-		// this.triggerLayer.visible = false;
+		this.triggerLayer.visible = false;
 
 		//collision
 		this.map.setCollisionBetween(1, 1896, true, 'blockedLayer');
@@ -421,15 +421,13 @@ var Level3P3 = {
 	},
 
 	restart: function() {
-		console.log('call restart');
-
 		_TILESIZE = 32;
 		dir = "LEFT";
 		currDir = dir;
 		playerSpeed = 125; //100 is a arbitrary default value
 		walkFPS = 12;
 		grabPotRect; //the rectangle area the player can grab pots
-		exitBool = 0; // if 0, exit doesn't work
+		exitBool = 1; // if 0, exit doesn't work
 		potSoundBool = 0;
 		keysDisabled = false;
 		itemVal = 0;
@@ -523,7 +521,7 @@ var Level3P3 = {
 			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl1ExitContent = ["I need money for adventures."];
+				var lvl1ExitContent = ["Pots need to be broke..."];
 				content = lvl1ExitContent;
 				// console.log(content);
 				this.textFunc();
@@ -1240,7 +1238,7 @@ var Level3P3 = {
 	},
 
 	objectiveTrigger: function(heavyPot, trigger) {
-		console.log('enter');
+		finalObjectiveComplete = true;
 		heavyPotGroup.forEach(function(heavyPot) {
 			game.time.events.add(250, function(){
 				// play unlock sound
@@ -1318,5 +1316,11 @@ function printBoard (array,x,y) {
 
 
 function lvl3P3End() {
-	game.state.start('Level1');
+	lvl3Pos = 3;
+	if(finalObjectiveComplete) {
+		// replace with final map
+		game.state.start('Level1');
+	} else  {
+		game.state.start('Level3-1');
+	}
 };

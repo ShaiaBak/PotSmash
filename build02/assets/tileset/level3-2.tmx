@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="218">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="225">
  <tileset firstgid="1" name="tiles-lvl3-2-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl3-2-32x32.png" width="256" height="160"/>
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuAAbFLMisbHJo4vzQTEvEpsVCfMhYWTAw8BwgBNIcwExJ4SfwAs1hxdJnAtNH0hMEoilgFiaSAwC3EjmQe1DAcjy6IAJiBmxiI9UAAA9fgPk
+   eJxjYBgFuAAbFLMisbHJo4vzQTEvEpsVCfMhYWTAw8BwgBNIcwExJ4SfwAs1hxdJnAtNH0hMEoilgFiaAEYG3EjmQe3DKY8OmICYEYv4SAUA9UsDrg==
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxTZGBgUBzFWDE2gEuekD5cgN76kPWTYi6usBnoOBosGACN2xQ+
+   eJxTZGBgUBzFWDE2gEuekD5cYLDpI8Z/injERyoGAOYHFIA=
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
@@ -20,7 +20,7 @@
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuIASFoxLnpA+XJhSNyCrGwUDBwBDOgNT
+   eJxjYBgFuIASFoxLnpA+XJhSN4yCwQEAEDoDMQ==
   </data>
  </layer>
  <objectgroup name="objectsLayer">
@@ -77,6 +77,16 @@
     <property name="type" value="pot3-2"/>
    </properties>
   </object>
+  <object id="223" gid="37" x="352" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3-2"/>
+   </properties>
+  </object>
+  <object id="224" gid="3" x="352" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
@@ -85,7 +95,7 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFIwmoQPEooC4AAGN4AEk=
+   eJxjYBgFwwGoDLQDRjgAADlIACU=
   </data>
  </layer>
 </map>

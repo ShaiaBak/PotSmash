@@ -584,7 +584,8 @@ var Level2P1 = {
 	},
 
 	itemCollect: function(player, item) {
-		console.log('item picked up');
+		score += 1;
+		console.log(score);
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
@@ -1037,7 +1038,6 @@ var Level2P1 = {
 
 	handlePotBreak: function(pot, wall) {
 		pot.animations.play('potBreakAnim', 14, false, true);
-		console.log('break');
 		pot.body.velocity.x = 0;
 		pot.body.velocity.y = 0;
 		pot.body.gravity.y = 0;

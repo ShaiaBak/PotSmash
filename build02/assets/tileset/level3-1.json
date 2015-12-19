@@ -331,6 +331,38 @@
                  "width":32,
                  "x":288,
                  "y":192
+                }, 
+                {
+                 "gid":63,
+                 "height":32,
+                 "id":195,
+                 "name":"",
+                 "properties":
+                    {
+                     "type":"playerStart2"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":256,
+                 "y":448
+                }, 
+                {
+                 "gid":63,
+                 "height":32,
+                 "id":196,
+                 "name":"",
+                 "properties":
+                    {
+                     "type":"playerStart3"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128,
+                 "y":160
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -372,7 +404,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":195,
+ "nextobjectid":197,
  "orientation":"orthogonal",
  "properties":
     {

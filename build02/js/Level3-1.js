@@ -15,6 +15,7 @@ var throwGroup; //group with all the thrown pots
 var grabbedPot;
 var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
+var exitNum = 1;
 var potSoundBool = 0;
 var keysDisabled = false;
 var itemVal = 0;
@@ -165,7 +166,15 @@ var Level3P1 = {
 		// this.item.body.immovable = true;
 
 		// =========== CREATE PLAYER ===========
-		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
+		// var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
+		var result;
+		if (lvl3Pos == 1) {
+			result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
+		} else if (lvl3Pos == 2) {
+			result = this.findObjectsByType('playerStart2', this.map, 'objectsLayer');
+		} else if (lvl3Pos == 3) {
+			result = this.findObjectsByType('playerStart3', this.map, 'objectsLayer');
+		}
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
 		this.player.body.collideWorldBounds = true;
@@ -493,15 +502,25 @@ var Level3P1 = {
 
 			}, function() {
 				if(this.player.x > 270 && this.player.y > 400) {
+					exitNum = 1;
 					exitBool = 1;
 					return false;
-				} 
+				} else if (doorUnlocked == true && this.player.x > 105 && this.player.x < 140 && this.player.y > 130 && this.player.y < 166) {
+					return false;
+				}
 				return true;
 			}, this);
 		}
 
-		// temp level ending condition
-		if (objectiveComplete == 1) {
+		console.log(exitNum);
+		// console.log(exitBool);
+		// console.log(this.player.y);
+
+		if(this.player.y < 400) { 
+			exitBool = 0;
+		}
+		if (doorUnlocked == true && this.player.y < 166) {
+			exitNum = 2;
 			exitBool = 1;
 		}
 
@@ -606,7 +625,8 @@ var Level3P1 = {
 	},
 
 	itemCollect: function(player, item) {
-		console.log('item picked up');
+		score += 1;
+		console.log(score);
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
@@ -623,7 +643,7 @@ var Level3P1 = {
 
 		// check to see if all win conditions are true
 		// make player exit level without player control
-		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
+		if(exitBool == 1 && keysDisabled == true && enterNextLevel == true) {
 			this.player.body.velocity.x += playerSpeed;
 			this.player.body.collideWorldBounds = false;
 		}
@@ -1192,5 +1212,9 @@ function printBoard (array,x,y) {
 
 
 function lvl3P1End() {
-	game.state.start('Level3-2',true,false);
+	if(exitNum == 1) {
+		game.state.start('Level3-2',true,false);
+	} else if(exitNum == 2) {
+		game.state.start('Level3-3',true,false);
+	}
 };

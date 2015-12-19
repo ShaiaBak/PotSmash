@@ -130,37 +130,38 @@ var Level3P2 = {
 
 		// ========== CREATE ITEM =============
 		// for multiple items
-		itemGroup = game.add.group();
-		itemGroup.enableBody = true;
+		// itemGroup = game.add.group();
+		// itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
+		// this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
 
-		this.game.physics.arcade.enable(itemGroup);
+		// this.game.physics.arcade.enable(itemGroup);
 
-		var frameStop = 0;
-		var nameNum = 0;
+		// var frameStop = 0;
+		// var nameNum = 0;
 
-		itemGroup.forEach(function(item) {
-			nameNum++;
-			item.name = 'item' + nameNum;
-		}, this);
+		// itemGroup.forEach(function(item) {
+		// 	nameNum++;
+		// 	item.name = 'item' + nameNum;
+		// }, this);
 
-		for (var i = 0; i < itemGroup.length; i++) {
-			frameStop++;
-			if(frameStop > 3) {
-				frameStop = 0;
-			}
-			itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
-			itemGroup.children[i].play('gemSprite');
-		};
+		// for (var i = 0; i < itemGroup.length; i++) {
+		// 	frameStop++;
+		// 	if(frameStop > 3) {
+		// 		frameStop = 0;
+		// 	}
+		// 	itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
+		// 	itemGroup.children[i].play('gemSprite');
+		// };
 
 
 		// only works for single item
-		// var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
-		// this.item = this.game.add.sprite(itemResult[i].x, itemResult[i].y, 'item');
-		// this.game.physics.arcade.enable(this.item);
+		var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
+		item = this.game.add.sprite(itemResult[0].x, itemResult[0].y, 'pizza');
+		this.game.physics.arcade.enable(item);
+		item.scale.set(0.5, 0.5);
 
-		// this.item.body.immovable = true;
+		item.body.immovable = true;
 
 		// =========== CREATE PLAYER ===========
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
@@ -437,7 +438,7 @@ var Level3P2 = {
 		// player collision (no pot)
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
-		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
+		// this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
@@ -454,6 +455,9 @@ var Level3P2 = {
 			}
 			return false;
 		});
+
+		// note: single items have to put collision under pots in order to work for some reason
+		this.game.physics.arcade.collide(this.player, item, this.itemCollect);
 
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
@@ -584,7 +588,7 @@ var Level3P2 = {
 	},
 
 	itemCollect: function(player, item) {
-		console.log('item picked up');
+		doorUnlocked = true;
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
@@ -1171,5 +1175,6 @@ function printBoard (array,x,y) {
 
 
 function lvl3P2End() {
-	game.state.start('Level3-3',true,false);
+	lvl3Pos = 2;
+	game.state.start('Level3-1');
 };

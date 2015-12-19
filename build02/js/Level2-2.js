@@ -433,8 +433,6 @@ var Level2P2 = {
 	},
 
 	restart: function() {
-		console.log('call restart');
-
 		_TILESIZE = 32;
 		dir = "RIGHT";
 		currDir = dir;
