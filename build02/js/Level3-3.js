@@ -665,6 +665,7 @@ var Level3P3 = {
 		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
 			this.player.body.velocity.x += playerSpeed;
 			this.player.body.collideWorldBounds = false;
+			game.add.tween(this.player).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0, 1000, true);
 		}
 
 		// check to see if keys are disabled
@@ -1254,6 +1255,8 @@ var Level3P3 = {
 			keysDisabled = true;
 			// make player move autpmatically through door
 			this.checkMovement;
+			game.world.bringToTop(textOverlay);
+			game.add.tween(textOverlay).to( { alpha: 1 }, 250, "Linear", true);
 
 			// reenable keys JUST before next level
 			game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {

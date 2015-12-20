@@ -6,7 +6,7 @@ var blockedLayer;
 var triggerLayer;
 var levelExitLayer;
 var objectLayer;
-var dir = "LEFT";
+var dir;
 var currDir = dir;
 var playerSpeed = 125; //100 is a arbitrary default value
 var walkFPS = 12;
@@ -170,9 +170,12 @@ var Level3P1 = {
 		var result;
 		if (lvl3Pos == 1) {
 			result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
+			dir = "LEFT";
 		} else if (lvl3Pos == 2) {
 			result = this.findObjectsByType('playerStart2', this.map, 'objectsLayer');
+			dir = "LEFT";
 		} else if (lvl3Pos == 3) {
+			dir = "RIGHT"
 			result = this.findObjectsByType('playerStart3', this.map, 'objectsLayer');
 		}
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
@@ -395,10 +398,8 @@ var Level3P1 = {
 	},
 
 	restart: function() {
-		console.log('call restart');
-
 		_TILESIZE = 32;
-		dir = "LEFT";
+		// dir = "LEFT";
 		currDir = dir;
 		playerSpeed = 125; //100 is a arbitrary default value
 		walkFPS = 12;
@@ -512,11 +513,13 @@ var Level3P1 = {
 			}, this);
 		}
 
-		console.log(exitNum);
+
+
 		// console.log(exitBool);
 		// console.log(this.player.y);
 
 		if(this.player.y < 400) { 
+			exitNum = 2;
 			exitBool = 0;
 		}
 		if (doorUnlocked == true && this.player.y < 166) {
@@ -644,8 +647,13 @@ var Level3P1 = {
 		// check to see if all win conditions are true
 		// make player exit level without player control
 		if(exitBool == 1 && keysDisabled == true && enterNextLevel == true) {
-			this.player.body.velocity.x += playerSpeed;
+			if(exitNum == 1) {
+				this.player.body.velocity.x += playerSpeed;
+			} else if(exitNum == 2) {
+				this.player.body.velocity.x -= playerSpeed;
+			}
 			this.player.body.collideWorldBounds = false;
+			game.add.tween(this.player).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0, 1000, true);
 		}
 
 		// check to see if keys are disabled
@@ -1160,7 +1168,8 @@ var Level3P1 = {
 			enterNextLevel = true;
 			keysDisabled = true;
 			// make player move autpmatically through door
-			this.checkMovement;
+			game.world.bringToTop(textOverlay);
+			game.add.tween(textOverlay).to( { alpha: 1 }, 250, "Linear", true);
 
 			// reenable keys JUST before next level
 			game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {

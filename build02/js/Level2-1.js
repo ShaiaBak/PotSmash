@@ -1120,6 +1120,8 @@ var Level2P1 = {
 			keysDisabled = true;
 			// make player move autpmatically through door
 			this.checkMovement;
+			game.world.bringToTop(textOverlay);
+			game.add.tween(textOverlay).to( { alpha: 1 }, 250, "Linear", true);
 
 			// reenable keys JUST before next level
 			game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {

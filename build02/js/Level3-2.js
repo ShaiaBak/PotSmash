@@ -163,6 +163,11 @@ var Level3P2 = {
 
 		item.body.immovable = true;
 
+		if(doorUnlocked == true) {
+			item.alpha = 0;
+			item.kill();
+		}
+
 		// =========== CREATE PLAYER ===========
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
@@ -384,8 +389,6 @@ var Level3P2 = {
 	},
 
 	restart: function() {
-		console.log('call restart');
-
 		_TILESIZE = 32;
 		dir = "RIGHT";
 		currDir = dir;
@@ -606,8 +609,9 @@ var Level3P2 = {
 		// check to see if all win conditions are true
 		// make player exit level without player control
 		if(exitBool == true && keysDisabled == true && enterNextLevel == true) {
-			this.player.body.velocity.x += playerSpeed;
+			this.player.body.velocity.x -= playerSpeed/1.5;
 			this.player.body.collideWorldBounds = false;
+			game.add.tween(this.player).to( { alpha: 0 }, 75, Phaser.Easing.Linear.None, true, 0, 1000, true);
 		}
 
 		// check to see if keys are disabled
@@ -1123,7 +1127,8 @@ var Level3P2 = {
 			enterNextLevel = true;
 			keysDisabled = true;
 			// make player move autpmatically through door
-			this.checkMovement;
+			game.world.bringToTop(textOverlay);
+			game.add.tween(textOverlay).to( { alpha: 1 }, 250, "Linear", true);
 
 			// reenable keys JUST before next level
 			game.time.events.add(Phaser.Timer.SECOND * 0.99, function() {
