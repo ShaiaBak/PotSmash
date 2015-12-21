@@ -15,12 +15,7 @@
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFmkCsxUAaEAViQyA2AmIxEvTJArElEFsBsRxUTBuIdXCo5wRiLiBWQhKTgtpvDMQmOOwXBGIhHPZbA7ENkv3odmED6PYTY9dwBqYDbD87EHOQoY8fiAWo5AYA1EIEcg==
-  </data>
- </layer>
- <layer name="detailLayer2" width="14" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBh6gGugHTCIgQoB/iigDQAAhJAAUw==
+   eJxjYEAFmkCsxUAaEAViQyA2AmIxEvTJArElEFsBsRxUTBuIdXCo5wRiLiBWQhKTgtpvDMQmOOwXBGIhHPZbA7ENkv3odmED6PYTYxe9gAoaX5kOdprSwQ58gB2IOcjQxw/EAlRyAwA6aQS5
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">

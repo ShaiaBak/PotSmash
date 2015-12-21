@@ -31,7 +31,6 @@ Preload = {
 		game.load.image('house2', 'assets/img/mapScreen/house2.png');
 		game.load.image('house3', 'assets/img/mapScreen/house3.png');
 
-
 		//load game assets
 		this.load.tilemap('level1', 'assets/tileset/level1.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.tilemap('level2-1', 'assets/tileset/level2-1.json', null, Phaser.Tilemap.TILED_JSON);

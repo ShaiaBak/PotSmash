@@ -1,45 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="195">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="236">
  <tileset firstgid="1" name="tiles-lvl3-1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl3-1-32x32.png" width="256" height="256"/>
  </tileset>
  <layer name="backgroundLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAcSKJhYoEiGiYWMAExIxJNrP3MUMwN1YtuPy69MHtY0OyF0bjcDrOPFYjZIOwGNAyWRwbo5rNgsQ8dSGJRg82t6P5TJNI+dP9hCwNeBkTY4nMrNr3o9hIC6P60hWJCANk+XihNLQAA1OYFxQ==
+   eJytkVEOgCAMQ1HQH8MB+OQg3s2jS3CLS1MdiTZpRgLjdRDCdxXwqCrY0y6emydTPb72RfEmvch/yq6cBFytLHs0XprXa32A+74V3p8ID1XIGZYV56uDPJyPvUEO99u+ZWW9yPWEc+r/erK8LPUvnTr7Brw=
   </data>
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJyzZWBgsKUQowN66yPWHGIAtfSRAgazXdTUR0kcEEo35OgjRg+xGAAZAhjJ
+   eJyzZWBgsKUQowNa6SMWkKsPWS8ynxx95NhJql2U+G8g9JHrP2LSDTn6iNFDLAYAv3cW4Q==
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJytzs0KgkAYheHZWW7MQBeCLVxoqWhaWf7c/3X5LiYYZ1Pf4IEHhoHD+ZTa5oZSyRKhQ49Y0EsxYsJF/1Wof/Qy453o/QeeDvszFmPfzBH+H/t2QpwFd9jJUeAq7DVocRf2BrzxEfa+eTn29oqHg0MvwGmnG1axaAXj
-  </data>
- </layer>
- <layer name="detailLayer2" width="14" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBhagBOIucjQJwjEQlR2y1AAKgPtgBECALngAFs=
+   eJytzskKgzAUheHsrN20CnZRsIsWbB2wDp20xfd/LH8hQgwNJOCBb5HLDecKsUyKTLglQo0GB4d/MTr0OMlZjsKw72OLszI7yv4WD0N/gNDQ/8VP6de7/kXvt+maMhjmehJccbPcn1PijkqZXSz+vfDGR74HYX/rlKf2dvm7RjxsHPbn+3bYr3TDCL9WB3I=
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAc2KFheujDZQYl9hOrF5v9Awnw2Y/uVmL1kaJuoP0/GAAAWoEGyQ==
+   eJxjYKAc2KFheujDZQax5mDTh0+vHRKNzX5i3EoKQDaXkBno7sFmBjZz8MnhUodNjlI/UqJ/sAAAj8wKaw==
   </data>
  </layer>
  <objectgroup name="objectsLayer">
-  <object id="178" gid="63" x="128" y="160" width="32" height="32">
-   <properties>
-    <property name="type" value="playerStart"/>
-   </properties>
-  </object>
   <object id="179" gid="37" x="32" y="352" width="32" height="32">
-   <properties>
-    <property name="type" value="pot3"/>
-   </properties>
-  </object>
-  <object id="180" gid="37" x="64" y="384" width="32" height="32">
    <properties>
     <property name="type" value="pot3"/>
    </properties>
@@ -74,22 +59,12 @@
     <property name="type" value="pot3"/>
    </properties>
   </object>
-  <object id="187" gid="37" x="224" y="288" width="32" height="32">
-   <properties>
-    <property name="type" value="pot3"/>
-   </properties>
-  </object>
   <object id="188" gid="37" x="96" y="192" width="32" height="32">
    <properties>
     <property name="type" value="pot3"/>
    </properties>
   </object>
   <object id="189" gid="37" x="128" y="192" width="32" height="32">
-   <properties>
-    <property name="type" value="pot3"/>
-   </properties>
-  </object>
-  <object id="190" gid="37" x="64" y="320" width="32" height="32">
    <properties>
     <property name="type" value="pot3"/>
    </properties>
@@ -114,6 +89,101 @@
     <property name="type" value="pot3"/>
    </properties>
   </object>
+  <object id="196" gid="63" x="96" y="160" width="32" height="32">
+   <properties>
+    <property name="type" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="200" gid="37" x="320" y="320" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="201" gid="37" x="320" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="202" gid="37" x="320" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="203" gid="37" x="288" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="206" gid="37" x="320" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="207" gid="37" x="64" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="208" gid="37" x="64" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="pot3"/>
+   </properties>
+  </object>
+  <object id="217" gid="19" x="96" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="218" gid="19" x="32" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="220" gid="19" x="160" y="448" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="221" gid="19" x="320" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="222" gid="19" x="352" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="223" gid="19" x="320" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="224" gid="19" x="288" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="225" gid="19" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="232" gid="19" x="256" y="256" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="234" gid="19" x="96" y="192" width="32" height="32">
+   <properties>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="235" gid="63" x="160" y="288" width="32" height="32">
+   <properties>
+    <property name="type" value="npcStart1"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
@@ -127,7 +197,7 @@
  </layer>
  <layer name="levelExitLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgZwAGKB5tdxKobBfiBA5l6yNGHDQAA4mYCAQ==
+   eJxjYBg6wAGK6aGPXnaRY8cowAQOZOohRx82AABKkwMB
   </data>
  </layer>
 </map>

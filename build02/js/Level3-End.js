@@ -6,9 +6,9 @@ var blockedLayer;
 var triggerLayer;
 var levelExitLayer;
 var objectLayer;
-var dir;
+var dir = "RIGHT";
 var currDir = dir;
-var playerSpeed = 125; //100 is a arbitrary default value
+var playerSpeed = 75; //100 is a arbitrary default value
 var walkFPS = 12;
 var potGroup; //group with all the pots
 var throwGroup; //group with all the thrown pots
@@ -17,7 +17,7 @@ var grabPotRect; //the rectangle area the player can grab pots
 var exitBool = 0; // if 0, exit doesn't work
 var exitNum = 1;
 var potSoundBool = 0;
-var keysDisabled = false;
+var keysDisabled = true;
 var itemVal = 0;
 var objectiveVal = 1;
 var showDebug = false;
@@ -79,9 +79,9 @@ var triggerGridVal = 7;
 var exitGridVal = 8;
 //******GRID SETUP END******//
 
-var Level3P1 = {
+var Level3End = {
 	create: function() {
-		this.map = this.game.add.tilemap('level3-1');
+		this.map = this.game.add.tilemap('level3-1-end');
 
 		//the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
 		this.map.addTilesetImage('tiles-lvl3-1-32x32', 'gameTiles-lvl-3_1');
@@ -166,17 +166,8 @@ var Level3P1 = {
 
 		// =========== CREATE PLAYER ===========
 		// var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
-		var result;
-		if (lvl3Pos == 1) {
-			result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
-			dir = "LEFT";
-		} else if (lvl3Pos == 2) {
-			result = this.findObjectsByType('playerStart2', this.map, 'objectsLayer');
-			dir = "LEFT";
-		} else if (lvl3Pos == 3) {
-			dir = "RIGHT"
-			result = this.findObjectsByType('playerStart3', this.map, 'objectsLayer');
-		}
+		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
+
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
 		this.game.physics.arcade.enable(this.player);
 		this.player.body.collideWorldBounds = true;
@@ -325,15 +316,8 @@ var Level3P1 = {
 		keySPACE = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		//spacebar picks / throws the pot
 		keySPACE.onDown.add(function () {
-			if(!spaceDisabled && !keysDisabled) {
-				if(grabbedPot == null){
-					this.checkPickUp();
-				} else {
-					this.handleThrow();
-				}
-			} else if(keysDisabled && textComplete == true && textActive) {
+			if(keysDisabled && textComplete == true && textActive) {
 				this.resetText();
-				keysDisabled = false;
 			}
 		}, this);
 
@@ -398,14 +382,14 @@ var Level3P1 = {
 
 	restart: function() {
 		_TILESIZE = 32;
-		// dir = "LEFT";
+		dir = "RIGHT";
 		currDir = dir;
-		playerSpeed = 125; //100 is a arbitrary default value
+		playerSpeed = 75; //100 is a arbitrary default value
 		walkFPS = 12;
 		grabPotRect; //the rectangle area the player can grab pots
 		exitBool = 0; // if 0, exit doesn't work
 		potSoundBool = 0;
-		keysDisabled = false;
+		keysDisabled = true;
 		itemVal = 0;
 		objectiveVal = 1;
 		showDebug = false;
@@ -474,62 +458,9 @@ var Level3P1 = {
 		// this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
 		// this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
 
-		if (exitBool == 1) {
-			this.game.physics.arcade.collide(this.player, this.levelExitLayer, this.levelTrigger, function() {
-				// if you finished level and you have no pot, kill collision and pass through
-				if(enterNextLevel == true && grabbedPot == null) {
-					return false;
-				}
-				return true;
-			}, this);
-		} else {
-			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl3Entrance = ["There's nothing out there for me."];
-				var lvl3DeadEnd = ["These stairs lead into a wall..."];
-				var lvl3Attic = ["It's locked.",
-								"...",
-								"There's a cheesey key hole here..."];
-				if (this.player.x > 370 && this.player.y > 197 && this.player.y < 210) {
-					content = lvl3Entrance;
-				} else if (this.player.x > 105 && this.player.x < 140 && this.player.y > 130 && this.player.y < 166) {
-					content = lvl3Attic;
-				} else if (this.player.x > 73 && this.player.x < 109 && this.player.y > 196  && this.player.y < 235) {
-					content = lvl3DeadEnd;
-				}
-					console.log('x: ' + this.player.x);
-					console.log('y: ' + this.player.y);
-					// console.log(content);
-					this.textFunc();
-
-			}, function() {
-				if(this.player.x > 270 && this.player.y > 400) {
-					exitNum = 1;
-					exitBool = 1;
-					return false;
-				} else if (doorUnlocked == true && this.player.x > 105 && this.player.x < 140 && this.player.y > 130 && this.player.y < 166) {
-					return false;
-				}
-				return true;
-			}, this);
-		}
-
-
-
-		// console.log(exitBool);
-		// console.log(this.player.y);
-
-		if(this.player.y < 400) { 
-			exitNum = 2;
-			exitBool = 0;
-		}
-		if (doorUnlocked == true && this.player.y < 166) {
-			exitNum = 2;
-			exitBool = 1;
-		}
-
-		this.gridCheckFunc();
 		this.checkMovement();
 		this.handleDirection();
+		this.autoWalk();
 
 		// anytime a directional key is let go, reset potTimer
 		this.game.input.keyboard.onUpCallback = function(e) {
@@ -537,20 +468,6 @@ var Level3P1 = {
 			if(e.keyCode == 38 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 40 ) {
 				pushTimer = 0;
 			}
-		}
-
-		// of holding a pot, cant push
-		if (grabbedPot != null) {
-			pushTimer = 0;
-		}
-		
-		// if player changes direction, pushTimer = 0
-		if(pushTimer > 1) {
-			currDir = dir;
-		}
-		if(dir != currDir && currDir != null) {
-			pushTimer = 0;
-			currDir = null;
 		}
 
 		// audio volume - cannot be set inside create function
@@ -564,6 +481,25 @@ var Level3P1 = {
 		this.player.body.immovable = false;
 		this.player.body.moves = true;
 		keysDisabled = false;
+	},
+
+	autoWalk: function() {
+		if(this.player.x <= _TILESIZE * 6) {
+			game.time.events.add(500, function(){
+				this.player.body.velocity.x = playerSpeed;
+				this.player.body.collideWorldBounds = false;
+			}, this);
+		} else {
+			this.player.body.velocity.x = 0;
+		}
+		// } else if(this.player.y > 200) {
+		// 	this.player.body.velocity.x = playerSpeed;
+		// 	this.player.body.velocity.y = -playerSpeed;
+		// } else if(this.player.y <= 200) {
+		// 	dir = 'UP';
+		// 	this.player.body.velocity.y = 0;
+		// 	this.player.body.velocity.x = 0;
+		// }
 	},
 
 	gridCheckFunc: function() {
@@ -640,9 +576,6 @@ var Level3P1 = {
 	},
 	
 	checkMovement: function() {
-		//Player is not moving when nothing is pressed
-		this.player.body.velocity.y = 0;
-		this.player.body.velocity.x = 0;
 
 		// check to see if all win conditions are true
 		// make player exit level without player control
@@ -671,30 +604,14 @@ var Level3P1 = {
 			else if(this.cursors.right.isDown) {
 				this.player.body.velocity.x += playerSpeed;
 			}
-
-
-			// Check touch controls
-			if (this.game.touchControl.speed.x > 10) {
-				this.player.body.velocity.x = -playerSpeed;
-
-			} else if (this.game.touchControl.speed.x < -10) {
-				this.player.body.velocity.x = playerSpeed;
-			}
-
-			if (this.game.touchControl.speed.y > 10 ) {
-				this.player.body.velocity.y = -playerSpeed;
-
-			} else if (this.game.touchControl.speed.y < -10) {
-				this.player.body.velocity.y = playerSpeed;
-			} 
 		
 			// if player is going diagonally, go 0.75 the speed in both directions
 			// reason is that player goes too fast when moving diagonally
 			// @TODO: change for touch controls
 			if(this.player.body.velocity.y >= 51 && this.player.body.velocity.x >= 51 ||
-				this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
-				this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
-				this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y >= 51 && this.player.body.velocity.x <= -51 ||
+			this.player.body.velocity.y <= -51 && this.player.body.velocity.x >= 51) {
 				this.player.body.velocity.y = this.player.body.velocity.y*0.75;
 				this.player.body.velocity.x = this.player.body.velocity.x*0.75;
 			}
