@@ -1243,8 +1243,10 @@ var Level3P3 = {
 		heavyPotGroup.forEach(function(heavyPot) {
 			game.time.events.add(250, function(){
 				// play unlock sound
-			});
-		});
+				content = ["Something broke downstairs.."]
+				this.textFunc();
+			}, this);
+		}, this);
 		triggerCounter = 1;
 	},
 

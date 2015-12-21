@@ -135,7 +135,7 @@ var Level2P1 = {
 		// ========== CREATE ITEM =============
 		// for multiple items
 		itemGroup = game.add.group();
-	   	itemGroup.enableBody = true;
+		itemGroup.enableBody = true;
 
 		this.map.createFromObjects('objectsLayer', 133, 'gems', 0, true, false, itemGroup);
 

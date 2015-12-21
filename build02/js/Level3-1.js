@@ -136,7 +136,7 @@ var Level3P1 = {
 		itemGroup = game.add.group();
 		itemGroup.enableBody = true;
 
-		this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
+		this.map.createFromObjects('objectsLayer', 19, 'gems', 0, true, false, itemGroup);
 
 		this.game.physics.arcade.enable(itemGroup);
 
@@ -450,7 +450,6 @@ var Level3P1 = {
 		// player collision (no pot)
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
-		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		// pot collision
 		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
@@ -467,6 +466,8 @@ var Level3P1 = {
 			}
 			return false;
 		});
+
+		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
 
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
