@@ -152,6 +152,11 @@ var Level3Start = {
 			content = lvl2Content;
 			this.textFunc();
 		}
+
+		if(!music.isPlaying){
+			music.play('',0);
+		}
+		music.volume = 0.4;
 	},
 
 	autoWalk: function() {

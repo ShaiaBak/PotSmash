@@ -567,6 +567,11 @@ var Level3P3 = {
 			pushTimer = 0;
 			currDir = null;
 		}
+		
+		if(!music.isPlaying){
+			music.play('',0);
+		}
+		music.volume = 0.4;
 
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.5;
