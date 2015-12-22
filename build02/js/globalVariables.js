@@ -1,5 +1,6 @@
 // general
 var score = 0;
+var music;
 
 // lvl 2
 var lvl2Pos = 1;

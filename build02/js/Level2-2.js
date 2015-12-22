@@ -592,6 +592,8 @@ var Level2P2 = {
 		sfxPot1.volume = 0.2;
 		sfxObj1.volume = 0.1;
 
+		music.volume = 0.1;
+
 		// console.log('pushTimer: ' + pushTimer)
 	},
 

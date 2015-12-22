@@ -374,6 +374,8 @@ var Level1 = {
 
 		sfxObj1.addMarker('moneySFX', 0, 0.5);
 
+		music = game.add.audio('music1');
+
 		// so the player is ontop of all other objects
 		game.world.moveUp(this.player);
 		game.world.bringToTop(textOverlay);
@@ -512,9 +514,14 @@ var Level1 = {
 			currDir = null;
 		}
 
+		if(!music.isPlaying){
+    		music.play('',0);
+  		} 
+
 		// audio volume - cannot be set inside create function
-		sfxPot1.volume = 0.2;
-		sfxObj1.volume = 0.1;
+		sfxPot1.volume = 0.5;
+		sfxObj1.volume = 0.3;
+		music.volume = 0.4;
 
 		// console.log(pushTimer);
 	},
