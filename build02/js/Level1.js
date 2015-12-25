@@ -345,6 +345,10 @@ var Level1 = {
 			game.state.restart();
 		}, this);
 
+		key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
+		key9.onDown.add(function() {
+			game.state.start('Level3-End');
+		}, this);
 		// print blank board
 		// printBoard(board,14,15);
 		
@@ -375,6 +379,7 @@ var Level1 = {
 		sfxObj1.addMarker('moneySFX', 0, 0.5);
 
 		music = game.add.audio('music1');
+		music.allowMultiple = false;
 
 		// so the player is ontop of all other objects
 		game.world.moveUp(this.player);
@@ -514,10 +519,12 @@ var Level1 = {
 			currDir = null;
 		}
 
-		if(!music.isPlaying){
-			music.play('',0);
-		}
-		music.volume = 0.4;
+		music.onDecoded.add(function() {
+			if(!music.isPlaying){
+				music.play('',0);
+			}
+			music.volume = 0.4;
+		}, this);
 
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.5;

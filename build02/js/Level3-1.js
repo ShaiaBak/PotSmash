@@ -556,6 +556,7 @@ var Level3P1 = {
 		if(!music.isPlaying){
 			music.play('',0);
 		}
+		
 		music.volume = 0.4;
 
 		// audio volume - cannot be set inside create function

@@ -156,7 +156,9 @@ var Level3Start = {
 		if(!music.isPlaying){
 			music.play('',0);
 		}
-		music.volume = 0.4;
+
+		game.add.tween(music).to({volume:0.4}, 500).start();
+		// music.volume = 0.4;
 	},
 
 	autoWalk: function() {

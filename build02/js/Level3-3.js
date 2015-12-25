@@ -1329,7 +1329,7 @@ function lvl3P3End() {
 	lvl3Pos = 3;
 	if(finalObjectiveComplete) {
 		// replace with final map
-		game.state.start('Level1');
+		game.state.start('Level3-End');
 	} else  {
 		game.state.start('Level3-1');
 	}

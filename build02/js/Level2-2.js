@@ -591,7 +591,9 @@ var Level2P2 = {
 		if(!music.isPlaying){
 			music.play('',0);
 		}
-		music.volume = 0.1;
+
+		game.add.tween(music).to({volume:0.1}, 500).start();
+		// music.volume = 0.1;
 
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.2;
