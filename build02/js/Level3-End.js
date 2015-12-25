@@ -41,6 +41,13 @@ var lineDelay = 200;
 var textComplete = false;
 var content;
 
+var step1 = false;
+var step2 = false;
+var step3 = false;
+var step4 = false;
+var step5 = false;
+var step6 = false;
+
 // item picked up bool; may have to change if multiple items
 var objectiveComplete = 0;
 
@@ -156,13 +163,14 @@ var Level3End = {
 			itemGroup.children[i].play('gemSprite');
 		};
 
+		// =========== CREATE NPC ===========
+		var result = this.findObjectsByType('npcStart1', this.map, 'objectsLayer');
+		npc = this.game.add.sprite(result[0].x, result[0].y, 'npc');
+		game.physics.arcade.enable(npc);
+		npc.body.collideWorldBounds = true;
 
-		// only works for single item
-		// var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
-		// this.item = this.game.add.sprite(itemResult[i].x, itemResult[i].y, 'item');
-		// this.game.physics.arcade.enable(this.item);
-
-		// this.item.body.immovable = true;
+		// npc.anchor.setTo(.5,.5);
+		npc.scale.setTo(0.5, 0.5);
 
 		// =========== CREATE PLAYER ===========
 		// var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
@@ -221,27 +229,6 @@ var Level3End = {
 		this.player.animations.add('pickUpLeft', [52], 8 /*fps */, true);
 		this.player.animations.add('pickDownLeft', [60], 8 /*fps */, true);
 
-		// pickup walk animation
-		this.player.animations.add('pickWalkDown', [33, 34, 35, 32], 8 /*fps */, true);
-		this.player.animations.add('pickWalkUp', [49, 50, 51, 48], 8 /*fps */, true);
-		this.player.animations.add('pickWalkLeft', [57, 58, 59, 56], 8 /*fps */, true);
-		this.player.animations.add('pickWalkRight', [41, 42, 43, 40], 8 /*fps */, true);
-
-		this.player.animations.add('pickWalkUpRight', [45, 46, 47, 44], 8 /*fps */, true);
-		this.player.animations.add('pickWalkDownRight', [37, 38, 39, 36], 8 /*fps */, true);
-		this.player.animations.add('pickWalkUpLeft', [53, 54, 55, 52], 8 /*fps */, true);
-		this.player.animations.add('pickWalkDownLeft', [61, 62, 63, 60], 8 /*fps */, true);
-
-		this.player.animations.add('pushWalkDown', [64, 65, 66, 67], 8 /*fps */, true);
-		this.player.animations.add('pushWalkUp', [80, 81, 82, 83], 8 /*fps */, true);
-		this.player.animations.add('pushWalkLeft', [88, 89, 90, 91], 8 /*fps */, true);
-		this.player.animations.add('pushWalkRight', [72, 73, 74, 75], 8 /*fps */, true);
-
-		this.player.animations.add('pushWalkUpRight', [76, 77, 78, 79], 8 /*fps */, true);
-		this.player.animations.add('pushWalkDownRight', [68, 69, 70, 71], 8 /*fps */, true);
-		this.player.animations.add('pushWalkUpLeft', [84, 85, 86, 87], 8 /*fps */, true);
-		this.player.animations.add('pushWalkDownLeft', [92, 93, 94, 95], 8 /*fps */, true);
-
 
 		// ========= CREATE POT STUFF =========
 
@@ -272,19 +259,6 @@ var Level3End = {
 		potGroup.callAll('animations.add', 'animations', 'potBreakAnim', [0, 1, 2, 3, 4], 10, false);
 
 		potGroup.callAll('animations.play', 'animations', 'potIdle');
-		// potGroup.callAll('animations.play', 'animations', 'potBreakAnim');
-
-		// ============ OLD WAY =================
-		// //find pot locations from tiled and create a pot
-		// var potLocArr = this.findObjectsByType('pot1', this.map, 'objectsLayer');
-		// //console.log(potLocArr);
-		// for (i=0; i<potLocArr.length; i++){
-		// 	var pot = potGroup.create(potLocArr[i].x, potLocArr[i].y, 'potSprite_1');
-		// 	pot.name = 'pot' + i;
-		// 	pot.body.immovable = true;
-		// 	pot.scale.setTo(.5, .5);
-		// 	console.log("x.pot" + i + ": " + pot.x);
-		// }
 
 		// =============== THROW POT ============
 		throwGroup = game.add.group();
@@ -470,6 +444,10 @@ var Level3End = {
 			}
 		}
 
+		game.add.tween(music).to({volume:0}, 500).start();
+		if(music.volume == 0) {
+			music.stop();
+		}
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.2;
 		sfxObj1.volume = 0.1;
@@ -484,22 +462,39 @@ var Level3End = {
 	},
 
 	autoWalk: function() {
-		if(this.player.x <= _TILESIZE * 6) {
+		var playerWidth = this.player.width/2;
+
+		if(step1 == false && this.player.x <= _TILESIZE * 6 - playerWidth) {
 			game.time.events.add(500, function(){
 				this.player.body.velocity.x = playerSpeed;
-				this.player.body.collideWorldBounds = false;
 			}, this);
 		} else {
+			step1 = true;
+		}
+
+		if(step1 == true && step2 == false && this.player.y <= _TILESIZE * 7 - playerWidth) {
+			this.player.body.velocity.x = 0;
+			this.player.body.velocity.y = playerSpeed;
+		} else if (step1 == true) {
+			step2 = true;
+		}
+
+		if(step2 == true && step3 == false && this.player.x <= _TILESIZE * 7 - playerWidth) {
+			this.player.body.velocity.x = playerSpeed;
+			this.player.body.velocity.y = 0;
+		} else if (step2 == true) {
+			step3 = true;
 			this.player.body.velocity.x = 0;
 		}
-		// } else if(this.player.y > 200) {
-		// 	this.player.body.velocity.x = playerSpeed;
-		// 	this.player.body.velocity.y = -playerSpeed;
-		// } else if(this.player.y <= 200) {
-		// 	dir = 'UP';
-		// 	this.player.body.velocity.y = 0;
-		// 	this.player.body.velocity.x = 0;
-		// }
+
+		if(step3 == true && step4 == false && this.player.y <= _TILESIZE * 9 - playerWidth - 3) {
+			this.player.body.velocity.y = playerSpeed;
+			this.player.body.velocity.x = 0;
+		} else if (step3 == true) {
+			step4 = true;
+			this.player.body.velocity.y = 0;
+			dir = 'LEFT';
+		}
 	},
 
 	gridCheckFunc: function() {
@@ -718,7 +713,7 @@ var Level3End = {
 	},
 
 	handleWalkAnim: function() {
-		if (grabbedPot == null && pushTimer == 0) {	
+		// if (grabbedPot == null && pushTimer == 0) {	
 			if (dir == "UP") {
 				this.player.play('walkUp');
 			} else if (dir == "DOWN") {
@@ -738,49 +733,51 @@ var Level3End = {
 			} else if(dir == "DOWNRIGHT") {
 				this.player.play('walkDownRight');
 			}
-		} else if (grabbedPot != null && pushTimer == 0) {	
-			if (dir == "UP") {
-				this.player.play('pickWalkUp');
-			} else if (dir == "DOWN") {
-				this.player.play('pickWalkDown');
-			} else if (dir == "LEFT") {
-				this.player.play('pickWalkLeft');
-			} else if (dir == "RIGHT") {
-				this.player.play('pickWalkRight');
-			} 
-			// diagonal movements
-			else if(dir == "UPLEFT") {
-				this.player.play('pickWalkUpLeft');
-			} else if(dir == "UPRIGHT") {
-				this.player.play('pickWalkUpRight');
-			} else if(dir == "DOWNLEFT") {
-				this.player.play('pickWalkDownLeft');
-			} else if(dir == "DOWNRIGHT") {
-				this.player.play('pickWalkDownRight');
-			}
+		// } 
+
+		// else if (grabbedPot != null && pushTimer == 0) {	
+		// 	if (dir == "UP") {
+		// 		this.player.play('pickWalkUp');
+		// 	} else if (dir == "DOWN") {
+		// 		this.player.play('pickWalkDown');
+		// 	} else if (dir == "LEFT") {
+		// 		this.player.play('pickWalkLeft');
+		// 	} else if (dir == "RIGHT") {
+		// 		this.player.play('pickWalkRight');
+		// 	} 
+		// 	// diagonal movements
+		// 	else if(dir == "UPLEFT") {
+		// 		this.player.play('pickWalkUpLeft');
+		// 	} else if(dir == "UPRIGHT") {
+		// 		this.player.play('pickWalkUpRight');
+		// 	} else if(dir == "DOWNLEFT") {
+		// 		this.player.play('pickWalkDownLeft');
+		// 	} else if(dir == "DOWNRIGHT") {
+		// 		this.player.play('pickWalkDownRight');
+		// 	}
 
 		// pushing anim
-		} else if(grabbedPot == null && pushTimer >= 0) {
-			if (dir == "UP") {
-				this.player.play('pushWalkUp');
-			} else if (dir == "DOWN") {
-				this.player.play('pushWalkDown');
-			} else if (dir == "LEFT") {
-				this.player.play('pushWalkLeft');
-			} else if (dir == "RIGHT") {
-				this.player.play('pushWalkRight');
-			} 
-			// diagonal movements
-			else if(dir == "UPLEFT") {
-				this.player.play('walkUpLeft');
-			} else if(dir == "UPRIGHT") {
-				this.player.play('walkUpRight');
-			} else if(dir == "DOWNLEFT") {
-				this.player.play('walkDownLeft');
-			} else if(dir == "DOWNRIGHT") {
-				this.player.play('walkDownRight');
-			}
-		}
+		// } else if(grabbedPot == null && pushTimer >= 0) {
+		// 	if (dir == "UP") {
+		// 		this.player.play('pushWalkUp');
+		// 	} else if (dir == "DOWN") {
+		// 		this.player.play('pushWalkDown');
+		// 	} else if (dir == "LEFT") {
+		// 		this.player.play('pushWalkLeft');
+		// 	} else if (dir == "RIGHT") {
+		// 		this.player.play('pushWalkRight');
+		// 	} 
+		// 	// diagonal movements
+		// 	else if(dir == "UPLEFT") {
+		// 		this.player.play('walkUpLeft');
+		// 	} else if(dir == "UPRIGHT") {
+		// 		this.player.play('walkUpRight');
+		// 	} else if(dir == "DOWNLEFT") {
+		// 		this.player.play('walkDownLeft');
+		// 	} else if(dir == "DOWNRIGHT") {
+		// 		this.player.play('walkDownRight');
+		// 	}
+		// }
 	},
 
 	pushPot: function(obj1, obj2) {
