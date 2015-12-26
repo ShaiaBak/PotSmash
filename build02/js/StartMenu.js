@@ -91,6 +91,9 @@ var StartMenu = {
 		key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
 		key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
 		key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
+
+		introMusic = game.add.audio('musicIntro');
+		introMusic.play();
 	},
 
 	update: function() {
@@ -101,40 +104,49 @@ var StartMenu = {
 		subText.y = Math.floor(Math.floor(game.world.height/2+20));
 
 		if(key1.isDown) {
+			introMusic.stop();
 			this.state.start('Level1',true,false);
 		}
 
 		if(key2.isDown) {
+			introMusic.stop();
 			this.state.start('Level2-1',true,false);
 		}
 
 		if(key3.isDown) {
+			introMusic.stop();
 			this.state.start('Level2-2',true,false);
 		}
 		if(key4.isDown) {
+			introMusic.stop();
 			this.state.start('Level3-1',true,false);
 		}
 		if(key5.isDown) {
+			introMusic.stop();
 			this.state.start('Level3-2',true,false);
 		}
 		if(key6.isDown) {
+			introMusic.stop();
 			this.state.start('Level3-3',true,false);
 		}
 		if(key7.isDown) {
+			introMusic.stop();
 			this.state.start('Level3-End',true,false);
 		}
 
 		if(key8.isDown) {
+			introMusic.stop();
 			this.state.start('Level2Start',true,false);
 		}
 		if(key9.isDown) {
+			introMusic.stop();
 			this.state.start('Level3Start',true,false);
 		}
 
 
 		player.animations.play('windIdle');
 
-		game.time.events.add(1000, function(){
+		game.time.events.add(2250, function(){
 			if(bgLayer3.y < 620) {
 				bgLayer1.y += 0.1;
 				bgLayer2.y += 0.25;
@@ -162,6 +174,7 @@ var StartMenu = {
 				titleComplete = true;
 				title.alpha = 1;
 			} else if(panComplete == true && titleComplete == true) {
+				introMusic.stop();
 				this.state.start('Level1');
 			}
 		}, this);
@@ -187,6 +200,8 @@ var StartMenu = {
 				titleComplete = true;
 			}
 		}
+
+		introMusic.volume = 0.3;
   
 	},
 

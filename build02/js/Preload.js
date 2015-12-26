@@ -74,6 +74,7 @@ Preload = {
 			'assets/audio/soundFX/sfx_objectsounds_01.ogg' ]);
 		game.load.audio('music1', [ 'assets/audio/music/music1-1.mp3', 
 			'assets/audio/music/music1-1.ogg' ]);
+		game.load.audio('musicIntro', [ 'assets/audio/music/intro-music-v1.mp3']);
 	},
 	create: function() {
 		this.state.start('StartMenu');
