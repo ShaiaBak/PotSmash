@@ -47,6 +47,13 @@ var step3 = false;
 var step4 = false;
 var step5 = false;
 var step6 = false;
+var walk1 = false;
+var walk2 = false;
+var camPanComp = false;
+
+var npcStep1 = false;
+var npcStep2 = false;
+var NPCdir;
 
 var barSprite1;
 var barSprite2;
@@ -140,32 +147,6 @@ var Level3End = {
 			}
 		}, this);
 
-		// ========== CREATE ITEM =============
-		// for multiple items
-		itemGroup = game.add.group();
-		itemGroup.enableBody = true;
-
-		this.map.createFromObjects('objectsLayer', 19, 'gems', 0, true, false, itemGroup);
-
-		this.game.physics.arcade.enable(itemGroup);
-
-		var frameStop = 0;
-		var nameNum = 0;
-
-		itemGroup.forEach(function(item) {
-			nameNum++;
-			item.name = 'item' + nameNum;
-		}, this);
-
-		for (var i = 0; i < itemGroup.length; i++) {
-			frameStop++;
-			if(frameStop > 3) {
-				frameStop = 0;
-			}
-			itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
-			itemGroup.children[i].play('gemSprite');
-		};
-
 		// =========== CREATE NPC ===========
 		var result = this.findObjectsByType('npcStart1', this.map, 'objectsLayer');
 		npc = this.game.add.sprite(result[0].x, result[0].y, 'npc');
@@ -174,6 +155,24 @@ var Level3End = {
 
 		// npc.anchor.setTo(.5,.5);
 		npc.scale.setTo(0.5, 0.5);
+
+		// npc animations
+		npc.animations.add('walkNPCDown', [1 ,2 ,3, 4], 8 /*fps */, true);
+		npc.animations.add('walkNPCUp', [17, 18, 19, 20], 8 /*fps */, true);
+		npc.animations.add('walkNPCLeft', [25, 26, 27, 28], 8 /*fps */, true);
+		npc.animations.add('walkNPCRight', [9, 10, 11, 12], 8 /*fps */, true);
+
+		//diagonal animation
+		npc.animations.add('walkNPCUpRight', [13, 14, 15, 16], 8 /*fps */, true);
+		npc.animations.add('walkNPCDownRight', [5, 6, 7, 8], 8 /*fps */, true);
+		npc.animations.add('walkNPCUpLeft', [21, 22, 23, 24], 8 /*fps */, true);
+		npc.animations.add('walkNPCDownLeft', [29, 30, 31, 32], 8 /*fps */, true);
+
+		npc.animations.add('idleNPCDown', [0], 2 /*fps */, true);
+		npc.animations.add('idleNPCRight', [9], 2 /*fps */, true);
+		npc.animations.add('idleNPCUp', [19], 2 /*fps */, true);
+		npc.animations.add('idleNPCLeft', [26], 2 /*fps */, true);
+
 
 		// =========== CREATE PLAYER ===========
 		// var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
@@ -221,18 +220,6 @@ var Level3End = {
 		this.player.animations.add('idleUpLeft', [106, 107], 2 /*fps */, true);
 		this.player.animations.add('idleDownLeft', [110, 111], 2 /*fps */, true);
 
-		// pickup idle animation
-		this.player.animations.add('pickDown', [32], 8 /*fps */, true);
-		this.player.animations.add('pickUp', [48], 8 /*fps */, true);
-		this.player.animations.add('pickLeft', [56], 8 /*fps */, true);
-		this.player.animations.add('pickRight', [40], 8 /*fps */, true);
-
-		this.player.animations.add('pickUpRight', [44], 8 /*fps */, true);
-		this.player.animations.add('pickDownRight', [36], 8 /*fps */, true);
-		this.player.animations.add('pickUpLeft', [52], 8 /*fps */, true);
-		this.player.animations.add('pickDownLeft', [60], 8 /*fps */, true);
-
-
 		// ========= CREATE POT STUFF =========
 
 		potGroup = game.add.group();
@@ -263,18 +250,6 @@ var Level3End = {
 
 		potGroup.callAll('animations.play', 'animations', 'potIdle');
 
-		// =============== THROW POT ============
-		throwGroup = game.add.group();
-		throwGroup.enableBody = true;
-		throwGroup.physicsBodyType = Phaser.Physics.ARCADE;
-
-		throwGroup.forEach(function(pot) {
-			pot.x = pot.x + pot.width/2;
-			pot.y = pot.y + pot.height/2;
-
-			pot.body.collideWorldBounds = true;
-		});
-
 		// ========= CAMERA STUFF =========
 
 		// set bounds to world for camera and player
@@ -284,7 +259,9 @@ var Level3End = {
 		// camera follows player
 		// follow types:
 		// FOLLOW_LOCKON, FOLLOW_PLATFORMER, FOLLOW_TOPDOWN, FOLLOW_LOCKON_TIGHT
-		this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT); 
+		this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT);
+
+		// console.log();
 
 		//move player with ARROW keys
 		this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -434,8 +411,9 @@ var Level3End = {
 		this.game.physics.arcade.collide(this.player, this.blockedLayer);
 		this.game.physics.arcade.collide(this.player, this.transBlockedLayer);
 
+		this.game.physics.arcade.collide(npc, this.transBlockedLayer);
+
 		// pot collision
-		this.game.physics.arcade.collide(this.player, potGroup, this.pushPot);
 		this.game.physics.arcade.collide(throwGroup, this.blockedLayer, this.handlePotBreak, null, this);
 		this.game.physics.arcade.collide(throwGroup, this.transBlockedLayer, this.handlePotBreak, function() {
 			if (enableCollision) {
@@ -450,19 +428,29 @@ var Level3End = {
 			return false;
 		});
 
-		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
-
-		// check to see if pot is running into stuff when it shouldnt
-		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
-		// this.game.physics.arcade.collide(potGroup, potGroup);
-		// this.game.physics.arcade.collide(this.blockedLayer, potGroup, this.checkOverlap);
-		// this.game.physics.arcade.collide(this.transBlockedLayer, potGroup, this.checkOverlap);
-
 		this.checkMovement();
 		this.handleDirection();
-		game.time.events.add(1500, function(){
-			this.autoWalk();
-		}, this);
+
+		// console.log(walk1)
+
+		if(walk1 == false) {
+			game.time.events.add(1500, function(){
+				this.autoWalk();
+			}, this);
+		}
+
+		if(walk1 == true) {
+			this.autoWalk2();
+		}
+
+		if(walk2 == true) {
+			this.cameraPan();
+		}
+
+		if(camPanComp == true) {
+			content = ["mmph.. mphh........"]
+			this.textFunc();
+		}
 
 		// anytime a directional key is let go, reset potTimer
 		this.game.input.keyboard.onUpCallback = function(e) {
@@ -524,47 +512,56 @@ var Level3End = {
 		if(step3 == true && step4 == false && this.player.y <= _TILESIZE * 9 - playerWidth - 3) {
 			this.player.body.velocity.y = playerSpeed;
 			this.player.body.velocity.x = 0;
-		} else if (step3 == true) {
+		} else if (step3 == true && step4 == false) {
 			step4 = true;
 			this.player.body.velocity.y = 0;
 			dir = 'LEFT';
+			walk1 = true;
+			step4 = true;
 		}
 	},
 
-	gridCheckFunc: function() {
-		gridCheck.body.y = 0;
-		for (c = 0; c < this.world.height/32; c++) {
-			gridCheck.body.x = 0;
-			for (r = 0; r < this.world.width/32; r++) {
+	autoWalk2: function() {
+		var playerWidth = this.player.width/2;
+		game.time.events.add(1500, function(){
+			game.camera.follow(null);
+			walk2 = true;
+			this.player.body.velocity.y = playerSpeed;
+			this.player.body.velocity.x = 0;
 
-				// gridcheck goes through the map and checks for all objects that are walls or objects
-				// if a wall or object is in the way of a pot being moved, the pot does not move.
-				if (this.game.physics.arcade.overlap(gridCheck, this.blockedLayer) ||
-					this.game.physics.arcade.overlap(gridCheck, this.transBlockedLayer)) {
-					board[c][r] = wallGridVal;
-
-				} else if(this.game.physics.arcade.overlap(gridCheck, potGroup)) {
-					board[c][r] = potGridVal;
-				} else if (this.game.physics.arcade.overlap(gridCheck, this.player)) {
-					board[c][r] = playerGridVal;
-				} else if (this.map.getTile(r,c,this.blockedLayer) != null) {
-					board[c][r] = wallGridVal;
-				} else if (this.map.getTile(r,c,this.transBlockedLayer) != null) {
-					board[c][r] = transWallGridVal;
-				} else if(this.map.getTile(r,c,this.triggerLayer)) {
-					board[c][r] = triggerGridVal;
-				} else if(this.map.getTile(r,c,this.levelExitLayer)) {
-					board[c][r] = exitGridVal;
-				} else {
-					board[c][r] = 0;
-				}
-				
-				gridCheck.body.x +=32;
-			
+			// console.log(npc.x + 'tile: ' + _TILESIZE*6);
+			// console.log(npcStep1);
+			console.log(npcStep1)
+			if(npcStep1 == false && npc.x <= _TILESIZE * 6-1){
+				npc.body.velocity.x = playerSpeed;
+			} else{
+				npcStep1 = true;
+			} 
+			if(npcStep1 == true && npcStep2 == false) {
+				npc.body.velocity.x = 0;
+				npc.body.velocity.y = playerSpeed;
 			}
 
-			gridCheck.body.y += 32;
-		}
+
+		}, this);
+
+		// if(npcStep1)
+		// if(step1 == false && this.player.x <= _TILESIZE * 6 - playerWidth) {
+		// 		this.player.body.velocity.x = playerSpeed;
+		// } else {
+		// 	step1 = true;
+		// }
+	},
+
+	cameraPan: function() {
+		game.world.setBounds(0, 0, 1000, 480);
+		game.time.events.add(2000, function(){
+			if(game.camera.x < 64) {
+				game.camera.x += 1;
+			} else {
+				camPanComp = true;
+			}
+		});
 	},
 
 	//find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -580,28 +577,6 @@ var Level3End = {
 			}
 		});
 		return result;
-	},
-
-	checkOverlap: function(obj1, obj2) {
-		// first get all of the active tweens
-		var tweens = game.tweens.getAll();
-
-		// filter that down to an array of all tweens of the specified object
-		var currentTweens = tweens.filter(function(tween) {
-			return tween._object === obj2;
-		});
-	},
-
-	itemCollect: function(player, item) {
-		score += 1;
-		console.log(score);
-		sfxObj1.play('moneySFX');
-		item.body = null;
-		item.destroy();
-		itemVal++;
-		if(itemVal == objectiveVal) {
-			objectiveComplete = 1;
-		}
 	},
 	
 	checkMovement: function() {
@@ -649,7 +624,6 @@ var Level3End = {
 
 	handleDirection: function() {
 		//cardinal directions handling
-		// all grab pot rect are offset because it registers top left first. needed to offset.
 		if (this.player.body.velocity.y < 0 && this.player.body.velocity.x == 0) {
 			dir = "UP";
 			grabPotRect.x = this.player.x + 7;
@@ -694,6 +668,34 @@ var Level3End = {
 			this.handleWalkAnim();
 			grabPotRect.x = game.world.height;
 			grabPotRect.y = game.world.width;
+		}
+
+		if (npc.body.velocity.y < 0 && npc.body.velocity.x == 0) {
+			NPCdir = "UP";
+			this.handleWalkAnim();
+		} else if (npc.body.velocity.y > 0 && npc.body.velocity.x == 0) {
+			NPCdir = "DOWN";
+			this.handleWalkAnim();
+		} else if (npc.body.velocity.x < 0 && npc.body.velocity.y == 0) {
+			NPCdir = "LEFT";
+			this.handleWalkAnim();
+		} else if (npc.body.velocity.x > 0 && npc.body.velocity.y == 0) {
+			NPCdir = "RIGHT";
+			this.handleWalkAnim();
+		}
+		// diagonal movements
+		else if(npc.body.velocity.y < 0 && npc.body.velocity.x < 0) {
+			NPCdir = "UPLEFT";
+			this.handleWalkAnim();
+		} else if(npc.body.velocity.y < 0 && npc.body.velocity.x > 0) {
+			NPCdir = "UPRIGHT";
+			this.handleWalkAnim();
+		} else if(npc.body.velocity.y > 0 && npc.body.velocity.x < 0) {
+			NPCdir = "DOWNLEFT";
+			this.handleWalkAnim();
+		} else if(npc.body.velocity.y > 0 && npc.body.velocity.x > 0) {
+			NPCdir = "DOWNRIGHT";
+			this.handleWalkAnim();
 		}
 		
 		//idle animation
@@ -747,308 +749,45 @@ var Level3End = {
 	},
 
 	handleWalkAnim: function() {
-		// if (grabbedPot == null && pushTimer == 0) {	
-			if (dir == "UP") {
-				this.player.play('walkUp');
-			} else if (dir == "DOWN") {
-				this.player.play('walkDown');
-			} else if (dir == "LEFT") {
-				this.player.play('walkLeft');
-			} else if (dir == "RIGHT") {
-				this.player.play('walkRight');
-			} 
-			// diagonal movements
-			else if(dir == "UPLEFT") {
-				this.player.play('walkUpLeft');
-			} else if(dir == "UPRIGHT") {
-				this.player.play('walkUpRight');
-			} else if(dir == "DOWNLEFT") {
-				this.player.play('walkDownLeft');
-			} else if(dir == "DOWNRIGHT") {
-				this.player.play('walkDownRight');
-			}
-		// } 
-
-		// else if (grabbedPot != null && pushTimer == 0) {	
-		// 	if (dir == "UP") {
-		// 		this.player.play('pickWalkUp');
-		// 	} else if (dir == "DOWN") {
-		// 		this.player.play('pickWalkDown');
-		// 	} else if (dir == "LEFT") {
-		// 		this.player.play('pickWalkLeft');
-		// 	} else if (dir == "RIGHT") {
-		// 		this.player.play('pickWalkRight');
-		// 	} 
-		// 	// diagonal movements
-		// 	else if(dir == "UPLEFT") {
-		// 		this.player.play('pickWalkUpLeft');
-		// 	} else if(dir == "UPRIGHT") {
-		// 		this.player.play('pickWalkUpRight');
-		// 	} else if(dir == "DOWNLEFT") {
-		// 		this.player.play('pickWalkDownLeft');
-		// 	} else if(dir == "DOWNRIGHT") {
-		// 		this.player.play('pickWalkDownRight');
-		// 	}
-
-		// pushing anim
-		// } else if(grabbedPot == null && pushTimer >= 0) {
-		// 	if (dir == "UP") {
-		// 		this.player.play('pushWalkUp');
-		// 	} else if (dir == "DOWN") {
-		// 		this.player.play('pushWalkDown');
-		// 	} else if (dir == "LEFT") {
-		// 		this.player.play('pushWalkLeft');
-		// 	} else if (dir == "RIGHT") {
-		// 		this.player.play('pushWalkRight');
-		// 	} 
-		// 	// diagonal movements
-		// 	else if(dir == "UPLEFT") {
-		// 		this.player.play('walkUpLeft');
-		// 	} else if(dir == "UPRIGHT") {
-		// 		this.player.play('walkUpRight');
-		// 	} else if(dir == "DOWNLEFT") {
-		// 		this.player.play('walkDownLeft');
-		// 	} else if(dir == "DOWNRIGHT") {
-		// 		this.player.play('walkDownRight');
-		// 	}
-		// }
-	},
-
-	pushPot: function(obj1, obj2) {
-		// goes through group 'potGroup' and then makes the children do something
-		potGroup.forEach(function(pots) {
-			pots.body.immovable = true;
-			pots.body.moves = true;
-		}, this);
-		
-		pushTimer++;
-		if(pushTimer >= 50) {
-			console.log('push');
-			spaceDisabled = true;
-			switch(dir) {
-				case "UP":
-				if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == 0) {
-					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// printBoard(board,14,15);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 - 1 ][ obj2.body.x/32 ] == triggerGridVal) {
-					game.add.tween(obj2).to( { y: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-				case "DOWN":
-				if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == 0) { 
-					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 + 1 ][ obj2.body.x/32 ] == triggerGridVal) { 
-					game.add.tween(obj2).to( { y: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-				case "LEFT":
-				if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == 0) {
-					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 - 1 ] == triggerGridVal) {
-					game.add.tween(obj2).to( { x: '-'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-				case "RIGHT":
-				if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == 0) {
-					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					sfxPot1.play('potPushSFX');
-				} else if(board[ obj2.body.y/32 ][ obj2.body.x/32 + 1 ] == triggerGridVal) {
-					game.add.tween(obj2).to({ x: '+'+_TILESIZE }, 250, Phaser.Easing.Linear.None, true);
-					// make exits work
-					exitBool = 1;
-				}
-				break;
-
-			}
-			game.time.events.add(225, function(){
-				spaceDisabled = false;
-			}, this);
-			pushTimer = 1;
-		}
-	},
-	
-	//try to pick up a facing nearby pot
-	checkPickUp: function() {
-		var isCloseToPot = null;
-		i=0;
-		//go through all the pots to see if the player is facing + close to the pot
-		while(i<potGroup.children.length) {
-			if(Phaser.Rectangle.intersects(grabPotRect, potGroup.children[i])) {
-				isCloseToPot = potGroup.children[i];
-				break;
-			}
-			i++;
-		}
-		if(isCloseToPot != null && grabbedPot == null){
-			// console.log('Is close to ' + isCloseToPot.name);
-			this.pickUpPot(isCloseToPot);
-		}
-	},
-	
-	//pick up pot
-	pickUpPot: function(pot) {
-		grabbedPot = pot;
-		grabbedPot.body.moves = true;
-		this.player.addChild(pot);
-
-		// bring grabbedpot to top layer, above sittign pots
-		// move all other pots lower down in layers
-		game.world.moveDown(grabbedPot);
-
-		// disable move keys when picking up pot to allow for animation to finish
-		this.player.body.immovable = true;
-		this.player.body.moves = false;
-		keysDisabled = true;
-		// after set ammount of time, enable keys
-		game.time.events.add(Phaser.Timer.SECOND * 0.2, this.enableKeys, this);
-
-		//have to double size of pot when it overhead for some reason... not sure why
-		grabbedPot.scale.setTo(2, 2);
-		grabbedPot.x = this.player.width/16;
-		grabbedPot.y = this.player.height* -1.5;
-	},
-	
-	handleThrow: function() {
-		var potThrowOriginPosX = this.player.x - (this.player.width/2 - 1);
-		var potThrowOriginPosY = this.player.y - (this.player.height + 8);
-
-		//remove grabbedPot
-		this.player.children[0].destroy();
-		grabbedPot = null;
-
-		//create and move thrown pot
-		pot = throwGroup.create(potThrowOriginPosX, potThrowOriginPosY, 'potSprite_3-1');
-		pot.animations.add('potBreakAnim', [1, 2, 3, 4], 8 /*fps */, false);
-		pot.animations.add('potIdle', [0], 8 /*fps */, true);
-		pot.animations.play('potIdle');
-
-		// resize thrown pot collider and set it to the center
-		pot.body.setSize(16, 16, 8, 8);
-
-		// bring pot to top layer
-		game.world.bringToTop(pot);
-
-		// pot.scale.setTo(.5,.5);
-		// play pot throw sound
-		sfxPot1.play('throwSFX');
-
-		switch(dir) {
-			// enable collision on all directions except up and down
-			case "UP":
-			pot.y += 2;
-			pot.body.velocity.y = -300;
-			break;
-
-			case "DOWN":
-			pot.y -= 2;
-			pot.body.velocity.y = 300;
-			break;
-
-			case "LEFT":
-			pot.x += 1;
-			enableCollision = false;
-			pot.body.velocity.x = -300;
-			// slight upward motion when throwing
-			pot.body.velocity.y = -45;
-			// arc on left and right throw
-			pot.body.gravity.y = 1200;
-			break;
-
-			case "RIGHT":
-			pot.x -= 1;
-			enableCollision = false;
-			pot.body.velocity.x = 300;
-			// slight upward motion when throwing
-			pot.body.velocity.y = -45;
-			// arc on left and right throw
-			pot.body.gravity.y = 1200;
-			break;
-
-
-			// diagonal throw - WORKS!
-			case "UPRIGHT":
-			pot.x -= 1;
-			pot.y += 2;
-			pot.body.velocity.y = -300*0.75;
-			pot.body.velocity.x = 300*0.75;
-			break;
-
-			case "DOWNLEFT":
-			pot.x += 1;
-			pot.y -= 2;
-			pot.body.velocity.y = 300*0.75;
-			pot.body.velocity.x = -300*0.75;
-			break;
-
-			case "UPLEFT":
-			pot.x += 1;
-			pot.y += 2;
-			pot.body.velocity.x = -300*0.75;
-			pot.body.velocity.y = -300*0.75;
-			break;
-
-			case "DOWNRIGHT":
-			pot.x -= 1;
-			pot.y -= 2;
-			pot.body.velocity.x = 300*0.75;
-			pot.body.velocity.y = 300*0.75;
-			break;
+		if (dir == "UP") {
+			this.player.play('walkUp');
+		} else if (dir == "DOWN") {
+			this.player.play('walkDown');
+		} else if (dir == "LEFT") {
+			this.player.play('walkLeft');
+		} else if (dir == "RIGHT") {
+			this.player.play('walkRight');
+		} 
+		// diagonal movements
+		else if(dir == "UPLEFT") {
+			this.player.play('walkUpLeft');
+		} else if(dir == "UPRIGHT") {
+			this.player.play('walkUpRight');
+		} else if(dir == "DOWNLEFT") {
+			this.player.play('walkDownLeft');
+		} else if(dir == "DOWNRIGHT") {
+			this.player.play('walkDownRight');
 		}
 
-		// after throwing, temporarily have the pot not able to collide with anything except blocked layer
-		game.time.events.add(150, function(pot){
-			enableCollision = true;
-		}, this);
-
-		// after some time after throwing a pot, destroy pot if it doent hit anything.
-		game.time.events.add(250, function(pot){
-			// define pots as the thrown pot
-			pots = throwGroup;
-			// cycle through the sprite group
-			// there should only be the pot you threw because the only one part of throwgroup is the one that was thrown
-			// all other pots that have been thrown are killed
-			pots.forEach(function(pot) {
-				// stop pot and then play animation
-				pot.body.velocity.x = 0;
-				pot.body.velocity.y = 0;
-				pot.body.gravity.y = 0;
-				pot.animations.play('potBreakAnim', 14, false, true);
-				// only play if other pot sound didnt play
-				if(potSoundBool == 0) {
-					sfxPot1.play('potBreakSFX');
-				}
-			});
-		}, this);
-	},
-
-	handlePotBreak: function(pot, wall) {
-		pot.animations.play('potBreakAnim', 14, false, true);
-		// console.log('break');
-		pot.body.velocity.x = 0;
-		pot.body.velocity.y = 0;
-		pot.body.gravity.y = 0;
-		sfxPot1.play('potBreakSFX');
-		potSoundBool = 1;
-		pot.animations.killOnComplete = true;
-		// stops other pot break sound from playing until this runs
-		pot.events.onAnimationComplete = new Phaser.Signal();
-		pot.events.onAnimationComplete.add(function() { 
-			game.time.events.add(250, function(){ 
-				potSoundBool = 0;
-			});
-		});
+		if (NPCdir == "UP") {
+			npc.play('walkNPCUp');
+		} else if (NPCdir == "DOWN") {
+			npc.play('walkNPCDown');
+		} else if (NPCdir == "LEFT") {
+			npc.play('walkNPCLeft');
+		} else if (NPCdir == "RIGHT") {
+			npc.play('walkNPCRight');
+		} 
+		// diagonal movements
+		else if(NPCdir == "UPLEFT") {
+			npc.play('walkNPCUpLeft');
+		} else if(NPCdir == "UPRIGHT") {
+			npc.play('walkNPCUpRight');
+		} else if(NPCdir == "DOWNLEFT") {
+			npc.play('walkNPCDownLeft');
+		} else if(NPCdir == "DOWNRIGHT") {
+			npc.play('walkNPCDownRight');
+		}
 	},
 
 	textFunc: function() {
@@ -1128,7 +867,6 @@ var Level3End = {
 			game.time.events.add(Phaser.Timer.SECOND * 1, lvl3P1End, this);
 
 		} else { // if holding a pot, throw it, recurse function
-			this.handleThrow();
 			this.levelTrigger();
 		}
 	},

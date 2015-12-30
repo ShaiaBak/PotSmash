@@ -10,17 +10,17 @@
  </layer>
  <layer name="blockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJyzZWBgsKUQowNa6SMWkKsPWS8ynxx95NhJql2U+G8g9JHrP2LSDTn6iNFDLAYAv3cW4Q==
+   eJyzZWBgsKUQowNa6SMWkKsPWS8ynxx95NhJql2U+G8g9JHrP2LSDTn6iNGDrBefPAC31xak
   </data>
  </layer>
  <layer name="detailLayer1" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJytzskKgzAUheHsrN20CnZRsIsWbB2wDp20xfd/LH8hQgwNJOCBb5HLDecKsUyKTLglQo0GB4d/MTr0OMlZjsKw72OLszI7yv4WD0N/gNDQ/8VP6de7/kXvt+maMhjmehJccbPcn1PijkqZXSz+vfDGR74HYX/rlKf2dvm7RjxsHPbn+3bYr3TDCL9WB3I=
+   eJytzksLgkAYheHZpW4yoRZCLhLyUpSpef//v8t3oTBJA37igWfzMYczSv0mQapkOeODHBdB74oWHYLp9sDT8N6Gg5t286f9AqVh/wTPsN9j0PaXW/+y3F+zJckdEWJh74U3Mu0WruhVqNEI9+Z8N/b2ygHWht4R7k5/GAFoVwY8
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAc2KFheujDZQax5mDTh0+vHRKNzX5i3EoKQDaXkBno7sFmBjZz8MnhUodNjlI/UqJ/sAAAj8wKaw==
+   eJxjYKAc2KFheujDZQax5mDTh0+vHRKNzX5i3EoKQDaXkBno7sFmBjZz8MnhUkeKHLGAkjAaLAAA7u0JsQ==
   </data>
  </layer>
  <objectgroup name="objectsLayer">
@@ -40,11 +40,6 @@
    </properties>
   </object>
   <object id="183" gid="37" x="160" y="448" width="32" height="32">
-   <properties>
-    <property name="type" value="pot3"/>
-   </properties>
-  </object>
-  <object id="184" gid="37" x="192" y="448" width="32" height="32">
    <properties>
     <property name="type" value="pot3"/>
    </properties>
