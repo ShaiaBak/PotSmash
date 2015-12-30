@@ -93,15 +93,19 @@ var StartMenu = {
 		key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
 
 		introMusic = game.add.audio('musicIntro');
-		introMusic.play();
+		introMusic.onDecoded.add(function() {
+			introMusic.play();
+		});
 	},
 
 	update: function() {
-		menuText.x = Math.floor(Math.floor(game.world.width/2));
-		menuText.y = Math.floor(Math.floor(game.world.height/2));
+		introMusic.onDecoded.add(function() {
+			menuText.x = Math.floor(Math.floor(game.world.width/2));
+			menuText.y = Math.floor(Math.floor(game.world.height/2));
 
-		subText.x = Math.floor(Math.floor(game.world.width/2));
-		subText.y = Math.floor(Math.floor(game.world.height/2+20));
+			subText.x = Math.floor(Math.floor(game.world.width/2));
+			subText.y = Math.floor(Math.floor(game.world.height/2+20));
+		});
 
 		if(key1.isDown) {
 			introMusic.stop();

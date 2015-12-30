@@ -48,6 +48,9 @@ var step4 = false;
 var step5 = false;
 var step6 = false;
 
+var barSprite1;
+var barSprite2;
+
 // item picked up bool; may have to change if multiple items
 var objectiveComplete = 0;
 
@@ -351,6 +354,29 @@ var Level3End = {
 
 		// so detail layer 4 is overtop of player
 		game.world.bringToTop(this.detailLayer3);
+
+		// ========== CREATE 16:9 BARS ==========
+		var bar1 = game.add.graphics(0, 0);
+		bar1.beginFill(0x111111);
+		bar1.drawRect(0, 0, game.world.width, 70);
+		bar1.boundsPadding = 0;
+
+		var bar2 = game.add.graphics(0, 0);
+		bar2.beginFill(0x111111);
+		bar2.drawRect(0, game.height - 70, game.world.width, 70);
+		bar2.boundsPadding = 0;
+
+		barSprite1 = game.add.sprite(0, -70, bar1.generateTexture());
+		barSprite1.fixedToCamera = true;
+		this.game.physics.arcade.enable(barSprite1);
+		bar1.destroy();
+
+		barSprite2 = game.add.sprite(0, game.height, bar2.generateTexture());
+		barSprite2.fixedToCamera = true;
+		bar2.destroy();
+
+		console.log();
+
 		this.restart();
 	},
 
@@ -434,7 +460,9 @@ var Level3End = {
 
 		this.checkMovement();
 		this.handleDirection();
-		this.autoWalk();
+		game.time.events.add(1500, function(){
+			this.autoWalk();
+		}, this);
 
 		// anytime a directional key is let go, reset potTimer
 		this.game.input.keyboard.onUpCallback = function(e) {
@@ -444,13 +472,21 @@ var Level3End = {
 			}
 		}
 
-		game.add.tween(music).to({volume:0}, 500).start();
-		if(music.volume == 0) {
-			music.stop();
-		}
+		// game.add.tween(music).to({volume:0}, 500).start();
+		// if(music.volume == 0) {
+		// 	music.stop();
+		// }
 		// audio volume - cannot be set inside create function
 		sfxPot1.volume = 0.2;
 		sfxObj1.volume = 0.1;
+
+		if(barSprite1.cameraOffset.y < 0) {
+			barSprite1.cameraOffset.y += 1;
+		}
+
+		if(barSprite2.cameraOffset.y > game.height - 70) {
+			barSprite2.cameraOffset.y -= 1;
+		}
 
 		// console.log('pushTimer: ' + pushTimer)
 	},
@@ -465,9 +501,7 @@ var Level3End = {
 		var playerWidth = this.player.width/2;
 
 		if(step1 == false && this.player.x <= _TILESIZE * 6 - playerWidth) {
-			game.time.events.add(500, function(){
 				this.player.body.velocity.x = playerSpeed;
-			}, this);
 		} else {
 			step1 = true;
 		}
