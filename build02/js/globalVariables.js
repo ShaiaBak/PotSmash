@@ -1,5 +1,9 @@
 // general
 var score = 0;
+var scoreText;
+var scoreStyle = { font: "16px Courier", fill: "#ffffff" };
+var scoreContent;
+
 var music;
 
 // lvl 2

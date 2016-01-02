@@ -397,6 +397,11 @@ var Level3P3 = {
 		textOverlay.alpha = 0;
 		textOverlay.endFill();
 
+		// ====== SCORE TEXT =======
+		scoreText = game.add.text(10, 10, "Score: " + score, scoreStyle);
+
+		scoreText.fixedToCamera = true;
+
 		// ========== AUDIO =========
 		// pot audio
 		sfxPot1 = game.add.audio('sfx_pot1'); // enable audio
@@ -650,6 +655,8 @@ var Level3P3 = {
 	},
 
 	itemCollect: function(player, item) {
+		score += 1;
+		scoreText.setText("Score: " + score);
 		console.log('item picked up');
 		sfxObj1.play('moneySFX');
 		item.body = null;

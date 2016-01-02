@@ -160,10 +160,6 @@ var StartMenu = {
 			}
 		});
 
-		if(bgLayer3.y >= 620) {
-			panComplete = true;
-		}
-
 		introMusic.onDecoded.add(function() {
 			keySpace.onDown.add(function(key) {
 				if(panComplete == false ) {
@@ -185,29 +181,33 @@ var StartMenu = {
 					game.state.start('Level1');
 				}
 			}, this);
-
-			if(panComplete == true && titleComplete == false) {
-				game.time.events.add(1000, function(){
-					if(flashed == false) {
-						screenFlash.alpha = 1;
-						title.alpha = 1;
-						flashed = true;
-					}
-				});
-				if(flashed == true) {
-					startPot1.alpha = 1;
-					startPot2.alpha = 1;
-					startPot3.alpha = 1;
-					startPot4.alpha = 1;
-					startPot5.alpha = 1;
-					startPot6.alpha = 1;
-					startPot7.alpha = 1;
-					startPot8.alpha = 1;
-					game.add.tween(screenFlash).to( { alpha: 0 }, 150, "Linear", true);
-					titleComplete = true;
-				}
-			}
 		});
+
+		if(bgLayer3.y >= 620) {
+			panComplete = true;
+		}
+
+		if(panComplete == true && titleComplete == false) {
+			game.time.events.add(1000, function(){
+				if(flashed == false) {
+					screenFlash.alpha = 1;
+					title.alpha = 1;
+					flashed = true;
+				}
+			});
+			if(flashed == true) {
+				startPot1.alpha = 1;
+				startPot2.alpha = 1;
+				startPot3.alpha = 1;
+				startPot4.alpha = 1;
+				startPot5.alpha = 1;
+				startPot6.alpha = 1;
+				startPot7.alpha = 1;
+				startPot8.alpha = 1;
+				game.add.tween(screenFlash).to( { alpha: 0 }, 150, "Linear", true);
+				titleComplete = true;
+			}
+		}
 
 		introMusic.volume = 0.3;
   

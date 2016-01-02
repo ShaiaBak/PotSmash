@@ -541,8 +541,6 @@ var Level3End = {
 				npc.body.velocity.x = 0;
 				npc.body.velocity.y = playerSpeed;
 			}
-
-
 		}, this);
 
 		// if(npcStep1)
