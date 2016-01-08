@@ -426,6 +426,7 @@ var Level2P2 = {
 		sfxPot1.addMarker('potPushSFX', 6, 0.5);
 
 		sfxObj1.addMarker('moneySFX', 0, 0.5);
+		sfxObj1.addMarker('chestSFX', 2, 3);
 
 		// so the player is ontop of all other items
 		game.world.moveUp(this.player);
@@ -507,9 +508,10 @@ var Level2P2 = {
 					chestItem.alpha = 1;
 					dir = 'DOWN';
 					this.handleWalkAnim();
+					sfxObj1.play('chestSFX');
 				}, this);
 
-				game.time.events.add(1500, function(){
+				game.time.events.add(2500, function(){
 					chestItem.alpha = 0;
 					keysDisabled = false;
 				}, this);
