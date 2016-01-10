@@ -24,8 +24,8 @@ var StartMenu = {
 		bgLayer3.anchor.set(0.5, 1);
 		bgLayer3.smoothed = false;
 
-		title = game.add.sprite(40, -25, 'titleLogo');
-		title.alpha = 0;
+		// title = game.add.sprite(40, -25, 'titleLogo');
+		// title.alpha = 0;
 
 		startPot1 = bgLayer3.addChild(game.make.sprite(90, -530, 'startPot1', 5));
 		startPot2 = bgLayer3.addChild(game.make.sprite(140, -460, 'startPot2', 5));
@@ -75,10 +75,10 @@ var StartMenu = {
 		var menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		var subStyle = {font: "12px Courier", fill: "#ffffff" };
 
-		menuText = this.game.add.text(0, 0, "Tap or press SPACE", menuStyle);
-		subText = this.game.add.text(0, 0, "Start", subStyle);
-		subText.anchor.set(0.5);
-		menuText.anchor.set(0.5);
+		// menuText = this.game.add.text(0, 0, "Tap or press SPACE", menuStyle);
+		// subText = this.game.add.text(0, 0, "Start", subStyle);
+		// subText.anchor.set(0.5);
+		// menuText.anchor.set(0.5);
 
 		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -99,11 +99,11 @@ var StartMenu = {
 	},
 
 	update: function() {
-			menuText.x = Math.floor(Math.floor(game.world.width/2));
-			menuText.y = Math.floor(Math.floor(game.world.height/2));
+		// menuText.x = Math.floor(Math.floor(game.world.width/2));
+		// menuText.y = Math.floor(Math.floor(game.world.height/2));
 
-			subText.x = Math.floor(Math.floor(game.world.width/2));
-			subText.y = Math.floor(Math.floor(game.world.height/2+20));
+		// subText.x = Math.floor(Math.floor(game.world.width/2));
+		// subText.y = Math.floor(Math.floor(game.world.height/2+20));
 		introMusic.onDecoded.add(function() {
 			key1.onDown.add(function(key) {
 				introMusic.stop();
@@ -191,7 +191,7 @@ var StartMenu = {
 			game.time.events.add(1000, function(){
 				if(flashed == false) {
 					screenFlash.alpha = 1;
-					title.alpha = 1;
+					// title.alpha = 1;
 					flashed = true;
 				}
 			});
