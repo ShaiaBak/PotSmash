@@ -175,7 +175,7 @@ var StartMenu = {
 					startPot7.alpha = 1;
 					startPot8.alpha = 1;
 					titleComplete = true;
-					title.alpha = 1;
+					// title.alpha = 1;
 				} else if(panComplete == true && titleComplete == true) {
 					introMusic.stop();
 					game.state.start('Level1');
