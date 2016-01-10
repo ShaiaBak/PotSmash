@@ -16,16 +16,18 @@ var Credits = {
 						"NAMES",
 						"NAMES",]
 
-		// creditsText = game.add.text(0,0, "Credits", creditsStyle);
+		creditsText = game.add.text(0,0, creditsContent, creditsStyle);
 		creditsText.anchor.set(0.5);
 		creditsText.x = Math.floor(Math.floor(game.world.width/2));
-		
+		creditsText.y = 0;
 
 	},
 
 	update: function() {
 		game.time.events.add(2250, function(){
-			if ()
+			if (creditsText.x < 1000) {
+				creditText.x += 0.1;
+			}
 		})
 
 
