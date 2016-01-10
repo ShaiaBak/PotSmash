@@ -271,7 +271,7 @@ var Level3End = {
 		//spacebar picks / throws the pot
 		keySPACE.onDown.add(function () {
 			if(keysDisabled && textComplete == true && textActive) {
-				this.resetText();
+				gameEnd();
 			}
 		}, this);
 
@@ -904,10 +904,6 @@ function printBoard (array,x,y) {
 };
 
 
-function lvl3P1End() {
-	if(exitNum == 1) {
-		game.state.start('Level3-2',true,false);
-	} else if(exitNum == 2) {
-		game.state.start('Level3-3',true,false);
-	}
+function gameEnd() {
+	game.state.start('Credits',true,false);
 };

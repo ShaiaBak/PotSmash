@@ -107,7 +107,7 @@ var StartMenu = {
 		introMusic.onDecoded.add(function() {
 			key1.onDown.add(function(key) {
 				introMusic.stop();
-				game.state.start('Level1',true,false);
+				game.state.start('Credits',true,false);
 			});
 
 			key2.onDown.add(function(key) {
