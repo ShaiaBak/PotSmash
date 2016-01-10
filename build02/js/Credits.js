@@ -1,11 +1,26 @@
-var creditTitle;
+var creditsText;
 
 var Credits = {
 	create: function() {
 		var creditsStyle = {font: "16px Courier", fill: "#ffffff"};
-		creditTitle = game.add.text(0,0, "Credits", creditsStyle);
-		creditTitle.anchor.set(0.5);
-		creditTitle.x = Math.floor(Math.floor(game.world.width/2));
+		creditsContent = ["Credits", 
+						"Art",
+						"NAMES",
+						"NAMES",
+						"NAMES",
+						"Programming",
+						"NAMES",
+						"NAMES",
+						"Music",
+						"NAMES",
+						"NAMES",
+						"NAMES",]
+
+		// creditsText = game.add.text(0,0, "Credits", creditsStyle);
+		creditsText.anchor.set(0.5);
+		creditsText.x = Math.floor(Math.floor(game.world.width/2));
+		
+
 	},
 
 	update: function() {
