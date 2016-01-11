@@ -4,6 +4,9 @@ Preload = {
 		this.lanternLogo = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 30, 'lanternLogo');
 		this.lanternLogo.anchor.setTo(0.5);
 
+		// this.preloadBar = this.add.sprite(this.game.world.centerX - 55, this.game.world.centerY + 42, 'loadBar');
+		// this.load.setPreloadSprite(this.preloadBar);
+
 		this.preloadBar = this.add.sprite(this.game.world.centerX - 55, this.game.world.centerY + 42, 'loadBar');
 		this.load.setPreloadSprite(this.preloadBar);
 
@@ -64,6 +67,7 @@ Preload = {
 		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v4.png',  64, 64);
 		this.load.spritesheet('npc', 'assets/img/sprites/player/char_1_spritesheet.png',  64, 64);
 		this.load.spritesheet('chestSprite', 'assets/img/sprites/terrain/2_2_chest_open.png', 128, 192);
+		this.load.spritesheet('shake-statue', 'assets/img/sprites/terrain/3_1_statue_shake.png', 128, 192);
 
 		this.load.spritesheet('potSprite_1', 'assets/img/sprites/pots/1_barrel_breaking_sprite-32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_2-1a', 'assets/img/sprites/pots/2_1a_pots_breaking-32x32.png', 32, 32);
