@@ -29,8 +29,8 @@ Preload = {
 
 		// credit scene assets
 		game.load.image('creditsBG', 'assets/img/startMenu/evening.png');
-		this.load.spritesheet('characterEnd', 'assets/img/sprites/player/characterEnd.png',  136, 136);
-		this.load.spritesheet('characterEnd2', 'assets/img/sprites/player/characterEnd2.png',  94, 128);
+		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterEnd.png',  136, 136);
+		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterEnd2.png',  136, 136);
 
 		// map screen
 		game.load.image('map', 'assets/img/mapScreen/map.png');
@@ -67,7 +67,7 @@ Preload = {
 		this.load.spritesheet('player', 'assets/img/sprites/player/char_0_spritesheet_v4.png',  64, 64);
 		this.load.spritesheet('npc', 'assets/img/sprites/player/char_1_spritesheet.png',  64, 64);
 		this.load.spritesheet('chestSprite', 'assets/img/sprites/terrain/2_2_chest_open.png', 128, 192);
-		this.load.spritesheet('shake-statue', 'assets/img/sprites/terrain/3_1_statue_shake.png', 128, 192);
+		this.load.spritesheet('shake-statue', 'assets/img/sprites/3_1_statue_shake.png', 128, 192);
 
 		this.load.spritesheet('potSprite_1', 'assets/img/sprites/pots/1_barrel_breaking_sprite-32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_2-1a', 'assets/img/sprites/pots/2_1a_pots_breaking-32x32.png', 32, 32);
@@ -75,7 +75,7 @@ Preload = {
 		this.load.spritesheet('potSprite_2-2', 'assets/img/sprites/pots/2_2_pots_breaking32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_3-1', 'assets/img/sprites/pots/3_pots_breaking2-32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_3-2', 'assets/img/sprites/pots/3_pots_breaking3-32x32.png', 32, 32);
-		this.load.spritesheet('potSprite_3-3-heavy', 'assets/img/sprites/3_pots_heavy-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-3-heavy', 'assets/img/sprites/pots/3_pots_heavy-32x32.png', 32, 32);
 
 		// audio
 		game.load.audio('sfx_pot1', [ 'assets/audio/soundFX/sfx_potsounds_01.mp3', 
