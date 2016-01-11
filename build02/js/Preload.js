@@ -29,8 +29,8 @@ Preload = {
 
 		// credit scene assets
 		game.load.image('creditsBG', 'assets/img/startMenu/evening.png');
-		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterEnd.png',  136, 136);
-		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterEnd2.png',  136, 136);
+		this.load.spritesheet('characterEnd', 'assets/img/sprites/player/characterEnd.png',  136, 136);
+		this.load.spritesheet('characterEnd2', 'assets/img/sprites/player/characterEnd2.png',  94, 128);
 
 		// map screen
 		game.load.image('map', 'assets/img/mapScreen/map.png');
