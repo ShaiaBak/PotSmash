@@ -12,7 +12,7 @@ Preload = {
 		game.load.image('startBG', 'assets/img/startMenu/background.png');
 		game.load.image('startOverlay', 'assets/img/startMenu/overlay.png');
 		game.load.image('startUnderlay', 'assets/img/startMenu/underlay.png');
-		game.load.image('titleLogo', 'assets/img/startMenu/faketitle.png');
+		game.load.image('titleLogo', 'assets/img/startMenu/startscreen_title.png');
 
 		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterstart2.png',  136, 136);
 		this.load.spritesheet('startPot1', 'assets/img/startMenu/pots/start-pot1.png',  256, 256);
@@ -23,6 +23,11 @@ Preload = {
 		this.load.spritesheet('startPot6', 'assets/img/startMenu/pots/start-pot6.png',  256, 256);
 		this.load.spritesheet('startPot7', 'assets/img/startMenu/pots/start-pot7.png',  256, 256);
 		this.load.spritesheet('startPot8', 'assets/img/startMenu/pots/start-pot8.png',  256, 256);
+
+		// credit scene assets
+		game.load.image('creditsBG', 'assets/img/startMenu/evening.png');
+		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterEnd.png',  136, 136);
+		this.load.spritesheet('playerStartMenu', 'assets/img/sprites/player/characterEnd2.png',  136, 136);
 
 		// map screen
 		game.load.image('map', 'assets/img/mapScreen/map.png');

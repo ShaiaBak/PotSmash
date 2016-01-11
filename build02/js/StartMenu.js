@@ -24,8 +24,8 @@ var StartMenu = {
 		bgLayer3.anchor.set(0.5, 1);
 		bgLayer3.smoothed = false;
 
-		// title = game.add.sprite(40, -25, 'titleLogo');
-		// title.alpha = 0;
+		title = game.add.sprite(0, 0, 'titleLogo');
+		title.alpha = 0;
 
 		startPot1 = bgLayer3.addChild(game.make.sprite(90, -530, 'startPot1', 5));
 		startPot2 = bgLayer3.addChild(game.make.sprite(140, -460, 'startPot2', 5));
@@ -68,9 +68,6 @@ var StartMenu = {
 		player.smoothed = false;
 		player.animations.add('windIdle', [0,1,2,3], 8, true);
 		game.world.bringToTop(player);
-
-    	// bgLayer1.x += bgLayer1.width;
-    	// bgLayer1.y = bgLayer1.height/2;
 
 		var menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		var subStyle = {font: "12px Courier", fill: "#ffffff" };
@@ -175,7 +172,7 @@ var StartMenu = {
 					startPot7.alpha = 1;
 					startPot8.alpha = 1;
 					titleComplete = true;
-					// title.alpha = 1;
+					title.alpha = 1;
 				} else if(panComplete == true && titleComplete == true) {
 					introMusic.stop();
 					game.state.start('Level1');
@@ -191,7 +188,7 @@ var StartMenu = {
 			game.time.events.add(1000, function(){
 				if(flashed == false) {
 					screenFlash.alpha = 1;
-					// title.alpha = 1;
+					title.alpha = 1;
 					flashed = true;
 				}
 			});
@@ -210,7 +207,7 @@ var StartMenu = {
 		}
 
 		introMusic.volume = 0.3;
-  
+
 	},
 
 	render: function() {
