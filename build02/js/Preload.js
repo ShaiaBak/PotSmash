@@ -75,7 +75,7 @@ Preload = {
 		this.load.spritesheet('potSprite_2-2', 'assets/img/sprites/pots/2_2_pots_breaking32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_3-1', 'assets/img/sprites/pots/3_pots_breaking2-32x32.png', 32, 32);
 		this.load.spritesheet('potSprite_3-2', 'assets/img/sprites/pots/3_pots_breaking3-32x32.png', 32, 32);
-		this.load.spritesheet('potSprite_3-3-heavy', 'assets/img/sprites/pots/3_pots_heavy-32x32.png', 32, 32);
+		this.load.spritesheet('potSprite_3-3-heavy', 'assets/img/sprites/3_pots_heavy-32x32.png', 32, 32);
 
 		// audio
 		game.load.audio('sfx_pot1', [ 'assets/audio/soundFX/sfx_potsounds_01.mp3', 
