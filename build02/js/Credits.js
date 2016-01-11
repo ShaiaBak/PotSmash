@@ -6,18 +6,7 @@ var Credits = {
 	create: function() {
 		game.stage.backgroundColor = '#000';
 		var creditsStyle = {font: "16px Courier", fill: "#ffffff", align: "center" };
-		// creditsContent = ["Credits \n\n\nThank You for playing!", 
-		// 				"Art\n",
-		// 				"NAMES\n",
-		// 				"NAMES\n",
-		// 				"NAMES\n",
-		// 				"Programming\n",
-		// 				"NAMES\n",
-		// 				"NAMES\n",
-		// 				"Music\n",
-		// 				"NAMES\n",
-		// 				"NAMES\n",
-		// 				"NAMES\n",]
+
 		creditsContent = ["Credits\n\n\n\n\n\nArt\nNAMES...\nNAMES...\nNAMES...\n\n\n\n\n\nProgramming\nNAMES...\nNAMES...\n\n\n\n\n\nMusic\nNAMES...\nNAMES...\nNAMES...\n\n\n\n\n\n\nThank You for playing!"]
 
 		creditsText = game.add.text(0,game.world.height, creditsContent, creditsStyle);
@@ -28,15 +17,14 @@ var Credits = {
 	
 		logo = game.add.image(game.world.centerX, game.world.height, "lanternLogo");
 		logo.anchor.set(0.5,0);
-		console.log(creditsText.height);
-
 	},
 
 	update: function() {
+		//Values may change due to fonts and content
 		if (creditsText.y > -creditsText.height + 125) {
-			creditsText.y -= 5.0;
+			creditsText.y -= 1.0;
 			if (creditsText.y < -425){
-				logo.y -= 5.0;
+				logo.y -= 1.0;
 			}
 		}
 
