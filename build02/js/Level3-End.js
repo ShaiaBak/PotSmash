@@ -142,7 +142,7 @@ var Level3End = {
 		key2.onDown.add(function () {
 			// r++;
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			// return true;
 			}
 		}, this);
@@ -290,7 +290,7 @@ var Level3End = {
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key3.onDown.add(function () {
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			}
 		}, this);
 
@@ -363,7 +363,7 @@ var Level3End = {
 		barSprite2.fixedToCamera = true;
 		bar2.destroy();
 
-		console.log();
+		// console.log();
 
 		this.restart();
 	},
@@ -459,7 +459,7 @@ var Level3End = {
 		}
 
 		if(camPanComp == true) {
-			content = ["Mmmph.. H-help.. I'm stuck too...",
+			content = ["Mmmph.. H-help.. Where.. Are you?",
 			" I'm st-stuck too.."]
 			this.textFunc();
 			statueNPC.animations.play('statueShake');
@@ -544,7 +544,7 @@ var Level3End = {
 
 			// console.log(npc.x + 'tile: ' + _TILESIZE*6);
 			// console.log(npcStep1);
-			console.log(npcStep1)
+			// console.log(npcStep1)
 			if(npcStep1 == false && npc.x <= _TILESIZE * 6-1){
 				npc.body.velocity.x = playerSpeed;
 			} else{
@@ -903,7 +903,7 @@ var Level3End = {
 function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){ 
-		console.log(array[c]);
+		// console.log(array[c]);
 	}
 	return array;
 };
