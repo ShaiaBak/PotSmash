@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="195">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="15" tilewidth="32" tileheight="32" nextobjectid="196">
  <tileset firstgid="1" name="tiles-lvl3-1-32x32" tilewidth="32" tileheight="32">
   <image source="../img/tiles-lvl3-1-32x32.png" width="256" height="256"/>
  </tileset>
@@ -20,7 +20,7 @@
  </layer>
  <layer name="detailLayer2" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBhagBOIucjQJwjEQlR2y1AAKgPtgBECALngAFs=
+   eJxjYBhagBOIucjQJwjEQlR2yygYBTAAAIdAADc=
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
@@ -114,10 +114,15 @@
     <property name="type" value="pot3"/>
    </properties>
   </object>
+  <object id="195" gid="20" x="256" y="224" width="32" height="32">
+   <properties>
+    <property name="type" value="statueStart"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF9ATCZOqTpqorsANdOtgxXAEAibwAXA==
+   eJxjYBgFowACdAfaAUMYAAA61AAu
   </data>
  </layer>
  <layer name="triggerLayer" width="14" height="15">

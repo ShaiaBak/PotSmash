@@ -175,7 +175,6 @@ var Level3End = {
 
 
 		// =========== CREATE PLAYER ===========
-		// var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
 		var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer');
 
 		this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
@@ -219,6 +218,18 @@ var Level3End = {
 		this.player.animations.add('idleUpRight', [102, 103], 2 /*fps */, true);
 		this.player.animations.add('idleUpLeft', [106, 107], 2 /*fps */, true);
 		this.player.animations.add('idleDownLeft', [110, 111], 2 /*fps */, true);
+
+		// ===== CREATE SECOND STATUE CHAR =====
+		var statueResult = this.findObjectsByType('statueStart', this.map, 'objectsLayer');
+		statueNPC = this.game.add.sprite(statueResult[0].x, statueResult[0].y, 'shake-statue');
+		game.physics.arcade.enable(statueNPC);
+		statueNPC.body.collideWorldBounds = true;
+
+		// statueNPC.anchor.setTo(.5,.5);
+		statueNPC.scale.setTo(0.5, 0.5);
+
+		// statueNPC animations
+		statueNPC.animations.add('statueShake', [0, 1], 8 /*fps */, true);
 
 		// ========= CREATE POT STUFF =========
 
@@ -448,8 +459,10 @@ var Level3End = {
 		}
 
 		if(camPanComp == true) {
-			content = ["mmph.. mphh........"]
+			content = ["Mmmph.. H-help.. I'm stuck too...",
+			" I'm st-stuck too.."]
 			this.textFunc();
+			statueNPC.animations.play('statueShake');
 		}
 
 		// anytime a directional key is let go, reset potTimer
@@ -542,13 +555,6 @@ var Level3End = {
 				npc.body.velocity.y = playerSpeed;
 			}
 		}, this);
-
-		// if(npcStep1)
-		// if(step1 == false && this.player.x <= _TILESIZE * 6 - playerWidth) {
-		// 		this.player.body.velocity.x = playerSpeed;
-		// } else {
-		// 	step1 = true;
-		// }
 	},
 
 	cameraPan: function() {
@@ -794,13 +800,13 @@ var Level3End = {
 			// ====== CREATE TEXT =======
 			lvlText = game.add.text(0, 0, '', {font: "16px Courier", fill: "#ffffff", boundsAlignH: "center", boundsAlignV: "middle" });
 			lvlText.fixedToCamera = true;
-			lvlText.cameraOffset.setTo(game.world.width/3/2 - 25, 100);
+			lvlText.cameraOffset.setTo(50, 20);
 
 			game.world.bringToTop(textOverlay);
 			game.world.bringToTop(lvlText);
 
 			textActive = true;
-			game.add.tween(textOverlay).to( { alpha: 0.8 }, 250, "Linear", true);
+			game.add.tween(textOverlay).to( { alpha: 0.6 }, 250, "Linear", true);
 			game.time.events.add(400, function(){
 				this.textAnim();
 			}, this);
@@ -893,7 +899,6 @@ var Level3End = {
 	}
 
 };
-
 
 function printBoard (array,x,y) {
 
