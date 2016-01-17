@@ -25,8 +25,8 @@ var Credits = {
 
 		creditsText.x = Math.floor(Math.floor(50));
 	
-		logo = game.add.image(game.world.centerX - 85, game.world.height, "lanternLogo");
-		logo.anchor.set(0.5,0);
+		logo = game.add.image(50, 330, "lanternLogo");
+		// logo.anchor.set(0.5,0);
 	},
 
 	update: function() {
