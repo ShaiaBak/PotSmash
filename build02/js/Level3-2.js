@@ -123,37 +123,10 @@ var Level3P2 = {
 		key2.onDown.add(function () {
 			// r++;
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			// return true;
 			}
 		}, this);
-
-		// ========== CREATE ITEM =============
-		// for multiple items
-		// itemGroup = game.add.group();
-		// itemGroup.enableBody = true;
-
-		// this.map.createFromObjects('objectsLayer', 33, 'gems', 0, true, false, itemGroup);
-
-		// this.game.physics.arcade.enable(itemGroup);
-
-		// var frameStop = 0;
-		// var nameNum = 0;
-
-		// itemGroup.forEach(function(item) {
-		// 	nameNum++;
-		// 	item.name = 'item' + nameNum;
-		// }, this);
-
-		// for (var i = 0; i < itemGroup.length; i++) {
-		// 	frameStop++;
-		// 	if(frameStop > 3) {
-		// 		frameStop = 0;
-		// 	}
-		// 	itemGroup.callAll('animations.add', 'animations', 'gemSprite', [frameStop], 10, false);
-		// 	itemGroup.children[i].play('gemSprite');
-		// };
-
 
 		// only works for single item
 		var itemResult = this.findObjectsByType('item', this.map, 'objectsLayer')
@@ -333,7 +306,7 @@ var Level3P2 = {
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key3.onDown.add(function () {
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			}
 		}, this);
 
@@ -845,7 +818,7 @@ var Level3P2 = {
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
-			console.log('push');
+			// console.log('push');
 			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
@@ -1107,7 +1080,7 @@ var Level3P2 = {
 		//text complete
 		if (lineIndex === content.length) {
 			textComplete = true;
-			console.log(lvlText.width)
+			// console.log(lvlText.width)
 			return;
 		}
 
@@ -1185,7 +1158,7 @@ var Level3P2 = {
 function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){ 
-		console.log(array[c]);
+		// console.log(array[c]);
 	}
 	return array;
 };

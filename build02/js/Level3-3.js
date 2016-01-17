@@ -129,7 +129,7 @@ var Level3P3 = {
 		key2.onDown.add(function () {
 			// r++;
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			// return true;
 			}
 		}, this);
@@ -362,7 +362,7 @@ var Level3P3 = {
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key3.onDown.add(function () {
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			}
 		}, this);
 
@@ -657,7 +657,7 @@ var Level3P3 = {
 	itemCollect: function(player, item) {
 		score += 1;
 		scoreText.setText("Score: " + score);
-		console.log('item picked up');
+		// console.log('item picked up');
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
@@ -1224,7 +1224,7 @@ var Level3P3 = {
 		//text complete
 		if (lineIndex === content.length) {
 			textComplete = true;
-			console.log(lvlText.width)
+			// console.log(lvlText.width)
 			return;
 		}
 
@@ -1288,7 +1288,7 @@ var Level3P3 = {
 
 	noop: function() {
 		// no operation function to keepfunctions from running more than once
-		console.log('noop');
+		// console.log('noop');
 	},
 
 	render: function() {
@@ -1326,7 +1326,7 @@ var Level3P3 = {
 function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){ 
-		console.log(array[c]);
+		// console.log(array[c]);
 	}
 	return array;
 };

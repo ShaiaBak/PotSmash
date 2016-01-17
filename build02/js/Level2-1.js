@@ -127,7 +127,7 @@ var Level2P1 = {
 		key2.onDown.add(function () {
 			// r++;
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			// return true;
 			}
 		}, this);
@@ -327,7 +327,7 @@ var Level2P1 = {
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key3.onDown.add(function () {
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			}
 		}, this);
 
@@ -386,7 +386,7 @@ var Level2P1 = {
 	},
 
 	restart: function() {
-		console.log('call restart');
+		// console.log('call restart');
 
 		_TILESIZE = 32;
 		dir = "DOWN";
@@ -836,7 +836,7 @@ var Level2P1 = {
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
-			console.log('push');
+			// console.log('push');
 			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
@@ -1097,7 +1097,7 @@ var Level2P1 = {
 		//text complete
 		if (lineIndex === content.length) {
 			textComplete = true;
-			console.log(lvlText.width)
+			// console.log(lvlText.width)
 			return;
 		}
 
@@ -1175,7 +1175,7 @@ var Level2P1 = {
 function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){ 
-		console.log(array[c]);
+		// console.log(array[c]);
 	}
 	return array;
 };

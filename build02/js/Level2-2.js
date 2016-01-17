@@ -557,7 +557,8 @@ var Level2P2 = {
 			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl2ExitContent = ["There's something smelly here..."];
+				var lvl2ExitContent = ["There's something smelly here...",
+										" Like useful footwear.."];
 				content = lvl2ExitContent;
 				// console.log(content);
 				this.textFunc();
@@ -677,7 +678,7 @@ var Level2P2 = {
 	},
 
 	itemCollect: function(player, item) {
-		console.log('item picked up');
+		// console.log('item picked up');
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
@@ -924,7 +925,7 @@ var Level2P2 = {
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
-			console.log('push');
+			// console.log('push');
 			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
@@ -1186,7 +1187,7 @@ var Level2P2 = {
 		//text complete
 		if (lineIndex === content.length) {
 			textComplete = true;
-			console.log(lvlText.width)
+			// console.log(lvlText.width)
 			return;
 		}
 
@@ -1269,7 +1270,7 @@ var Level2P2 = {
 function printBoard (array,x,y) {
 
 	for (var r = 0; r < y; r++){ 
-		console.log(array[c]);
+		// console.log(array[c]);
 	}
 	return array;
 };

@@ -147,8 +147,8 @@ var Level2Start = {
 
 		if(player.y <= 220 && ranText == 0) {
 			lvl2Content = ["You beat level 1!",
-					"Good job.",
-					"Press Space."]
+					" Good job.",
+					" Press Space."]
 			content = lvl2Content;
 			this.textFunc();
 		}
@@ -361,7 +361,7 @@ var Level2Start = {
 	},
 
 	nextWord: function() {
-		console.log(line[wordIndex]);
+		// console.log(line[wordIndex]);
 		lvlText.text = lvlText.text.concat(line[wordIndex] + ' ');
 
 		wordIndex++;

@@ -364,7 +364,7 @@ var Level3Start = {
 	},
 
 	nextWord: function() {
-		console.log(line[wordIndex]);
+		// console.log(line[wordIndex]);
 		lvlText.text = lvlText.text.concat(line[wordIndex] + ' ');
 
 		wordIndex++;

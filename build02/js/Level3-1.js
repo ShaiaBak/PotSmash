@@ -125,7 +125,7 @@ var Level3P1 = {
 		key2.onDown.add(function () {
 			// r++;
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			// return true;
 			}
 		}, this);
@@ -341,7 +341,7 @@ var Level3P1 = {
 		key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 		key3.onDown.add(function () {
 			for(var r = 0; r < 15; r++){
-				console.log(r + " " + board[r]);
+				// console.log(r + " " + board[r]);
 			}
 		}, this);
 
@@ -492,8 +492,8 @@ var Level3P1 = {
 				var lvl3Entrance = ["There's nothing out there for me."];
 				var lvl3DeadEnd = ["These stairs lead into a wall..."];
 				var lvl3Attic = ["It's locked.",
-								"...",
-								"There's a cheesey key hole here..."];
+								" ...",
+								" There's a cheesey key hole here..."];
 				if (this.player.x > 370 && this.player.y > 197 && this.player.y < 210) {
 					content = lvl3Entrance;
 				} else if (this.player.x > 105 && this.player.x < 140 && this.player.y > 130 && this.player.y < 166) {
@@ -501,8 +501,8 @@ var Level3P1 = {
 				} else if (this.player.x > 73 && this.player.x < 109 && this.player.y > 196  && this.player.y < 235) {
 					content = lvl3DeadEnd;
 				}
-					console.log('x: ' + this.player.x);
-					console.log('y: ' + this.player.y);
+					// console.log('x: ' + this.player.x);
+					// console.log('y: ' + this.player.y);
 					// console.log(content);
 					this.textFunc();
 
@@ -641,7 +641,7 @@ var Level3P1 = {
 	itemCollect: function(player, item) {
 		score += 1;
 		scoreText.setText("Score: " + score);
-		console.log(score);
+		// console.log(score);
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
@@ -887,7 +887,7 @@ var Level3P1 = {
 		
 		pushTimer++;
 		if(pushTimer >= 50) {
-			console.log('push');
+			// console.log('push');
 			spaceDisabled = true;
 			switch(dir) {
 				case "UP":
