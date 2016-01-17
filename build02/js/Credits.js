@@ -7,8 +7,7 @@ var playerEnd2;
 var Credits = {
 	create: function() {
 		game.stage.backgroundColor = '#000';
-		creditsLayer1 = game.add.image(this.game.world.centerX, 600, 'creditsBG');
-		creditsLayer1.anchor.set(0.5, 1);
+		creditsLayer1 = game.add.image(0, -90, 'creditsBG');
 		creditsLayer1.smoothed = false;
 
 		playerEnd1 = game.add.sprite(280,100,'characterEnd');
@@ -23,9 +22,8 @@ var Credits = {
 		creditsContent = ["Credits\n\n\n\n\n\nART\nChloe Ezra\nVivian Huang\n\n\n\n\n\nPROGRAMMING\nHowie Chan\nShaia Bak\nTyler Pham\n\n\n\n\n\nMUSIC & SOUND\nShaia Bak\n\n\n\n\n\n\nThank You for playing!"]
 
 		creditsText = game.add.text(0,game.world.height, creditsContent, creditsStyle);
-		creditsText.anchor.set(0.5,0);
 
-		creditsText.x = Math.floor(Math.floor(game.world.width/2 - 85));
+		creditsText.x = Math.floor(Math.floor(50));
 	
 		logo = game.add.image(game.world.centerX - 85, game.world.height, "lanternLogo");
 		logo.anchor.set(0.5,0);
