@@ -7,7 +7,7 @@ Preload = {
 		// this.preloadBar = this.add.sprite(this.game.world.centerX - 55, this.game.world.centerY + 42, 'loadBar');
 		// this.load.setPreloadSprite(this.preloadBar);
 
-		this.preloadBar = this.add.sprite(this.game.world.centerX - 55, this.game.world.centerY + 42, 'loadBar');
+		this.preloadBar = this.add.sprite(this.game.world.centerX - 70, this.game.world.centerY + 42, 'loadBar');
 		this.load.setPreloadSprite(this.preloadBar);
 
 		//start screen assets

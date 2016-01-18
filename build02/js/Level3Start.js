@@ -147,8 +147,8 @@ var Level3Start = {
 
 		if(player.x >= 550 && ranText == 0) {
 			lvl2Content = ["You beat level 2!",
-					"Good job.",
-					"Press Space."]
+					" Good job.",
+					" Press Space."]
 			content = lvl2Content;
 			this.textFunc();
 		}
