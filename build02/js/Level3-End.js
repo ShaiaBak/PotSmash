@@ -337,6 +337,8 @@ var Level3End = {
 
 		sfxObj1.addMarker('moneySFX', 0, 0.5);
 
+		game.add.tween(music).to({volume:0}, 1000).start();
+
 		// so the player is ontop of all other items
 		game.world.moveUp(this.player);
 

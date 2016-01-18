@@ -1336,6 +1336,10 @@ function lvl3P3End() {
 	lvl3Pos = 3;
 	if(finalObjectiveComplete) {
 		// replace with final map
+		// if(music.isPlaying){
+		// music.stop();
+		// console.log('music stop');
+		// }
 		game.state.start('Level3-End');
 	} else  {
 		game.state.start('Level3-1');

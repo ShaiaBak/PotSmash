@@ -844,7 +844,7 @@ var Level2P2 = {
 				}
 			} else if(chestItem.alpha == 1 && dir == 'DOWN' && chestOpened == true && keysDisabled == true) {
 			// } else if(chestItem.alpha == 1) {
-				console.log('got the item');
+				// console.log('got the item');
 				this.player.play('getChestItem');
 			}
 		}
