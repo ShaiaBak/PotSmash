@@ -84,7 +84,10 @@ Preload = {
 			'assets/audio/soundFX/sfx_objectsounds_01.ogg' ]);
 		game.load.audio('music1', [ 'assets/audio/music/music1-1.mp3', 
 			'assets/audio/music/music1-1.ogg' ]);
-		game.load.audio('musicIntro', [ 'assets/audio/music/intro-music-v1.mp3']);
+		game.load.audio('musicIntro', [ 'assets/audio/music/intro-music-v1.mp3', 
+			'assets/audio/music/intro-music-v1.ogg' ]);
+		game.load.audio('musicOutro', [ 'assets/audio/music/music-outro-v1.mp3', 
+			'assets/audio/music/music-outro-v1.ogg' ]);
 	},
 	create: function() {
 		this.state.start('StartMenu');

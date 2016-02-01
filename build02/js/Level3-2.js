@@ -500,8 +500,8 @@ var Level3P2 = {
 		music.volume = 0.4;
 
 		// audio volume - cannot be set inside create function
-		sfxPot1.volume = 0.2;
-		sfxObj1.volume = 0.1;
+		sfxPot1.volume = 0.5;
+		sfxObj1.volume = 0.2;
 
 		// console.log('pushTimer: ' + pushTimer)
 	},

@@ -808,7 +808,7 @@ var Level3End = {
 			game.world.bringToTop(lvlText);
 
 			textActive = true;
-			game.add.tween(textOverlay).to( { alpha: 0.6 }, 250, "Linear", true);
+			game.add.tween(textOverlay).to( { alpha: 0.4 }, 250, "Linear", true);
 			game.time.events.add(400, function(){
 				this.textAnim();
 			}, this);
@@ -912,5 +912,9 @@ function printBoard (array,x,y) {
 
 
 function gameEnd() {
-	game.state.start('Credits',true,false);
+	game.add.tween(textOverlay).to( { alpha: 1 }, 1000, "Linear", true);
+	game.add.tween(lvlText).to( { alpha: 0 }, 1000, "Linear", true);
+	game.time.events.add(3500, function(){
+		game.state.start('Credits',true,false);
+	}, this);
 };

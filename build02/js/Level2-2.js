@@ -604,7 +604,7 @@ var Level2P2 = {
 		// music.volume = 0.1;
 
 		// audio volume - cannot be set inside create function
-		sfxPot1.volume = 0.2;
+		sfxPot1.volume = 0.5;
 		sfxObj1.volume = 0.1;
 
 		// console.log('pushTimer: ' + pushTimer)
