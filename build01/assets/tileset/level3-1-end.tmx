@@ -20,7 +20,7 @@
  </layer>
  <layer name="detailLayer2" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBhagBOIucjQJwjEQlR2yygYBTAAAIdAADc=
+   eJxjYBhagBOIucjQJwjEQlR2y1AAKgPtgBECALngAFs=
   </data>
  </layer>
  <layer name="transBlockedLayer" width="14" height="15">
@@ -114,15 +114,10 @@
     <property name="type" value="pot3"/>
    </properties>
   </object>
-  <object id="195" gid="20" x="256" y="224" width="32" height="32">
-   <properties>
-    <property name="type" value="statueStart"/>
-   </properties>
-  </object>
  </objectgroup>
  <layer name="detailLayer3_overChar" width="14" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowACdAfaAUMYAAA61AAu
+   eJxjYBgF9ATCZOqTpqorsANdOtgxXAEAibwAXA==
   </data>
  </layer>
  <layer name="triggerLayer" width="14" height="15">
