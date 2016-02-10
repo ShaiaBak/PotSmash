@@ -398,7 +398,7 @@ var Level3P3 = {
 		textOverlay.endFill();
 
 		// ====== SCORE TEXT =======
-		scoreText = game.add.text(10, 10, "Score: " + score, scoreStyle);
+		scoreText = game.add.text(10, 10, "Muny: " + score, scoreStyle);
 
 		scoreText.fixedToCamera = true;
 
@@ -526,8 +526,7 @@ var Level3P3 = {
 			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl1ExitContent = ["Pots need to be broke..."];
-				content = lvl1ExitContent;
+				content = lvl3ExitContent;
 				// console.log(content);
 				this.textFunc();
 			}, null, this);
@@ -656,7 +655,7 @@ var Level3P3 = {
 
 	itemCollect: function(player, item) {
 		score += 1;
-		scoreText.setText("Score: " + score);
+		scoreText.setText("Muny: " + score);
 		// console.log('item picked up');
 		sfxObj1.play('moneySFX');
 		item.body = null;

@@ -461,8 +461,7 @@ var Level3End = {
 		}
 
 		if(camPanComp == true) {
-			content = ["Mmmph.. H-help.. Where.. Are you?",
-			" I'm st-stuck too.."]
+			content = statueStuckTxt;
 			this.textFunc();
 			statueNPC.animations.play('statueShake');
 		}

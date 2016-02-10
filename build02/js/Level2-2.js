@@ -411,7 +411,7 @@ var Level2P2 = {
 		textOverlay.endFill();
 
 		// ====== SCORE TEXT =======
-		scoreText = game.add.text(10, 10, "Score: " + score, scoreStyle);
+		scoreText = game.add.text(10, 10, "Muny: " + score, scoreStyle);
 
 		scoreText.fixedToCamera = true;
 
@@ -557,8 +557,6 @@ var Level2P2 = {
 			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl2ExitContent = ["There's something smelly here...",
-										" Like useful footwear.."];
 				content = lvl2ExitContent;
 				// console.log(content);
 				this.textFunc();

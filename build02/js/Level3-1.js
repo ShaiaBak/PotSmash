@@ -377,7 +377,7 @@ var Level3P1 = {
 		textOverlay.endFill();
 
 		// ====== SCORE TEXT =======
-		scoreText = game.add.text(10, 10, "Score: " + score, scoreStyle);
+		scoreText = game.add.text(10, 10, "Muny: " + score, scoreStyle);
 
 		scoreText.fixedToCamera = true;
 
@@ -489,11 +489,7 @@ var Level3P1 = {
 			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl3Entrance = ["There's nothing out there for me."];
-				var lvl3DeadEnd = ["These stairs lead into a wall..."];
-				var lvl3Attic = ["It's locked.",
-								" ...",
-								" There's a cheesey key hole here..."];
+				
 				if (this.player.x > 370 && this.player.y > 197 && this.player.y < 210) {
 					content = lvl3Entrance;
 				} else if (this.player.x > 105 && this.player.x < 140 && this.player.y > 130 && this.player.y < 166) {
@@ -640,7 +636,7 @@ var Level3P1 = {
 
 	itemCollect: function(player, item) {
 		score += 1;
-		scoreText.setText("Score: " + score);
+		scoreText.setText("Muny: " + score);
 		// console.log(score);
 		sfxObj1.play('moneySFX');
 		item.body = null;

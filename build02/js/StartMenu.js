@@ -185,7 +185,7 @@ var StartMenu = {
 		}
 
 		if(panComplete == true && titleComplete == false) {
-			game.time.events.add(1000, function(){
+			game.time.events.add(500, function(){
 				if(flashed == false) {
 					screenFlash.alpha = 1;
 					title.alpha = 1;

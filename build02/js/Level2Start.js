@@ -146,9 +146,7 @@ var Level2Start = {
 		this.autoWalk();
 
 		if(player.y <= 220 && ranText == 0) {
-			lvl2Content = ["You beat level 1!",
-					" Good job.",
-					" Press Space."]
+			
 			content = lvl2Content;
 			this.textFunc();
 		}

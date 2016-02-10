@@ -363,7 +363,7 @@ var Level2P1 = {
 		textOverlay.endFill();
 
 		// ====== SCORE TEXT =======
-		scoreText = game.add.text(10, 10, "Score: " + score, scoreStyle);
+		scoreText = game.add.text(10, 10, "Muny: " + score, scoreStyle);
 
 		scoreText.fixedToCamera = true;
 
@@ -476,9 +476,7 @@ var Level2P1 = {
 			}, this);
 		} else {
 			this.game.physics.arcade.collide(this.player, this.levelExitLayer, function() {
-				var lvl1ExitContent = ["I need money for adventures."];
-				content = lvl1ExitContent;
-				// console.log(content);
+				content = lvl2ExitContent;
 				this.textFunc();
 			}, null, this);
 		}
@@ -595,7 +593,7 @@ var Level2P1 = {
 
 	itemCollect: function(player, item) {
 		score += 1;
-		scoreText.setText("Score: " + score);
+		scoreText.setText("Muny: " + score);
 		sfxObj1.play('moneySFX');
 		item.body = null;
 		item.destroy();
