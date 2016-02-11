@@ -25,7 +25,7 @@ var lvl2Content = 		["You have your treasure.",
 						" And you locked yourself out..."];
 
 var lvl2ExitContent = 	["There's something smelly here...",
-						"...",
+						" ...",
 						" Like useful footwear."];
 
 var lvl3Content = 		["You set out on your adventure.",
@@ -38,11 +38,11 @@ var lvl3Entrance = 		["There's nothing out there for me."];
 var lvl3DeadEnd = 		["These stairs lead into a wall...",
 						" What's the point?"];
 
-var lvl3Statue1 =		["You hear muffled crying",
+var lvl3Statue1 =		["You see a golden reflection",
 						" ...",
 						" There's a small crack in the statue."];
 
-var lvl3Statue2 =		["You see a golden reflection",
+var lvl3Statue2 =		["You hear muffled crying",
 						" ...",
 						" It must be your imagination."];
 

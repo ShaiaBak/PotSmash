@@ -816,6 +816,38 @@
                  "width":32,
                  "x":96,
                  "y":192
+                }, 
+                {
+                 "gid":20,
+                 "height":32,
+                 "id":236,
+                 "name":"",
+                 "properties":
+                    {
+                     "type":"statue1"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128,
+                 "y":288
+                }, 
+                {
+                 "gid":20,
+                 "height":32,
+                 "id":237,
+                 "name":"",
+                 "properties":
+                    {
+                     "type":"statue2"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":256,
+                 "y":288
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -857,7 +889,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":235,
+ "nextobjectid":238,
  "orientation":"orthogonal",
  "properties":
     {

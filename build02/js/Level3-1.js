@@ -26,6 +26,12 @@ var spaceDisabled = false;
 
 var enableCollision = true;
 
+var statue1;
+var statue2;
+var nearStatue1 = false;
+var nearStatue2 = false;
+var statueTxtActive = false;
+
 // text variables
 var ranText = 0;
 var textOverlay;
@@ -307,6 +313,53 @@ var Level3P1 = {
 			pot.body.collideWorldBounds = true;
 		});
 
+		// ========== CREATE STATUES ============
+		// for single chest
+		var statueResult = this.findObjectsByType('statue1', this.map, 'objectsLayer')
+		statue1 = this.game.add.sprite(statueResult[0].x, statueResult[0].y, 'pizza');
+		this.game.physics.arcade.enable(statue1);
+
+		statue1.scale.setTo(0.5, 0.5);
+		statue1.body.immovable = true;
+
+		statueResult = this.findObjectsByType('statue2', this.map, 'objectsLayer')
+		statue2 = this.game.add.sprite(statueResult[0].x, statueResult[0].y, 'pizza');
+		this.game.physics.arcade.enable(statue2);
+
+		statue2.scale.setTo(0.5, 0.5);
+		statue2.body.immovable = true;
+
+		statue1.alpha = 0;
+		statue2.alpha = 0;
+
+		// ===== Statue HALO =====
+		// create halo to detect if player is NEXT to a pot but not exactly colliding
+		// using empty sprite
+		
+		// HALO SINGLE
+		this.statueHalo1 = this.add.sprite(0,0, 'invisibleBlock');
+		this.statueHalo1.enableBody = true;
+		// this.statueHalo1.physicsBodyType = Phaser.Physics.ARCADE;
+		this.game.physics.arcade.enable(this.statueHalo1);
+
+		this.statueHalo1.body.immovable = true;
+
+		this.statueHalo1.body.setSize(34, 34);
+		this.statueHalo1.x = statue1.x - 1;
+		this.statueHalo1.y = statue1.y - 1;
+
+		this.statueHalo2 = this.add.sprite(0,0, 'invisibleBlock');
+		this.statueHalo2.enableBody = true;
+		// this.statueHalo2.physicsBodyType = Phaser.Physics.ARCADE;
+		this.game.physics.arcade.enable(this.statueHalo2);
+
+		this.statueHalo2.body.immovable = true;
+
+		this.statueHalo2.body.setSize(34, 34);
+		this.statueHalo2.x = statue2.x - 1;
+		this.statueHalo2.y = statue2.y - 1;
+
+
 		// ========= CAMERA STUFF =========
 
 		// set bounds to world for camera and player
@@ -424,6 +477,9 @@ var Level3P1 = {
 		pushTimer = 0;
 		triggerTimer = 0;
 
+		nearStatue1 = false;
+		nearStatue2 = false;
+
 		//Rows and columns of the grid
 		c=0;
 		r=0;
@@ -472,6 +528,16 @@ var Level3P1 = {
 		});
 
 		this.game.physics.arcade.collide(this.player, itemGroup, this.itemCollect);
+
+		this.game.physics.arcade.overlap(this.player, this.statueHalo1, null, function() {
+			nearStatue1 = true;
+		}, this);
+
+		this.game.physics.arcade.overlap(this.player, this.statueHalo2, null, function() {
+			nearStatue2 = true;
+		}, this);
+
+		keySPACE.onDown.add(this.statueTxtFunc, this);
 
 		// check to see if pot is running into stuff when it shouldnt
 		// this.game.physics.arcade.collide(this.player, potGroup, this.checkOverlap);
@@ -565,6 +631,38 @@ var Level3P1 = {
 		sfxObj1.volume = 0.2;
 
 		// console.log('pushTimer: ' + pushTimer)
+	},
+
+	statueTxtFunc: function() {
+		if(!spaceDisabled) {
+			if(nearStatue2 && Phaser.Rectangle.intersects(grabPotRect, statue2) && statueTxtActive == true) {
+				statueTxtActive = false;
+				statue2.x += 1000;
+				game.time.events.add(50, function(){
+					statue2.x -= 1000;
+				}, this);
+			}
+
+			if(nearStatue1 && Phaser.Rectangle.intersects(grabPotRect, statue1) && statueTxtActive == true) {
+				statueTxtActive = false;
+				statue1.x += 1000;
+				game.time.events.add(50, function(){
+					statue1.x -= 1000;
+				}, this);
+			}
+
+			if(nearStatue1 && Phaser.Rectangle.intersects(grabPotRect, statue1) && statueTxtActive == false) {
+				content = lvl3Statue1;
+				this.textFunc();
+				statueTxtActive = true;
+			}
+
+			if(nearStatue2 && Phaser.Rectangle.intersects(grabPotRect, statue2) && statueTxtActive == false) {
+				content = lvl3Statue2;
+				this.textFunc();
+				statueTxtActive = true;
+			}
+		}
 	},
 
 	enableKeys: function() {
@@ -1114,6 +1212,7 @@ var Level3P1 = {
 	textFunc: function() {
 		if(textActive == false) {
 			keysDisabled = true;
+			spaceDisabled = true;
 			// ====== CREATE TEXT =======
 			lvlText = game.add.text(0, 0, '', {font: "16px Courier", fill: "#ffffff", boundsAlignH: "center", boundsAlignV: "middle" });
 			lvlText.fixedToCamera = true;
@@ -1145,6 +1244,7 @@ var Level3P1 = {
 		//text complete
 		if (lineIndex === content.length) {
 			textComplete = true;
+			spaceDisabled = false;
 			return;
 		}
 
@@ -1213,6 +1313,10 @@ var Level3P1 = {
 			throwGroup.forEachAlive(function(throwDebug) {
 				game.debug.body(throwDebug);
 			}, this);
+
+			game.debug.body(this.statueHalo1);
+
+			game.debug.body(this.statueHalo2);
 		}
 	}
 
