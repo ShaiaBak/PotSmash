@@ -72,10 +72,11 @@ var StartMenu = {
 		var menuStyle = {font: "16px Courier", fill: "#ffffff" };
 		var subStyle = {font: "12px Courier", fill: "#ffffff" };
 
-		// menuText = this.game.add.text(0, 0, "Tap or press SPACE", menuStyle);
+		menuText = this.game.add.text(0, 0, startInstruct, menuStyle);
+		menuText.alpha = 0;
+		// menuText.anchor.set(0.5);
 		// subText = this.game.add.text(0, 0, "Start", subStyle);
 		// subText.anchor.set(0.5);
-		// menuText.anchor.set(0.5);
 
 		keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -96,51 +97,49 @@ var StartMenu = {
 	},
 
 	update: function() {
-		// menuText.x = Math.floor(Math.floor(game.world.width/2));
-		// menuText.y = Math.floor(Math.floor(game.world.height/2));
 
 		// subText.x = Math.floor(Math.floor(game.world.width/2));
 		// subText.y = Math.floor(Math.floor(game.world.height/2+20));
 		introMusic.onDecoded.add(function() {
-			key1.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Credits',true,false);
-			});
+			// key1.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Credits',true,false);
+			// });
 
-			key2.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level2-1',true,false);
-			});
+			// key2.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level2-1',true,false);
+			// });
 
-			key3.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level2-2',true,false);
-			});
-			key4.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level3-1',true,false);
-			});
-			key5.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level3-2',true,false);
-			});
-			key6.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level3-3',true,false);
-			});
-			key7.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level3-End',true,false);
-			});
+			// key3.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level2-2',true,false);
+			// });
+			// key4.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level3-1',true,false);
+			// });
+			// key5.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level3-2',true,false);
+			// });
+			// key6.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level3-3',true,false);
+			// });
+			// key7.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level3-End',true,false);
+			// });
 
-			key8.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level2Start',true,false);
-			});
-			key9.onDown.add(function(key) {
-				introMusic.stop();
-				game.state.start('Level3Start',true,false);
-			});
+			// key8.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level2Start',true,false);
+			// });
+			// key9.onDown.add(function(key) {
+			// 	introMusic.stop();
+			// 	game.state.start('Level3Start',true,false);
+			// });
 		});
 
 
@@ -173,6 +172,7 @@ var StartMenu = {
 					startPot8.alpha = 1;
 					titleComplete = true;
 					title.alpha = 1;
+					menuText.alpha = 1;
 				} else if(panComplete == true && titleComplete == true) {
 					introMusic.stop();
 					game.state.start('Level1');
@@ -184,11 +184,15 @@ var StartMenu = {
 			panComplete = true;
 		}
 
+		menuText.x = Math.floor(Math.floor(game.world.width/4));
+		menuText.y = Math.floor(Math.floor(game.world.height - 120));
+
 		if(panComplete == true && titleComplete == false) {
 			game.time.events.add(500, function(){
 				if(flashed == false) {
 					screenFlash.alpha = 1;
 					title.alpha = 1;
+					menuText.alpha = 1;
 					flashed = true;
 				}
 			});
@@ -208,6 +212,14 @@ var StartMenu = {
 
 		introMusic.volume = 0.3;
 
+	},
+
+	textFlash: function() {
+		// if(menuText.alpha == 1) {
+		// 	menuText.alpha = 0;
+		// } else if(menuText.alpha == 0) {
+		// 	menuText.alpha = 1;
+		// }
 	},
 
 	render: function() {
