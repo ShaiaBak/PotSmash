@@ -16,6 +16,8 @@ var finalObjectiveComplete = false;
 
 
 // text
+var startInstruct = ["- PRESS SPACE -"]
+
 var lvl1ExitContent = 	["You should grab your treasure",
 						" before you leave."];
 
@@ -38,7 +40,7 @@ var lvl3Entrance = 		["There's nothing out there for me."];
 var lvl3DeadEnd = 		["These stairs lead into a wall...",
 						" What's the point?"];
 
-var lvl3Statue1 =		["You see a golden reflection",
+var lvl3Statue1 =		["You see a yellow-y reflection",
 						" ...",
 						" There's a small crack in the statue."];
 
